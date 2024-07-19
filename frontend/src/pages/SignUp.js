@@ -3,8 +3,11 @@ import { Link } from 'react-router-dom';
 import loginIcons from '../img/assest/signin.gif';
 import { IoEye, IoEyeOff } from "react-icons/io5";
 import imageTobase64 from '../helpers/imageTobase64';
+import SummaryApi from '../common';
+import { toast } from 'react-toastify';
 
-const SignUp = () => {
+
+  const SignUp = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setConfirmPassword] = useState(false)
   const [data,setData] = useState({
@@ -14,6 +17,7 @@ const SignUp = () => {
     confirmPassword: "",
     profilePic: ""
 })
+// Hàm xử lý thay đổi giá trị các trường nhập liệu
 const handleOnChange = (e) =>{
     const { name , value } = e.target
 
@@ -35,12 +39,39 @@ const handleUploadPic = async(e) => {
       }
     })
 }
-
+  // Hàm xử lý khi người dùng gửi biểu mẫu đăng ký
 const handleSubmit = async(e) =>{
-  //  e.preventDefault()
+    e.preventDefault()
+
+    if(data.password === data.confirmPassword){
+     
+      const dataResponse = await fetch(SummaryApi.signUP.url,{
+      
+      method : SummaryApi.signUP.method,
+        //credentials : 'include',
+        headers : {
+            "content-type" : "application/json"
+        },
+        body : JSON.stringify(data)
+    })
+    const dataApi = await dataResponse.json()
+         // Hiển thị thông báo dựa trên kết quả trả về từ API
+    if(dataApi.success){
+      toast.success(dataApi.message)
+    }
+    if(dataApi.error){
+      toast.error(dataApi.message)
+    }
     
+  
+    console.log("data login",dataApi)
+    }else{
+      console.log("Vui lòng kiểm tra lại hai mật khẩu không giống nhau")
+    }
+
+  
 }
-console.log("data login",data)
+
   return (
     <section id='signup'>
       <div className='mx-auto container p-4'>
