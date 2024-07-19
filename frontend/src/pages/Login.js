@@ -28,17 +28,18 @@ console.log("data login",data)
   return (
     <section id='login'>
       <div className='mx-auto container p-4'>
-        <div className='bg-white p-5 w-full max-w-sm mx-auto'>
+        <div className='bg-white p-5 w-full max-w-sm mx-auto rounded-md'>
           <div className='w-20 h-20 mx-auto'>
             <img src={loginIcons} alt='login icons' />
           </div>
-          <form className='pt-6' onSubmit={handleSubmit}>
+          <form className='pt-6 flex flex-col gap-2' onSubmit={handleSubmit}>
             <div className='grid'>
+              {/* Email trang Đăng nhập*/}
               <label>Email :</label>
               <div className='bg-slate-100 p-2'>
                 <input
                   type='email' 
-                  placeholder='nhập email của bạn' 
+                  placeholder='Nhập email của bạn' 
                   name='email'
                   value={data.email}
                   onChange={handleOnChange}
@@ -46,7 +47,7 @@ console.log("data login",data)
                 />
               </div>
             </div>
-
+              {/* Mật khẩu trang Đăng nhập*/}
             <div>
               <label>Mật Khẩu :</label>
               <div className='bg-slate-100 p-2 flex'>
@@ -72,10 +73,10 @@ console.log("data login",data)
               </Link>
             </div>
             <button className='bg-red-600 hover:bg-red-700 text-white px-6 py-2 w-full max-w-[150px] rounded-full hover:scale-110 transition-all mx-auto block mt-6'>
-              Login
+              Đăng Nhập
             </button>
           </form>
-          <p className='my-5'>Chưa có tài khoản ? <Link to={"/sign-up"} className=' text-red-600 hover:text-red-700 hover:underline'>Đăng nhập</Link></p>
+          <p className='my-5'>Chưa có tài khoản ? <Link to={"/sign-up"} className=' text-red-600 hover:text-red-700 hover:underline'>Đăng Ký</Link></p>
         </div>
       </div>
     </section>

@@ -11,7 +11,7 @@ const Header = () => {
        
         <div className=''>
             <Link to={"/"}>
-            <Logo w={90} h={50}/>
+            <Logo w={90} h={73}/>
             </Link>       
         </div>
 
