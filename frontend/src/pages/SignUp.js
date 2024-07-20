@@ -93,7 +93,7 @@ const handleSubmit = async(e) =>{
           <form className='pt-6 flex flex-col gap-2' onSubmit={handleSubmit}>
             {/* Tên */}
           <div className='grid'>
-              <label>Name :</label>
+              <label>Tài Khoản :</label>
               <div className='bg-slate-100 p-2'>
                 <input
                   type='text' 
