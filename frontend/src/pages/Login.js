@@ -1,15 +1,17 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom'; // Thêm import này
+import { Link, useNavigate } from 'react-router-dom'; // Thêm import này
 import loginIcons from '../img/assest/signin.gif';
 import { IoEye, IoEyeOff } from "react-icons/io5";
+import SummaryApi from '../common';
+import { toast } from 'react-toastify';
 
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [data,setData] = useState({
     email : "",
     password : ""
-    
 })
+  const navigate = useNavigate()
 const handleOnChange = (e) =>{
     const { name , value } = e.target
 
@@ -21,7 +23,26 @@ const handleOnChange = (e) =>{
     })
 }
 const handleSubmit = async(e) =>{
-  //  e.preventDefault()
+   e.preventDefault() //Loại bỏ hành vi mặc định của nút submit
+   const dataResponse = await fetch(SummaryApi.signIn.url,{
+    method: SummaryApi.signIn.method, //phương thức gửi đi để kiểm tra dữ liệu 
+    credentials : 'include',
+    headers: {
+      "content-type" : "application/json"
+    },
+    body : JSON.stringify(data) // Chuyển đổi từ kiểu javascript sang kiểu json
+   })
+
+   const dataApi = await dataResponse.json()
+  //  Nếu đăng nhập thành công thì vào trang chủ
+   if(dataApi.success){
+    toast.success(dataApi.message)
+    navigate('/')
+   }
+  //  Nếu đăng nhập thất bại thì hiển thị message lỗi
+   if(dataApi.error){
+    toast.error(dataApi.message)
+   }
     
 }
 console.log("data login",data)

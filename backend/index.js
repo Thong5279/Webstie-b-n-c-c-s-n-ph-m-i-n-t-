@@ -1,13 +1,18 @@
 const express = require('express')
 const cors = require('cors')
+const cookieParser = require('cookie-parser')
 require('dotenv').config()
 const connectDB = require('./config/db')
 const router = require("./routes")
 
 const app = express()// Tạo ứng dụng Express
-app.use(cors())
+app.use(cors({
+    origin: process.env.FRONTEND_URL,
+    credentials : true
+}))
 
 app.use(express.json())// Cấu hình middleware để phân tích các yêu cầu có định dạng JSON
+app.use(cookieParser())
 
 app.use("/api",router)// Sử dụng router cho tất cả các yêu cầu có tiền tố "/api"
 

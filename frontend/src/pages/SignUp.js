@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import loginIcons from '../img/assest/signin.gif';
 import { IoEye, IoEyeOff } from "react-icons/io5";
 import imageTobase64 from '../helpers/imageTobase64';
@@ -17,6 +17,7 @@ import { toast } from 'react-toastify';
     confirmPassword: "",
     profilePic: ""
 })
+const navigate = useNavigate()
 // Hàm xử lý thay đổi giá trị các trường nhập liệu
 const handleOnChange = (e) =>{
     const { name , value } = e.target
@@ -58,6 +59,7 @@ const handleSubmit = async(e) =>{
          // Hiển thị thông báo dựa trên kết quả trả về từ API
     if(dataApi.success){
       toast.success(dataApi.message)
+      navigate("/login")
     }
     if(dataApi.error){
       toast.error(dataApi.message)

@@ -32,13 +32,13 @@ const Footer = () => {
         <h2 className='font-bold text-[20px] mb-2'>Newsletter</h2>
         <p className='mb-5'>Mô tả về trang web</p>
         <input placeholder='Nhập email của bạn ' className='p-2 rounded-sm text-base mb-2'></input>
-        <button className='w-full p-2 bg-red-600 text-white rounded-sm'>Đăng Ký</button>
+        <button className='w-full p-2 bg-red-600 text-white rounded-sm hover:bg-red-800'>Đăng Ký</button>
       </div>
     </div>
     <hr className='container mx-auto w-full border border-black'/>
-    <div className='flex mx-auto container '>
-      <p>Privacy Policy</p>
-      <p className='text-right'>Privacy Policy</p>
+    <div className='flex mx-auto container pt-10 pb-10 justify-between'>
+      <p>Website Thuong mai nhom 3</p>
+      <p>$copy ban quyen</p>
     </div>
   </footer>
   )

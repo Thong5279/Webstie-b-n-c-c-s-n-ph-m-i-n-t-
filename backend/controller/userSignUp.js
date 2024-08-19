@@ -32,6 +32,7 @@ async function userSignUpController(req, res) {
 
         const payload = {
             ...req.body,
+            role: "GENERAL",
             password: hashPassword // Tạo đối tượng payload với mật khẩu đã mã hóa
         }
 
