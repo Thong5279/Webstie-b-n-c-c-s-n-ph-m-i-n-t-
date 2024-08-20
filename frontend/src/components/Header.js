@@ -1,10 +1,43 @@
-import React from 'react'
-import Logo from './Logo'
+import React, {useContext,useState} from 'react'; 
+import Logo from './Logo';
 import { ImSearch } from "react-icons/im";
-import { FaCircleUser } from "react-icons/fa6";
+import { FaCircleUser, FaRegCircleUser } from "react-icons/fa6";
 import { FaCartShopping } from "react-icons/fa6";
 import { Link } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import SummaryApi from '../common';
+import { setUserDetails } from '../store/userSlice';
+import ROLE from '../common/role'
+import { toast } from 'react-toastify';
+
+
 const Header = () => {
+    // Sử dụng hook useSelector để truy xuất dữ liệu người dùng từ Redux store
+  // state?.user?.user: Truy cập vào state, có sử dụng optional chaining (?.) để tránh lỗi nếu state hoặc user không tồn tại
+  const user = useSelector(state => state?.user?.user)
+  const dispatch = useDispatch()
+
+  console.log("user header",user)
+// Định nghĩa hàm handleLogout để xử lý việc đăng xuất
+  const handleLogout = async() => {
+     // Gửi yêu cầu đăng xuất tới API
+    const fetchData = await fetch(SummaryApi.logout_user.url,{
+      method : SummaryApi.logout_user.method,   // Sử dụng phương thức HTTP được định nghĩa trong API (ví dụ: POST)
+      credentials : 'include'
+    })
+// Chuyển đổi phản hồi thành định dạng JSON
+    const data = await fetchData.json()
+
+    if(data.success){
+      toast.success(data.message)  // Cập nhật Redux store: xóa thông tin người dùng bằng cách gửi action setUserDetails(null)
+      dispatch(setUserDetails(null))
+    }
+
+
+    if(data.error){
+      toast.error(data.message)
+    }
+  }
   return (
     <header className='h-16  shadow-md bg-white'>
       <div className=' h-full container mx-auto flex items-center px-4 justify-between'>
@@ -27,7 +60,15 @@ const Header = () => {
         <div className='flex items-center gap-7'>
 
             <div className='text-3xl cursor-pointer relative flex justify-center'>
-                <FaCircleUser />
+                {
+                  user?.profilePic ?(
+                    <img src={user?.profilePic} className='w-10 h-10 rounded-full' alt={user?.name}/>//them hinh anh 
+                  ) : (
+                         
+                    <FaRegCircleUser/>
+                ) 
+                }
+           
             </div>
             <div className='text-2xl relative'>
                 <span><FaCartShopping /></span>
@@ -37,7 +78,15 @@ const Header = () => {
                 </div>
             </div>
             <div>
-                  <Link to ={"/login"} className='px-3 py-1 rounded-full text-white bg-red-600 hover:bg-red-700'>Đăng nhập</Link>
+            {
+                    user?._id  ? (
+                      <button onClick={handleLogout} className='px-3 py-1 rounded-full text-white bg-red-600 hover:bg-red-700'>Đăng xuất</button>
+                    )
+                    : (
+                    <Link to={"/login"} className='px-3 py-1 rounded-full text-white bg-red-600 hover:bg-red-700'>Đăng nhập</Link>
+                    )
+                  }
+                 
             </div>
         </div>
         

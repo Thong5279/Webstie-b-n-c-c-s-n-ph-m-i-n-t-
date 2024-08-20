@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom'; // Thêm import này
 import loginIcons from '../img/assest/signin.gif';
 import { IoEye, IoEyeOff } from "react-icons/io5";
 import SummaryApi from '../common';
 import { toast } from 'react-toastify';
+import Context from '../context';
 
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -12,6 +13,8 @@ const Login = () => {
     password : ""
 })
   const navigate = useNavigate()
+  const {fetchUserDetails}  = useContext(Context)
+
 const handleOnChange = (e) =>{
     const { name , value } = e.target
 
@@ -38,6 +41,7 @@ const handleSubmit = async(e) =>{
    if(dataApi.success){
     toast.success(dataApi.message)
     navigate('/')
+    fetchUserDetails()
    }
   //  Nếu đăng nhập thất bại thì hiển thị message lỗi
    if(dataApi.error){

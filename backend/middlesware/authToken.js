@@ -5,8 +5,8 @@ async function authToken(req,res,next) {
 
         console.log("token", token);
         if(!token){
-            return res.json({
-                message: "User not login",
+            return res.status(200).json({
+                message: "Người dùng không thể đăng nhập",
                 error: true,
                 succes: false
             })
@@ -18,8 +18,8 @@ async function authToken(req,res,next) {
                 if(err){
                     console.log("error auth", err);
                 }
-
-                req.user.id = decoded?._id
+                
+                req.userId = decoded?._id
                 next()
           });
 
