@@ -16,6 +16,7 @@ const Header = () => {
   // state?.user?.user: Truy cập vào state, có sử dụng optional chaining (?.) để tránh lỗi nếu state hoặc user không tồn tại
   const user = useSelector(state => state?.user?.user)
   const dispatch = useDispatch()
+  const [menudisplay,setMenuDisplay] = useState(false) //Ẩn hiện menu trên avatar
 
   console.log("user header",user)
 // Định nghĩa hàm handleLogout để xử lý việc đăng xuất
@@ -39,12 +40,12 @@ const Header = () => {
     }
   }
   return (
-    <header className='h-16  shadow-md bg-white'>
+    <header className='h-16  shadow-md bg-white fixed w-full'>
       <div className=' h-full container mx-auto flex items-center px-4 justify-between'>
        
         <div className=''>
             <Link to={"/"}>
-            <Logo w={90} h={73}/>
+            <Logo w={90} h={50}/>
             </Link>       
         </div>
 
@@ -59,16 +60,29 @@ const Header = () => {
 
         <div className='flex items-center gap-7'>
 
-            <div className='text-3xl cursor-pointer relative flex justify-center'>
+            <div className='relative flex justify-center'>
+            <div className='text-3xl cursor-pointer relative flex justify-center' onClick={()=>setMenuDisplay(preve => !preve)}>
                 {
                   user?.profilePic ?(
                     <img src={user?.profilePic} className='w-10 h-10 rounded-full' alt={user?.name}/>//them hinh anh 
-                  ) : (
-                         
+                  ) : ( 
                     <FaRegCircleUser/>
                 ) 
                 }
            
+            </div>
+
+                {
+                  menudisplay && (
+                    <div className='absolute bg-white bottom-0 top-11 h-fit p-2 shadow-lg rounded'>
+                      <nav>
+                        <Link to={'admin-panel'} className='whitespace-nowrap hover:bg-slate-100 p-2'>Admin Panel</Link>
+                      </nav>
+                    </div>
+                  )
+                }
+
+            
             </div>
             <div className='text-2xl relative'>
                 <span><FaCartShopping /></span>
@@ -89,8 +103,6 @@ const Header = () => {
                  
             </div>
         </div>
-        
-
       </div>                                             
     </header>
   )
