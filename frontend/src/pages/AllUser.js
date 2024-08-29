@@ -4,23 +4,24 @@ import { toast } from 'react-toastify'
 import moment from 'moment'
 import 'moment/locale/vi';
 import { RiEdit2Fill } from "react-icons/ri";
+import ChangeUserRole from '../components/ChangeUserRole';
 const formattedDate = moment('2024-08-29').format('MMMM D, YYYY');
 
 
 
-const AllUser = () => {
+const AllUser = () => {                                     // Khởi tạo state để lưu trữ danh sách người dùng
 
-  const [allUser,setAllUsers] = useState([])
+  const [allUser,setAllUsers] = useState([])                 // Hàm bất đồng bộ để lấy danh sách tất cả người dùng
 
-  const fetchAllUsers = async()=>{
+  const fetchAllUsers = async()=>{                             // Gửi yêu cầu GET tới API để lấy danh sách người dùng
     const fetchData = await fetch(SummaryApi.allUser.url,{
-      method : SummaryApi.allUser.method,
-      credentials  : 'include'
+      method : SummaryApi.allUser.method,                                           // Sử dụng phương thức GET
+      credentials  : 'include'                                                          // Bao gồm thông tin đăng nhập (cookies)
     })
 
-    const dataResponse = await fetchData.json()
+    const dataResponse = await fetchData.json()                     // Chuyển đổi phản hồi thành JSON
     
-    if(dataResponse.success){
+    if(dataResponse.success){                                               // Nếu phản hồi thành công, cập nhật state với danh sách người dùng
       setAllUsers(dataResponse.data)
     }
     if(dataResponse.error){
@@ -31,7 +32,7 @@ const AllUser = () => {
 
   }
 
-  useEffect(()=>{
+  useEffect(()=>{                                           // Sử dụng useEffect để gọi hàm fetchAllUsers khi component được render lần đầu
     fetchAllUsers()
   },[])
 
@@ -73,6 +74,9 @@ const AllUser = () => {
           }
         </tbody>
       </table>
+
+
+      <ChangeUserRole/>
     </div>
   )
 }

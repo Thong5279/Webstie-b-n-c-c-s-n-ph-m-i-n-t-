@@ -4,7 +4,7 @@ const Footer = () => {
   return (
     <footer className='bg-slate-200'>
       <div className='container mx-auto p-4'>
-       <p className='text-center font-bold' title="Youtube Channel">nhóm 3 wed thương mại điện tử</p>
+       <p className='text-center font-bold' title="">nhóm 3 wed thương mại điện tử</p>
       </div>
     </footer>
   )
