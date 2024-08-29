@@ -25,9 +25,7 @@ function App() {
     if(dataApi.success){
       dispatch(setUserDetails(dataApi.data))
     }
-
-    console.log("data-user", dataResponse);
-    
+  
   }
   useEffect(()=>{
     // User Datail

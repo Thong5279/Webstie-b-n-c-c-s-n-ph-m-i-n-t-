@@ -6,7 +6,7 @@ const AdminPanel = () => {
     const user = useSelector(state => state?.user?.user)
     
   return (
-    <div className='min-h-[calc(100vh-120px)] flex'>
+    <div className='min-h-[calc(100vh-120px)] md:flex hidden'>
         <aside className='bg-white min-h-full w-full max-w-60 customShadow'>
             <div className='h-32 flex justify-center items-center flex-col '>
                 <div className='text-5xl cursor-pointer relative flex justify-center'>
@@ -33,7 +33,7 @@ const AdminPanel = () => {
 
         </aside>
 
-        <main>
+        <main className='w-full h-full p-2'>
            <Outlet/>
         </main>
     </div>
