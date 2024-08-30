@@ -41,12 +41,13 @@ const AllUser = () => {                                     // Khởi tạo stat
       <table className='w-full userTable'>
         <thead>
            <tr>
-            <th>Sr</th>
+            <th>Stt</th>
             <th>Tên</th>
             <th>Email</th>
             <th>Quyền</th>
             <th>Số điện thoại</th>
-            <th>địa chỉ</th>
+            <th>Địa chỉ</th>
+            <th>Cập nhật</th>
             <th>Ngày Đăng ký</th>
             <th>Chỉnh sửa</th>
            </tr>
@@ -60,9 +61,10 @@ const AllUser = () => {                                     // Khởi tạo stat
                     <td> {el?.name}</td>
                     <td> {el?.email}</td>
                     <td> {el?.role}</td>
-                    <td> {el?.name}</td>
-                    <td> {moment(el?.updatedAt).format('lll')}</td>
-                    <td> {moment(el?.createdAt).format('LL')}</td>
+                    <td> {el?.phone}</td>
+                    <td>{el?.address}</td>
+                    <td> {moment(el?.updatedAt).calendar()}</td>
+                    <td> {moment(el?.createdAt).format('')}</td>
                     <td>
                     <button className='bg-green-100 p-2 rounded-full cursor-pointer hover:bg-green-400 hover:text-white'>
                     <RiEdit2Fill />
