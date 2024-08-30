@@ -14,6 +14,8 @@ import { toast } from 'react-toastify';
     email : "",
     password : "",
     name: "",
+    address: "",
+    phone: "",
     confirmPassword: "",
     profilePic: ""
 })
@@ -117,6 +119,34 @@ const handleSubmit = async(e) =>{
                   placeholder='Nhập email của bạn' 
                   name='email'
                   value={data.email}
+                  onChange={handleOnChange}
+                  required
+                  className='w-full h-full outline-none bg-transparent'
+                />
+              </div>
+            </div>
+            <div className='grid'>
+              <label>Địa Chỉ</label>
+              <div className='bg-slate-100 p-2'>
+                <input
+                  type='text' 
+                  placeholder='Nhập địa chỉ của bạn' 
+                  name='address'
+                  value={data.address}
+                  onChange={handleOnChange}
+                  required
+                  className='w-full h-full outline-none bg-transparent'
+                />
+              </div>
+            </div>
+            <div className='grid'>
+              <label>Số Điện Thoại</label>
+              <div className='bg-slate-100 p-2'>
+                <input
+                  type='text' 
+                  placeholder='Nhập số điện thoại của bạn' 
+                  name='phone'
+                  value={data.phone}
                   onChange={handleOnChange}
                   required
                   className='w-full h-full outline-none bg-transparent'
