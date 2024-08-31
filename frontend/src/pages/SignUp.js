@@ -14,6 +14,7 @@ import { toast } from 'react-toastify';
     email : "",
     password : "",
     name: "",
+    sex: "",
     address: "",
     phone: "",
     confirmPassword: "",
@@ -125,6 +126,7 @@ const handleSubmit = async(e) =>{
                 />
               </div>
             </div>
+            {/* Dia chi */}
             <div className='grid'>
               <label>Địa Chỉ</label>
               <div className='bg-slate-100 p-2'>
@@ -139,6 +141,7 @@ const handleSubmit = async(e) =>{
                 />
               </div>
             </div>
+            {/* So dien thoai */}
             <div className='grid'>
               <label>Số Điện Thoại</label>
               <div className='bg-slate-100 p-2'>
@@ -151,6 +154,42 @@ const handleSubmit = async(e) =>{
                   required
                   className='w-full h-full outline-none bg-transparent'
                 />
+              </div>
+            </div>
+            {/* Giới tính */}
+            <div className='flex justify-between'>
+              <label>Giới Tính:</label>
+              <div className='flex justify-center items-center'>
+                <div className='mr-3 flex items-center gap-1'>
+                <input
+                  type='radio' 
+                  name='sex'
+                  value= "Nam"
+                  onChange={handleOnChange}
+                  required
+                  className='w-4 '
+                />Nam
+                </div>
+                <div className='flex items-center gap-1'>
+                <input
+                  type='radio' 
+                  name='sex'
+                  value="Nữ"
+                  onChange={handleOnChange}
+                  required
+                  className='w-4 '
+                />Nữ
+                </div>
+                <div className='flex items-center gap-1 ml-3'>
+                <input
+                  type='radio' 
+                  name='sex'
+                  value="Khác"
+                  onChange={handleOnChange}
+                  required
+                  className='w-4 '
+                />Khác
+                </div>
               </div>
             </div>
               {/* Mật khẩu */}

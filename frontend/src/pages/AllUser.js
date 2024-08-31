@@ -43,6 +43,7 @@ const AllUser = () => {                                     // Khởi tạo stat
            <tr>
             <th>Sr</th>
             <th>Tên</th>
+            <th>Giới Tính</th>
             <th>Email</th>
             <th>Quyền</th>
             <th>Số điện thoại</th>
@@ -58,6 +59,7 @@ const AllUser = () => {                                     // Khởi tạo stat
                 <tr>
                     <td>{index+1}</td>
                     <td> {el?.name}</td>
+                    <td> {el?.sex}</td>
                     <td> {el?.email}</td>
                     <td> {el?.role}</td>
                     <td> {el?.name}</td>
