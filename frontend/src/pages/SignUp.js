@@ -6,77 +6,82 @@ import imageTobase64 from '../helpers/imageTobase64';
 import SummaryApi from '../common';
 import { toast } from 'react-toastify';
 
+// Hàm kiểm tra mật khẩu hợp lệ
+const validatePassword = (password) => {
+  const hasUpperCase = /[A-Z]/.test(password);
+  const hasLowerCase = /[a-z]/.test(password);
+  const hasNumber = /[0-9]/.test(password);
+  const isValidLength = password.length >= 8;
 
-  const SignUp = () => {
+  return hasUpperCase && hasLowerCase && hasNumber && isValidLength;
+};
+
+const SignUp = () => {
   const [showPassword, setShowPassword] = useState(false);
-  const [showConfirmPassword, setConfirmPassword] = useState(false)
-  const [data,setData] = useState({
-    email : "",
-    password : "",
+  const [showConfirmPassword, setConfirmPassword] = useState(false);
+  const [data, setData] = useState({
+    email: "",
+    password: "",
     name: "",
     sex: "",
     address: "",
     phone: "",
     confirmPassword: "",
     profilePic: ""
-})
-const navigate = useNavigate()
-// Hàm xử lý thay đổi giá trị các trường nhập liệu
-const handleOnChange = (e) =>{
-    const { name , value } = e.target
+  });
+  const navigate = useNavigate();
 
-    setData((preve)=>{
-        return{
-            ...preve,
-            [name] : value
-        }
-    })
-}
-// Hàm sử lý ảnh đại diện
-const handleUploadPic = async(e) => {
-    const file = e.target.files[0]
-    const imagePic = await imageTobase64(file)
-    setData((preve)=>{
-      return{
-        ...preve,
-        profilePic: imagePic
-      }
-    })
-}
-  // Hàm xử lý khi người dùng gửi biểu mẫu đăng ký
-const handleSubmit = async(e) =>{
-    e.preventDefault()
+  const handleOnChange = (e) => {
+    const { name, value } = e.target;
+    setData((prev) => ({
+      ...prev,
+      [name]: value
+    }));
+  };
 
-    if(data.password === data.confirmPassword){
-     
-      const dataResponse = await fetch(SummaryApi.signUP.url,{
-      
-      method : SummaryApi.signUP.method,
-        //credentials : 'include',
-        headers : {
-            "content-type" : "application/json"
+  const handleUploadPic = async (e) => {
+    const file = e.target.files[0];
+    const imagePic = await imageTobase64(file);
+    setData((prev) => ({
+      ...prev,
+      profilePic: imagePic
+    }));
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    if (data.password !== data.confirmPassword) {
+      toast.error("Vui lòng kiểm tra lại hai mật khẩu không giống nhau");
+      return;
+    }
+
+    if (!validatePassword(data.password)) {
+      toast.error("Mật khẩu phải có ít nhất 8 ký tự, bao gồm chữ hoa, chữ thường và số");
+      return;
+    }
+
+    try {
+      const dataResponse = await fetch(SummaryApi.signUP.url, {
+        method: SummaryApi.signUP.method,
+        headers: {
+          "content-type": "application/json"
         },
-        body : JSON.stringify(data)
-    })
-    const dataApi = await dataResponse.json()
-         // Hiển thị thông báo dựa trên kết quả trả về từ API
-    if(dataApi.success){
-      toast.success(dataApi.message)
-      navigate("/login")
-    }
-    if(dataApi.error){
-      toast.error(dataApi.message)
-    }
-    
-  
-    console.log("data login",dataApi)
-    }else{
-      toast.error("Vui lòng kiểm tra lại hai mật khẩu không giống nhau")
-      
-    }
+        body: JSON.stringify(data)
+      });
 
-  
-}
+      const dataApi = await dataResponse.json();
+
+      if (dataApi.success) {
+        toast.success(dataApi.message);
+        navigate("/login");
+      } else {
+        toast.error(dataApi.message);
+      }
+    } catch (error) {
+      toast.error("Đã xảy ra lỗi. Vui lòng thử lại.");
+    }
+  };
 
   return (
     <section id='signup'>
@@ -88,22 +93,22 @@ const handleSubmit = async(e) =>{
             </div>
             <form>
               <label>
-              <div className='text-xs bg-slate-200 bg-opacity-80 py-3 text-center absolute bottom-0 w-full cursor-pointer'>
+                <div className='text-xs bg-slate-200 bg-opacity-80 py-3 text-center absolute bottom-0 w-full cursor-pointer'>
                   Tải hình lên
-              </div>
-              <input type='file' className='hidden' onChange={handleUploadPic}/>
+                </div>
+                <input type='file' className='hidden' onChange={handleUploadPic} />
               </label>
             </form>
           </div>
-          
+
           <form className='pt-6 flex flex-col gap-2' onSubmit={handleSubmit}>
             {/* Tên */}
-          <div className='grid'>
+            <div className='grid'>
               <label>Tài Khoản :</label>
               <div className='bg-slate-100 p-2'>
                 <input
-                  type='text' 
-                  placeholder='Nhập tên của bạn' 
+                  type='text'
+                  placeholder='Nhập tên của bạn'
                   name='name'
                   value={data.name}
                   onChange={handleOnChange}
@@ -117,8 +122,8 @@ const handleSubmit = async(e) =>{
               <label>Email :</label>
               <div className='bg-slate-100 p-2'>
                 <input
-                  type='email' 
-                  placeholder='Nhập email của bạn' 
+                  type='email'
+                  placeholder='Nhập email của bạn'
                   name='email'
                   value={data.email}
                   onChange={handleOnChange}
@@ -127,13 +132,13 @@ const handleSubmit = async(e) =>{
                 />
               </div>
             </div>
-            {/* Dia chi */}
+            {/* Địa chỉ */}
             <div className='grid'>
               <label>Địa Chỉ</label>
               <div className='bg-slate-100 p-2'>
                 <input
-                  type='text' 
-                  placeholder='Nhập địa chỉ của bạn' 
+                  type='text'
+                  placeholder='Nhập địa chỉ của bạn'
                   name='address'
                   value={data.address}
                   onChange={handleOnChange}
@@ -142,13 +147,13 @@ const handleSubmit = async(e) =>{
                 />
               </div>
             </div>
-            {/* So dien thoai */}
+            {/* Số điện thoại */}
             <div className='grid'>
               <label>Số Điện Thoại</label>
               <div className='bg-slate-100 p-2'>
                 <input
-                  type='text' 
-                  placeholder='Nhập số điện thoại của bạn' 
+                  type='text'
+                  placeholder='Nhập số điện thoại của bạn'
                   name='phone'
                   value={data.phone}
                   onChange={handleOnChange}
@@ -162,38 +167,38 @@ const handleSubmit = async(e) =>{
               <label>Giới Tính:</label>
               <div className='flex justify-center items-center'>
                 <div className='mr-3 flex items-center gap-1'>
-                <input
-                  type='radio' 
-                  name='sex'
-                  value= "Nam"
-                  onChange={handleOnChange}
-                  required
-                  className='w-4 '
-                />Nam
+                  <input
+                    type='radio'
+                    name='sex'
+                    value="Nam"
+                    onChange={handleOnChange}
+                    required
+                    className='w-4'
+                  />Nam
                 </div>
                 <div className='flex items-center gap-1'>
-                <input
-                  type='radio' 
-                  name='sex'
-                  value="Nữ"
-                  onChange={handleOnChange}
-                  required
-                  className='w-4 '
-                />Nữ
+                  <input
+                    type='radio'
+                    name='sex'
+                    value="Nữ"
+                    onChange={handleOnChange}
+                    required
+                    className='w-4'
+                  />Nữ
                 </div>
                 <div className='flex items-center gap-1 ml-3'>
-                <input
-                  type='radio' 
-                  name='sex'
-                  value="Khác"
-                  onChange={handleOnChange}
-                  required
-                  className='w-4 '
-                />Khác
+                  <input
+                    type='radio'
+                    name='sex'
+                    value="Khác"
+                    onChange={handleOnChange}
+                    required
+                    className='w-4'
+                  />Khác
                 </div>
               </div>
             </div>
-              {/* Mật khẩu */}
+            {/* Mật khẩu */}
             <div>
               <label>Mật Khẩu :</label>
               <div className='bg-slate-100 p-2 flex'>
@@ -216,7 +221,7 @@ const handleSubmit = async(e) =>{
                 </div>
               </div>
             </div>
-            {/* Nhap lai password */}
+            {/* Nhập lại mật khẩu */}
             <div>
               <label>Nhập lại mật khẩu :</label>
               <div className='bg-slate-100 p-2 flex'>
@@ -243,11 +248,11 @@ const handleSubmit = async(e) =>{
               Đăng Ký
             </button>
           </form>
-          <p className='my-5'>Đã có tài khoản? <Link to={"/login"} className=' text-red-600 hover:text-red-700 hover:underline'>Đăng nhập</Link></p>
+          <p className='my-5'>Đã có tài khoản? <Link to={"/login"} className='text-red-600 hover:text-red-700 hover:underline'>Đăng nhập</Link></p>
         </div>
       </div>
     </section>
-  )
-}
+  );
+};
 
-export default SignUp
+export default SignUp;
