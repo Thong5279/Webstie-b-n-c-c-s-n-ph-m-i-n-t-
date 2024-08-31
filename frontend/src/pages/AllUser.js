@@ -12,7 +12,12 @@ const AllUser = () => {                                     // Khởi tạo stat
 
   const [allUser,setAllUsers] = useState([])                 // Hàm bất đồng bộ để lấy danh sách tất cả người dùng
   const [openUpdateRole,setOpenUpdateRole] = useState(false)
-
+  const [updateUserDetails,setUpdateUserDetails] = useState({
+    email : "",
+    name : "",
+    role : "",
+    _id : ""
+  })
 
   const fetchAllUsers = async()=>{                             // Gửi yêu cầu GET tới API để lấy danh sách người dùng
     const fetchData = await fetch(SummaryApi.allUser.url,{
@@ -41,7 +46,7 @@ const AllUser = () => {                                     // Khởi tạo stat
     <div className='bg-white pb-4'>
       <table className='w-full userTable'>
         <thead>
-           <tr>
+           <tr className='bg-black text-white'>
             <th>Stt</th>
             <th>Tên</th>
             <th>Giới Tính</th>
@@ -69,7 +74,14 @@ const AllUser = () => {                                     // Khởi tạo stat
                     <td> {moment(el?.updatedAt).calendar()}</td>
                     <td> {moment(el?.createdAt).format('lll')}</td>
                     <td>
-                    <button className='bg-green-100 p-2 rounded-full cursor-pointer hover:bg-green-400 hover:text-white' onClick={()=> setOpenUpdateRole(true)}>
+                    <button className='bg-green-100 p-2 rounded-full cursor-pointer hover:bg-green-400 hover:text-white' 
+                      onClick={()=>{
+                        setUpdateUserDetails(el)
+                        setOpenUpdateRole(true)
+
+                      }}
+                      
+                      >
                     <RiEdit2Fill />
                     </button>
                     </td>
@@ -82,7 +94,13 @@ const AllUser = () => {                                     // Khởi tạo stat
          
         {
             openUpdateRole && (
-              <ChangeUserRole onClose={()=> setOpenUpdateRole(false)}/>
+              <ChangeUserRole onClose={()=> setOpenUpdateRole(false)}
+              name ={updateUserDetails.name}
+              email={updateUserDetails.email}
+              role={updateUserDetails.role}
+              userId={updateUserDetails._id}
+              callFunc={fetchAllUsers}
+              />
             )
         }
       

@@ -2,11 +2,14 @@ import React, { useState } from 'react'
 import { IoClose } from "react-icons/io5";
 import ROLE from '../common/role'
 import SummaryApi from '../common';
+import { toast } from 'react-toastify';
 const ChangeUserRole = ({                                   // Component để thay đổi quyền của người dùng
                 name,
                 email,
+                userId,
                 role,
                 onClose,
+                callFunc,
 
 }) => {                         
     const [userRole,setUserRole] = useState(role)       // Khởi tạo state để lưu trữ quyền người dùng hiện tại
@@ -25,18 +28,25 @@ const ChangeUserRole = ({                                   // Component để t
                 "content-type" : "application/json"                                         
             },
             body : JSON.stringify({
+                userId : userId,
                 role : userRole          //Gửi quyền người dùng mới trong body của yêu cầu
             })
         })
         // Chuyển đổi phản hồi thành JSON
         const responseData = await fetchResponse.json() // Ghi ra console thông tin phản hồi từ server
-            
+        
+        if(responseData.success){
+            toast.success(responseData.message)
+            onClose()
+            callFunc()
+        }
+
         console.log("role updated",responseData) // Xử lý lỗi nếu có
 
     }
 
   return (
-    <div className='fixed top-0 bottom-0 left-0 right-0 w-full h-full z-10 flex justify-between items-center'>
+    <div className='fixed top-0 bottom-0 left-0 right-0 w-full h-full z-10 flex justify-between items-center bg-slate-200 bg-opacity-50'>
         <div className='mx-auto bg-white shadow-md p-4 w-full max-w-sm'>
 
             <button className='block ml-auto'onClick={onClose}>

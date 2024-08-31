@@ -22,7 +22,7 @@ async function updateUser(req,res){                         // Hàm async để 
                 // Trả về phản hồi JSON với thông tin cập nhật và thông báo thành công
                 res.json({
                     data : updateUser,
-                    message : "User Updated",
+                    message : "Đã cấp quyền thành công",
                     success : true,
                     error : false
                 })
