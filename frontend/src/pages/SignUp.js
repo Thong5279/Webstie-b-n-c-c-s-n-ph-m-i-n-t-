@@ -71,7 +71,8 @@ const handleSubmit = async(e) =>{
   
     console.log("data login",dataApi)
     }else{
-      console.log("Vui lòng kiểm tra lại hai mật khẩu không giống nhau")
+      toast.error("Vui lòng kiểm tra lại hai mật khẩu không giống nhau")
+      
     }
 
   

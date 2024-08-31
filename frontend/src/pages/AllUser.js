@@ -5,13 +5,14 @@ import moment from 'moment'
 import 'moment/locale/vi';
 import { RiEdit2Fill } from "react-icons/ri";
 import ChangeUserRole from '../components/ChangeUserRole';
-const formattedDate = moment('2024-08-29').format('MMMM D, YYYY');
 
 
 
 const AllUser = () => {                                     // Khởi tạo state để lưu trữ danh sách người dùng
 
   const [allUser,setAllUsers] = useState([])                 // Hàm bất đồng bộ để lấy danh sách tất cả người dùng
+  const [openUpdateRole,setOpenUpdateRole] = useState(false)
+
 
   const fetchAllUsers = async()=>{                             // Gửi yêu cầu GET tới API để lấy danh sách người dùng
     const fetchData = await fetch(SummaryApi.allUser.url,{
@@ -66,9 +67,9 @@ const AllUser = () => {                                     // Khởi tạo stat
                     <td> {el?.phone}</td>
                     <td>{el?.address}</td>
                     <td> {moment(el?.updatedAt).calendar()}</td>
-                    <td> {moment(el?.createdAt).format('')}</td>
+                    <td> {moment(el?.createdAt).format('lll')}</td>
                     <td>
-                    <button className='bg-green-100 p-2 rounded-full cursor-pointer hover:bg-green-400 hover:text-white'>
+                    <button className='bg-green-100 p-2 rounded-full cursor-pointer hover:bg-green-400 hover:text-white' onClick={()=> setOpenUpdateRole(true)}>
                     <RiEdit2Fill />
                     </button>
                     </td>
@@ -78,9 +79,13 @@ const AllUser = () => {                                     // Khởi tạo stat
           }
         </tbody>
       </table>
-
-
-      <ChangeUserRole/>
+         
+        {
+            openUpdateRole && (
+              <ChangeUserRole onClose={()=> setOpenUpdateRole(false)}/>
+            )
+        }
+      
     </div>
   )
 }
