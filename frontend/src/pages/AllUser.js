@@ -46,7 +46,7 @@ const AllUser = () => {                                     // Khởi tạo stat
     <div className='bg-white pb-4'>
       <table className='w-full userTable'>
         <thead>
-           <tr className='bg-black text-white'>
+           <tr className='bg-red-600 text-white'>
             <th>Stt</th>
             <th>Tên</th>
             <th>Giới Tính</th>
