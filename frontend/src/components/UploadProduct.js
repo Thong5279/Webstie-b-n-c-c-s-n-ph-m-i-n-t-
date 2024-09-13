@@ -5,7 +5,8 @@ import { FaCloudUploadAlt } from "react-icons/fa";
 import uploadImage from '../helpers/uploadimage';
 import { DisplayImage } from './DisplayImage';
 import { MdDelete } from "react-icons/md";
-
+import SummaryApi from '../common';
+import {toast} from 'react-toastify';
 const UploadProduct = ({
     onClose
 }) => {
@@ -56,9 +57,29 @@ const UploadProduct = ({
     }
 
     // Submit
-    const handlesSubmit = (e) => {
+    const handlesSubmit = async(e) => {
         e.preventDefault()
-        console.log('data', data);
+        
+        const response = await fetch(SummaryApi.uploadProduct.url,{
+            method : SummaryApi.uploadProduct.method,
+            credentials : 'include' ,
+            headers : {
+                "content-type" : "application/json"
+            },
+            body : JSON.stringify(data)
+        })
+
+        const responseData = await response.json()
+
+        if(responseData.success){
+            toast.success( responseData.message)
+            onClose()
+            
+        }
+        if(responseData.error){
+            toast.error( responseData.message)
+            
+        }
     }
     
   return (
@@ -81,6 +102,7 @@ const UploadProduct = ({
                 value={data.productName} 
                 onChange={handleOnChange}
                 className='p-2 bg-slate-100 border rounded'
+                required
                 />
                 <label htmlFor='brandName' className='mt-3'>Tên Thương Hiệu :</label>
                 <input 
@@ -91,10 +113,11 @@ const UploadProduct = ({
                 value={data.brandName} 
                 onChange={handleOnChange}
                 className='p-2 bg-slate-100 border rounded'
+                required
                 />
 
                 <label htmlFor='category' className='mt-3'>Loại Sản Phẩm :</label>
-                 <select value={data.category} name='category' onChange={handleOnChange} className='p-2 bg-slate-100 border rounded'>
+                 <select required value={data.category} name='category' onChange={handleOnChange} className='p-2 bg-slate-100 border rounded'>
                  <option value={''}>Chọn sản phẩm</option>
                     {
                          productCategory.map((el,index)=>{
@@ -148,7 +171,7 @@ const UploadProduct = ({
                     }
                 </div>
                         {/* Gia san pham */}
-                        <label htmlFor='price' className='mt-3'>Giá</label>
+                        <label htmlFor='price' className='mt-3'>Giá gốc : </label>
                         <input 
                             type='number' 
                             id='price' 
@@ -157,19 +180,34 @@ const UploadProduct = ({
                             value={data.price} 
                             onChange={handleOnChange}
                             className='p-2 bg-slate-100 border rounded'
+                            required
                         />
 
                         {/* Gia sale san pham */}
-                        <label htmlFor='sellingPrice' className='mt-3'>Giảm giá</label>
+                        <label htmlFor='sellingPrice' className='mt-3'>Giá bán :</label>
                         <input 
                             type='number' 
                             id='sellingPrice' 
-                            placeholder='Nhập số tiền giảm giá' 
+                            placeholder='Nhập giá bán' 
                             name='sellingPrice'
                             value={data.sellingPrice} 
                             onChange={handleOnChange}
                             className='p-2 bg-slate-100 border rounded'
+                            required
                         />
+
+                        <label htmlFor='quantity' className='mt-3'>Số lượng sản phẩm :</label>
+                        <input 
+                            type='number' 
+                            id='quantity' 
+                            placeholder='Nhập số lượng sản phẩm' 
+                            name='quantity'
+                            value={data.quantity} 
+                            onChange={handleOnChange}
+                            className='p-2 bg-slate-100 border rounded'
+                            required
+                        />
+
                         <label htmlFor='description' className='mt-3'>Mô tả của sản phẩm: </label>
                         <textarea 
                         className='h-28 bg-slate-100 border resize-none p-1' 
@@ -177,10 +215,10 @@ const UploadProduct = ({
                         rows={3}
                         onChange={handleOnChange}
                         name='description'
+                        
                         >
                         </textarea>
 
-                         {/*soluong*/}
                          <button className='px-3 py-2 bg-red-600 text-white mb-10 hover:bg-red-700'>Thêm sản phẩm</button>
             </form>
         </div>

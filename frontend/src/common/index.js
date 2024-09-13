@@ -26,5 +26,9 @@ const SummaryApi = {                                    // Định nghĩa các A
         url : `${backendDomin}/api/update-user`,
         method : "post"
     },
+    uploadProduct : {
+        url : `${backendDomin}/api/upload-product`,
+        method : 'post'
+    }
 }
 export default SummaryApi                                   // Xuất đối tượng SummaryApi để có thể sử dụng ở các tệp khác
