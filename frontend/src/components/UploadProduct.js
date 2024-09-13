@@ -2,15 +2,16 @@ import React, { useState } from 'react'
 import { RiCloseLargeFill } from "react-icons/ri";
 import productCategory from '../helpers/productCategory';
 import { FaCloudUploadAlt } from "react-icons/fa";
+import uploadImage from '../helpers/uploadimage';
 
 const UploadProduct = ({
     onClose
 }) => {
     const[data,setData] = useState({
-        productName : "",
-        brandName : "",
-        category : "",
-        quantity : "",
+        productName : "", //ten sp 
+        brandName : "",     //ten hang
+        category : "",     //so luong
+        quantity : "",  
         productImage : [],
         description : "",
         price : "",
@@ -21,10 +22,14 @@ const UploadProduct = ({
 
     }
 
-    const handleUploadProduct =(e)=>{
+    const handleUploadProduct = async(e) => {
         const file = e.target.files[0]
         setUploadProductImageInput(file.name)
         console.log("file",file)
+
+        const uploadImageCloudinary = await uploadImage(file)
+
+        console.log("upload Image",uploadImageCloudinary)
     }
     
   return (
