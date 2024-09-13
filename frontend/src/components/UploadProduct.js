@@ -45,14 +45,20 @@ const UploadProduct = ({
     }
     const handlesDeleteProductImg = async(index) => {
         // Hàm xử lý logic xóa sản phẩm trong mục thêm sản phẩm
-        const newProduct = [...data.productImage]
-        newProduct.splice(index, 1)
+        const newProductImage = [...data.productImage]
+        newProductImage.splice(index, 1)
         setData((preve) => {
             return{
                 ...preve,
-                productImage: [...newProduct]
+                productImage: [...newProductImage]
             }
         })
+    }
+
+    // Submit
+    const handlesSubmit = (e) => {
+        e.preventDefault()
+        console.log('data', data);
     }
     
   return (
@@ -65,7 +71,7 @@ const UploadProduct = ({
                 </div>
             </div>
             
-            <from className='grid p-4 gap-2 overflow-y-scroll h-full pb-5'>
+            <form onSubmit={handlesSubmit} className='grid p-4 gap-2 overflow-y-scroll h-full pb-5'>
                 <label htmlFor='productName'>Tên Sản Phẩm :</label>
                 <input 
                 type='text' 
@@ -76,7 +82,6 @@ const UploadProduct = ({
                 onChange={handleOnChange}
                 className='p-2 bg-slate-100 border rounded'
                 />
-
                 <label htmlFor='brandName' className='mt-3'>Tên Thương Hiệu :</label>
                 <input 
                 type='text' 
@@ -165,14 +170,19 @@ const UploadProduct = ({
                             onChange={handleOnChange}
                             className='p-2 bg-slate-100 border rounded'
                         />
-                        <label htmlFor='sellingPrice' className='mt-3'>Mô tả của sản phẩm: </label>
-                        <textarea className='h-28 bg-slate-100 border resize-none p-1' placeholder='Mô tả của sản phẩm' rows={3}>
-
+                        <label htmlFor='description' className='mt-3'>Mô tả của sản phẩm: </label>
+                        <textarea 
+                        className='h-28 bg-slate-100 border resize-none p-1' 
+                        placeholder='Mô tả của sản phẩm' 
+                        rows={3}
+                        onChange={handleOnChange}
+                        name='description'
+                        >
                         </textarea>
 
                          {/*soluong*/}
                          <button className='px-3 py-2 bg-red-600 text-white mb-10 hover:bg-red-700'>Thêm sản phẩm</button>
-            </from>
+            </form>
         </div>
             {/* Hien thi hinh anh full man hinh */}
         {
