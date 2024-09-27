@@ -46,7 +46,7 @@ function AllProducts() {
       {/*upload san pham conponents*/}
       {
         openUploadProduct && (
-          <UploadProduct onClose={()=>setOpenUploadProduct(false)} />
+          <UploadProduct onClose={()=>setOpenUploadProduct(false)}fetchData={fetchAllProducts} />
         )
       }
      
