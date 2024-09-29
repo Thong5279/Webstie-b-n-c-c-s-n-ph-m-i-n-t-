@@ -13,7 +13,12 @@ const productCategory =[
     {id : 11,label : "Đồng hồ",value : "watches"},
     {id : 12,label : "Máy chơi game",value : "gameconsole"},
     {id : 13,label : "Chip",value : "processor"},
-
+    {id : 14,label : "Laptop",value : "laptops"},
+    {id : 15,label : "Phụ kiện điện thoại",value : "accessories"},
+    {id : 16,label : "Bàn phím",value : "keyboard"},
+    {id : 17,label : "Smartwatch",value : "smartwatch",}
+    
+    
 ]
 
 export default productCategory
