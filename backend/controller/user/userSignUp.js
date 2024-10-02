@@ -1,4 +1,4 @@
-const userModel = require("../models/userModel") // Import model người dùng từ thư mục models
+const userModel = require("../../models/userModel") // Import model người dùng từ thư mục models
 const bcrypt = require('bcrypt'); // Import thư viện bcrypt để mã hóa mật khẩu
 
 // Hàm controller để xử lý việc đăng ký người dùng

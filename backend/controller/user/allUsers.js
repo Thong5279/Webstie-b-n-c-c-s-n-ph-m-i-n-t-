@@ -1,5 +1,5 @@
-const userModel = require("../models/userModel")                        // Import mô hình người dùng từ tệp userModel
-const router = require("../routes")                             // Import router từ tệp routes
+const userModel = require("../../models/userModel")                        // Import mô hình người dùng từ tệp userModel
+const router = require("../../routes")                             // Import router từ tệp routes
 
 async function allUsers(req,res){                                        // Hàm async để lấy tất cả người dùng
     try {   

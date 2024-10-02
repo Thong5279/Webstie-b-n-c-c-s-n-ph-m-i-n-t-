@@ -1,4 +1,4 @@
-const userModel = require("../models/userModel")            // Import mô hình người dùng từ tệp userModel
+const userModel = require("../../models/userModel")            // Import mô hình người dùng từ tệp userModel
 
 async function updateUser(req,res){                         // Hàm async để cập nhật thông tin người dùng
         try {       
