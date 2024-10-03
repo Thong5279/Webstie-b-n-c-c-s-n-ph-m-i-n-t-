@@ -6,7 +6,7 @@ const productCategory =[
     {id : 4,label : "Điện thoại",value : "mobiles"},
     {id : 5,label : "Chuột",value : "mouse"},
     {id : 6,label : "Máy in",value : "printers"},
-    {id : 7,label : "Tủ lạnh",value : "refrigerator"},
+    {id : 7,label : "màn hình",value : "màn hình"},
     {id : 8,label : "Loa",value : "speakers"},
     {id : 9,label : "Tay cầm ",value : "gamepad"},
     {id : 10,label : "TV",value : "televisions"},
@@ -17,8 +17,6 @@ const productCategory =[
     {id : 15,label : "Phụ kiện điện thoại",value : "accessories"},
     {id : 16,label : "Bàn phím",value : "keyboard"},
     {id : 17,label : "Smartwatch",value : "smartwatch",}
-    
-    
 ]
 
 export default productCategory
