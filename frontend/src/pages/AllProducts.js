@@ -39,8 +39,6 @@ function AllProducts() {
             })
           }
         </div>
-
-
       {/*upload san pham conponents*/}
       {
         openUploadProduct && (
