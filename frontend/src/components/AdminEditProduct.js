@@ -186,7 +186,7 @@ const AdminEditProduct = ({
                             value={data.price} 
                             onChange={handleOnChange}
                             className='p-2 bg-slate-100 border rounded'
-                            required
+                           
                         />
 
                         {/* Gia sale san pham */}
