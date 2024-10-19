@@ -10,7 +10,7 @@ const Home = () => {
       <CategoryList/>
       <BannerProduct />
 
-      <HorizontalCardProduct category={"smartwatch"}heading={"Điện thoại nổi bật"}/>
+      <HorizontalCardProduct category={"smartwatch"}heading={"Smart watch nổi bật"}/>
       <HorizontalCardProduct category={"airpodes"}heading={"Tai nghe nổi bật"}/>
       
 
