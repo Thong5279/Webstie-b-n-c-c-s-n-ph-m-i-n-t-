@@ -6,7 +6,7 @@ import { FaAngleLeft, FaAngleRight } from 'react-icons/fa6'
 
 const HorizontalCardProduct = ({category, heading}) => {
     const [data,setData] = useState([])
-    const [loading,setLoading] = useState(false)
+    const [loading,setLoading] = useState(true)
     const loadingList = new Array(13).fill(null)
 
     const [scroll,setScroll] = useState(0)
@@ -43,24 +43,50 @@ const HorizontalCardProduct = ({category, heading}) => {
             <button className='bg-white shadow-md rounded-full p-1 absolute right-0 text-lg hidden md:block hover:bg-red-400 hover:text-white' onClick={scrollRight}><FaAngleRight /></button>
 
           {
+            loading ? (
+                loadingList.map((product,index)=>{
+                    return(
+                    <div className='w-full min-w-[360px] max-w-[500px] h-36 bg-white rounded-sm shadow flex'>
+                        <div className="bg-slate-200 h-full p-4 min-w-[120px] md:min-w-[145px] animate-pulse">
+                           
+                        </div>
+                        <div className='p-4 grid w-full gap-2'>
+                            <h2 className='font-medium text-base md:text-lg text-ellipsis line-clamp-1 text-black bg-slate-200 animate-pulse p-1 rounded-full' ></h2>
+                            <p className='capitalize text-slate-500 p-1 bg-slate-200 animate-pulse rounded-full' ></p>
+                            <div className='flex gap-3 w-full'>
+                                <p className='text-red-600 font-medium p-1 bg-slate-200 animate-pulse rounded-full w-full'></p>
+                                {product?.price !== product?.sellingPrice && (
+                                    <p className='text-slate-500 line-through p-1 bg-slate-200 animate-pulse rounded-full w-full'></p>
+                                )}
+                            </div>
+                            <button className='text-sm text-white px-3 py-0.5 rounded-full w-full bg-slate-200 animate-pulse'>Thêm vào giỏ hàng</button>
+                        </div>
+                    </div>
+                    )
+                })
+            ) : (
                 data.map((product,index)=>{
                     return(
                     <div className='w-full min-w-[360px] max-w-[500px] h-36 bg-white rounded-sm shadow flex'>
                         <div className="bg-slate-200 h-full p-4 min-w-[120px] md:min-w-[145px]">
-                            <img src={product.productImage[0]} className='object-scale-down h-full hover:scale-110 transition-all'/>
+                            <img src={product.productImage[0]} className='object-scale-down h-full hover:scale-110 transition-all mix-blend-multiply'/>
                         </div>
                         <div className='p-4 grid'>
                             <h2 className='font-medium text-base md:text-lg text-ellipsis line-clamp-1 text-black ' >{product?.productName}</h2>
                             <p className='capitalize text-slate-500'>{product?.category}</p>
                             <div className='flex gap-3'>
                                 <p className='text-red-600 font-medium'>{displayVNDCurrency(product?.sellingPrice)}</p>
-                                <p className='text-slate-500 line-through'>{displayVNDCurrency(product?.price)}</p>
+                                {product?.price !== product?.sellingPrice && (
+                                    <p className='text-slate-500 line-through'>{displayVNDCurrency(product?.price)}</p>
+                                )}
                             </div>
-                            <button className='text-sm bg-red-600 hover:bg-red-700 text-white px-3 py-0.5 rounded-full'>Add to card</button>
+                            <button className='text-sm bg-red-600 hover:bg-red-700 text-white px-3 py-0.5 rounded-full'>Thêm vào giỏ hàng</button>
                         </div>
                     </div>
                     )
                 })
+            )
+               
             }
           </div>
        
