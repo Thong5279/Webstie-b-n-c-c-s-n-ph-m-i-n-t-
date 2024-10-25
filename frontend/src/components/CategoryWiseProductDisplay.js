@@ -6,13 +6,12 @@ import { Link } from 'react-router-dom'
 import addToCart from '../helpers/addToCart'
 
 
-const VerticalCardProduct = ({category, heading}) => {
+const CategoryWiseProductDisplay = ({category, heading}) => {
     const [data,setData] = useState([])
     const [loading,setLoading] = useState(true)
     const loadingList = new Array(13).fill(null)
 
-    const [scroll,setScroll] = useState(0)
-    const scrollElement = useRef()
+
 
     const fetchData = async() =>{
         setLoading(true)
@@ -27,22 +26,16 @@ const VerticalCardProduct = ({category, heading}) => {
         fetchData()
     },[])
 
-    const scrollRight = () =>{
-        scrollElement.current.scrollLeft += 300
-    }
-    const scrollLeft = () =>{
-        scrollElement.current.scrollLeft -= 300
-    }
+
 
   return (
     <div className='container mx-auto px-4 my-6 relative'>
         
         <h2 className="text-2xl font-semibold py-4">{heading}</h2>
 
-          <div className='flex items-center gap-4 md:gap-6 overflow-scroll scrollbar-none transition-all' ref={scrollElement}>
+          <div className='grid grid-cols-[repeat(auto-fill,minmax(300px,320px))] justify-between md:gap-6 overflow-scroll scrollbar-none transition-all'>
 
-            <button className='bg-white shadow-md rounded-full p-1 absolute left-0 text-lg hidden md:block hover:bg-red-400 hover:text-white' onClick={scrollLeft}><FaAngleLeft /></button>
-            <button className='bg-white shadow-md rounded-full p-1 absolute right-0 text-lg hidden md:block hover:bg-red-400 hover:text-white' onClick={scrollRight}><FaAngleRight /></button>
+           
 
           {
             loading ? (
@@ -92,4 +85,4 @@ const VerticalCardProduct = ({category, heading}) => {
   )
 }
 
-export default VerticalCardProduct
+export default CategoryWiseProductDisplay
