@@ -45,6 +45,10 @@ const SummaryApi = {                                    // Định nghĩa các A
     categoryWiseProduct : {
         url : `${backendDomin}/api/category-product`,
         method : "post"
+    },
+    productDetails : {
+        url: `${backendDomin}/api/product-details`,
+        method: "post"
     }
 }
 export default SummaryApi                                   // Xuất đối tượng SummaryApi để có thể sử dụng ở các tệp khác
