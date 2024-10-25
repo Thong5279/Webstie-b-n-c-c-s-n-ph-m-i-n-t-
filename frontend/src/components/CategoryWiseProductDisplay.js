@@ -5,6 +5,7 @@ import displayVNDCurrency from '../helpers/displayCurrency' // Import hàm hiể
 import { FaAngleLeft, FaAngleRight } from 'react-icons/fa6' // Import icon mũi tên trái phải
 import { Link } from 'react-router-dom' // Import component Link để tạo liên kết
 import addToCart from '../helpers/addToCart' // Import hàm thêm vào giỏ hàng
+import Context from '../context'
 
 // Component hiển thị sản phẩm theo danh mục
 const CategoryWiseProductDisplay = ({category, heading}) => {
@@ -14,6 +15,13 @@ const CategoryWiseProductDisplay = ({category, heading}) => {
     const loadingList = new Array(13).fill(null) // Mảng để hiển thị skeleton loading
     const [hoveredProduct, setHoveredProduct] = useState(null) // Sản phẩm đang được hover
     const [isZoomed, setIsZoomed] = useState(false) // Trạng thái phóng to
+
+    const {fetchUserAddToCart}  = useContext(Context)
+
+    const handleAddToCart = async(e,id) =>{
+       await addToCart(e,id)
+       fetchUserAddToCart()
+    }
 
     // Hàm fetch dữ liệu sản phẩm
     const fetchData = async() =>{
@@ -103,9 +111,9 @@ const CategoryWiseProductDisplay = ({category, heading}) => {
                             <button 
                                 className='text-sm bg-red-600 hover:bg-red-700 text-white px-3 py-0.5 rounded-full transition-all duration-300 transform hover:scale-105'
                                 onClick={(e) => {
+                                    handleAddToCart(e,product?._id)
                                     e.preventDefault()
                                     e.stopPropagation()
-                                    addToCart(e,product?._id)
                                 }}
                             >
                                 Thêm vào giỏ hàng

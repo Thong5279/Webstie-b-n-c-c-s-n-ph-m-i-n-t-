@@ -13,7 +13,7 @@ const Login = () => {
     password : ""
 })
   const navigate = useNavigate()
-  const {fetchUserDetails}  = useContext(Context)
+  const {fetchUserDetails,fetchUserAddToCart}  = useContext(Context)
 
 const handleOnChange = (e) =>{
     const { name , value } = e.target
@@ -42,6 +42,7 @@ const handleSubmit = async(e) =>{
     toast.success(dataApi.message)
     navigate('/')
     fetchUserDetails()
+    fetchUserAddToCart()
    }
   //  Nếu đăng nhập thất bại thì hiển thị message lỗi
    if(dataApi.error){
