@@ -104,7 +104,7 @@ const SignUp = () => {
           <form className='pt-6 flex flex-col gap-2' onSubmit={handleSubmit}>
             {/* Tên */}
             <div className='grid'>
-              <label>Tài Khoản :</label>
+              <label>Tên Đăng Nhập :</label>
               <div className='bg-slate-100 p-2'>
                 <input
                   type='text'
