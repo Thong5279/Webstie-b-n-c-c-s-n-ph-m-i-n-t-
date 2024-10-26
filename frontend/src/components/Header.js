@@ -73,7 +73,7 @@ const Header = () => {
             <Logo w={90} h={50} />
           </Link>
         </div>
-        <div className='hidden lg:flex items-center w-full justify-between max-w-sm border rounded-full focus-within:shadow pl-2'>
+        <div className='hidden lg:flex items-center w-full justify-between max-w-sm border rounded-full focus-within:shadow pl-2 relative'>
           <input
             type='text'
             placeholder='Tìm kiếm sản phẩm .....'
@@ -84,12 +84,13 @@ const Header = () => {
           <div className='text-lg min-w-[50px] h-8 bg-red-600 flex items-center justify-center rounded-r-full text-white'>
             <ImSearch />
           </div>
-          
         </div>
+
+
         {/* gợi ý tìm kiếm */}
-          <div className=''>
+          <div className='absolute top-full block left-[33%]  '>
             {suggestions.length > 0 && (
-              <div className='absolute bg-white shadow-lg rounded mt-2'>
+              <div className='absolute bg-white w-80 shadow-lg rounded'>
                 {suggestions.map((suggestion) => (
                   <div key={suggestion._id} className='p-2 hover:bg-gray-200 cursor-pointer'>
                     {suggestion.productName}
@@ -98,6 +99,8 @@ const Header = () => {
               </div>
             )}
           </div>
+
+
 
         <div className='flex items-center gap-7'>
 
