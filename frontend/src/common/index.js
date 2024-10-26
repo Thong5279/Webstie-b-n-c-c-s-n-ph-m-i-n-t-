@@ -69,6 +69,10 @@ const SummaryApi = {                                    // Định nghĩa các A
     deleteAddToCartProduct : {
         url : `${backendDomin}/api/delete-cart-product`,
         method : "post"
+    },
+    searchProduct : {
+        url : `${backendDomin}/api/search`,
+        method: "get"
     }
     
 }

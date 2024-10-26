@@ -103,7 +103,8 @@ const Cart = () => {
             context.fetchUserAddToCart()
         }
     }
-    const totalQty = data.reduce((previousValue,currentValue)=> previousValue + currentValue?.quantityCart,0)
+    const totalQty = data.reduce((previousValue,currentValue)=> previousValue + currentValue.quantityCart,0)
+    const totalPrice = data.reduce((preve,curr) => preve + (curr.quantityCart * curr?.productId?.price),0)
   return (
     <div className='container mx-auto'>
         <div className='text-center text-lg my-3'>
@@ -141,7 +142,10 @@ const Cart = () => {
                                         </div>
                                         <h2 className='text-lg lg:text-2xl text-ellipsis line-clamp-1'>{product?.productId?.productName}</h2>
                                         <p className='capitalize text-slate-500'>{product?.productId?.category}</p>
-                                        <p  className='text-red-600 font-medium text-lg'>{displayVNDCurrency(product?.productId?.price)}</p>
+                                        <div className='flex items-center justify-between'>
+                                            <p  className='text-red-600 font-medium text-lg'>{displayVNDCurrency(product?.productId?.price)}</p>
+                                            <p  className='text-slate-600 font-semibold text-lg'>{displayVNDCurrency(product?.productId?.price * product?.quantityCart)}</p>
+                                        </div>
                                         <div className='flex items-center gap-3 mt-2'>
                                             <button className=' border border-red-600 text-red-600 rounded-full hover:bg-red-600 hover:text-white w-6 h-6 flex items-center justify-center' onClick={()=>decreaseQty(product?._id,product?.quantityCart)}>-</button>
                                             <span>{product?.quantityCart}</span>
@@ -165,11 +169,18 @@ const Cart = () => {
                         </div>
                     ) : (
                         <div className='h-36 bg-white'>
-                        <h2 className='text-white bg-red-600 px-4 py-1'>Summary</h2>
-                        <div>
-                            <p>Quantity</p>
-                            <p>{totalQty}</p>
-                        </div>
+                            <h2 className='text-white bg-red-600 px-4 py-1'>Tổng Đơn Hàng</h2>
+                            <div className='flex items-center justify-between px-4 font-medium gap-2 text-lg text-slate-600'>
+                                <p>Số Lượng:</p>
+                                <p>{totalQty}</p>
+                            </div>
+
+                            <div className='flex items-center justify-between px-4 font-medium gap-2 text-lg text-slate-600'>
+                                <p>Tổng Cộng:</p>
+                                <p>{displayVNDCurrency(totalPrice)}</p>
+                            </div>
+
+                            <button className='bg-red-600 w-full text-white p-2 mt-4 hover:bg-white hover:text-red-600'>Thanh Toán</button>
                         </div>
                     )
                 }
