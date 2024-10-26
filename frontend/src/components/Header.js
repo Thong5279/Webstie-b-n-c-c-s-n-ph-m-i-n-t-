@@ -65,6 +65,13 @@ const Header = () => {
         navigate('/search');
     }
   }
+
+  const handleSuggestionClick = (suggestion) => {
+    setSearch(suggestion.productName); // Ghi lại tên sản phẩm vào ô tìm kiếm
+    setSuggestions([]); // Ẩn gợi ý
+    navigate(`/search?q=${suggestion.productName}`); // Điều hướng đến trang tìm kiếm
+  }
+
   return (
     <header className='h-16 shadow-md bg-white fixed w-full z-40'>
       <div className='h-full container mx-auto flex items-center px-4 justify-between'>
@@ -91,7 +98,11 @@ const Header = () => {
             {suggestions.length > 0 && (
               <div className='absolute bg-white w-80 shadow-lg rounded'>
                 {suggestions.map((suggestion) => (
-                  <div key={suggestion._id} className='p-2 hover:bg-gray-200 cursor-pointer'>
+                  <div 
+                    key={suggestion._id} 
+                    className='p-2 hover:bg-gray-200 cursor-pointer'
+                    onClick={() => handleSuggestionClick(suggestion)}
+                  >
                     {suggestion.productName}
                   </div>
                 ))}
