@@ -73,6 +73,10 @@ const SummaryApi = {                                    // Định nghĩa các A
     searchProduct : {
         url : `${backendDomin}/api/search`,
         method: "get"
+    },
+    filterProduct : {
+        url : `${backendDomin}/api/filter-product`,
+        method: "post"
     }
     
 }
