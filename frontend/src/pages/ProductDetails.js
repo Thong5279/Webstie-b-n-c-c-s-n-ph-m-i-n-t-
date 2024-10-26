@@ -179,7 +179,11 @@ const ProductDetails = () => {
 
               <div className='flex items-center gap-2 text-2xl lg:text-3xl font-medium my-1'>
                 <p className='text-red-600'>{displayVNDCurrency(data.sellingPrice)}</p>
-                <p className='line-through opacity-45 text-xl'>{displayVNDCurrency(data.price)}</p>
+                {
+                  data?.price !== data?.sellingPrice && (
+                    <p className='line-through opacity-45 text-xl'>{displayVNDCurrency(data?.price)}</p>
+                  )
+                }
               </div>
 
               <div className='flex items-center gap-3 my-2'>

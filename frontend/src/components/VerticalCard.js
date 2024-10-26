@@ -41,17 +41,17 @@ const VerticalCard = ({loading,data = []}) => {
                 // Hiển thị skeleton loading
                 loadingList.map((product,index)=>{
                     return(
-                    <div key={index} className='w-full min-w-[280px] max-w-[320px] bg-white rounded-sm shadow '>
-                        <div className="bg-slate-200 h-48 p-4 min-w-[280px] md:min-w-[145px] flex justify-center items-center animate-pulse">
+                    <div key={index} className='w-full min-w-[280px] max-w-[320px] bg-white rounded-sm shadow animate-pulse'>
+                        <div className="bg-slate-200 h-48 p-4 min-w-[280px] md:min-w-[145px] flex justify-center items-center">
                         </div>
                         <div className='p-4 grid gap-3 '>
-                            <h2 className='font-medium text-base md:text-lg text-ellipsis line-clamp-1 text-black p-1 py-2 animate-pulse rounded-full bg-slate-200' ></h2>
-                            <p className='capitalize text-slate-500 p-1 animate-pulse rounded-full bg-slate-200 py-2'></p>
+                            <h2 className='font-medium text-base md:text-lg text-ellipsis line-clamp-1 text-black p-1 py-2 rounded-full bg-slate-200' ></h2>
+                            <p className='capitalize text-slate-500 p-1 rounded-full bg-slate-200 py-2'></p>
                             <div className='flex gap-3'>
-                                <p className='text-red-600 font-medium p-1 animate-pulse rounded-full bg-slate-200 w-full py-2'></p>
-                                {product?.price !== product?.sellingPrice && (<p className='text-slate-500 line-through p-1 animate-pulse rounded-full bg-slate-200 w-full py-2'></p>)}  
+                                <p className='text-red-600 font-medium p-1 rounded-full bg-slate-200 w-full py-2'></p>
+                                {product?.price !== product?.sellingPrice && (<p className='text-slate-500 line-through p-1 rounded-full bg-slate-200 w-full py-2'></p>)}  
                             </div>
-                            <button className='text-sm text-white px-3 py-0.5 rounded-full bg-slate-200 py-2 animate-pulse '></button>
+                            <button className='text-sm text-white px-3 py-0.5 rounded-full bg-slate-200 py-2'></button>
                         </div>
                     </div>
                     )
@@ -63,23 +63,23 @@ const VerticalCard = ({loading,data = []}) => {
                     <Link 
                         key={product._id}
                         to={'/product/'+product?._id} 
-                        className={`w-full min-w-[280px] max-w-[328px] md:min-w[300px] md:max-w[300px] bg-white rounded-sm shadow transition-all duration-300 ${hoveredProduct === product._id ? 'transform scale-105' : ''}`}
+                        className={`w-full min-w-[280px] max-w-[328px] md:min-w[300px] md:max-w[300px] bg-white rounded-sm shadow transition-all duration-300 hover:shadow-lg ${hoveredProduct === product._id ? 'transform scale-105' : ''}`}
                         onMouseEnter={() => handleProductHover(product._id)}
                         onMouseLeave={handleProductLeave}
                         onClick={scrollTop}
                     >
-                        <div className="bg-slate-200 h-48 p-4 min-w-[280px] md:min-w-[145px] flex justify-center items-center">
-                            <img src={product?.productImage[0]} className='object-scale-down h-full hover:scale-110 transition-all mix-blend-multiply'/>
+                        <div className="bg-slate-200 h-48 p-4 min-w-[280px] md:min-w-[145px] flex justify-center items-center overflow-hidden">
+                            <img src={product?.productImage[0]} className='object-scale-down h-full transition-all duration-300 mix-blend-multiply transform hover:scale-110'/>
                         </div>
                         <div className='p-4 grid gap-3 '>
-                            <h2 className='font-medium text-base md:text-lg text-ellipsis line-clamp-1 text-black '>{product?.productName}</h2>
-                            <p className='capitalize text-slate-500'>{product?.category}</p>
+                            <h2 className='font-medium text-base md:text-lg text-ellipsis line-clamp-1 text-black transition-colors duration-300 hover:text-red-600'>{product?.productName}</h2>
+                            <p className='capitalize text-slate-500 transition-colors duration-300 hover:text-red-500'>{product?.category}</p>
                             <div className='flex gap-3'>
-                                <p className='text-red-600 font-medium'>{displayVNDCurrency(product?.sellingPrice)}</p>
-                                {product?.price !== product?.sellingPrice && (<p className='text-slate-500 line-through'>{displayVNDCurrency(product?.price)}</p>)}  
+                                <p className='text-red-600 font-medium transition-all duration-300 hover:text-red-700 hover:font-bold'>{displayVNDCurrency(product?.sellingPrice)}</p>
+                                {product?.price !== product?.sellingPrice && (<p className='text-slate-500 line-through transition-all duration-300 hover:text-slate-700'>{displayVNDCurrency(product?.price)}</p>)}  
                             </div>
                             <button 
-                                className='text-sm bg-red-600 hover:bg-red-700 text-white px-3 py-0.5 rounded-full transition-all duration-300 transform hover:scale-105'
+                                className='text-sm bg-red-600 hover:bg-red-700 text-white px-3 py-0.5 rounded-full transition-all duration-300 transform hover:scale-105 hover:shadow-md'
                                 onClick={(e) => {
                                     handleAddToCart(e,product?._id)
                                     e.preventDefault()

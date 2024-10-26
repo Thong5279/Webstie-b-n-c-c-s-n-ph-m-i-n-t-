@@ -103,7 +103,9 @@ const Cart = () => {
             context.fetchUserAddToCart()
         }
     }
+        //tong so luong san pham
     const totalQty = data.reduce((previousValue,currentValue)=> previousValue + currentValue.quantityCart,0)
+    //tong gia tien
     const totalPrice = data.reduce((preve,curr) => preve + (curr.quantityCart * curr?.productId?.price),0)
   return (
     <div className='container mx-auto'>
@@ -174,7 +176,10 @@ const Cart = () => {
                                 <p>Số Lượng:</p>
                                 <p>{totalQty}</p>
                             </div>
-
+                            <div className='flex items-center justify-between px-4 font-medium gap-2 text-lg text-slate-600'>
+                                <p>Địa chỉ nhận hàng:</p>
+                                <p>{context.user?.address}</p>
+                            </div>
                             <div className='flex items-center justify-between px-4 font-medium gap-2 text-lg text-slate-600'>
                                 <p>Tổng Cộng:</p>
                                 <p>{displayVNDCurrency(totalPrice)}</p>
