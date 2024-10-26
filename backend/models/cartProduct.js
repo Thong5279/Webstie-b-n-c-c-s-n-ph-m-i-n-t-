@@ -2,7 +2,10 @@ const mongoose = require('mongoose')
 
 // Định nghĩa schema cho giỏ hàng
 const addToCart = mongoose.Schema({
-    productId : String, // ID sản phẩm
+    productId : {
+        ref : "product",
+        type : String,
+    }, // ID sản phẩm
     quantityCart : Number,  // Số lượng sản phẩm
     userId : String     // ID người dùng
 },{

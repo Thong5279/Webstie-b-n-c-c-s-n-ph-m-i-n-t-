@@ -57,6 +57,19 @@ const SummaryApi = {                                    // Định nghĩa các A
     addToCartProductCount : {
         url : `${backendDomin}/api/countAddToCartProduct`,
         method : "get"
+    },
+    addToCartProductView : {
+        url : `${backendDomin}/api/view-cart-product`,
+        method : "get"
+    },
+    updateAddToCartProduct : {
+        url : `${backendDomin}/api/update-cart-product`,
+        method : "post"
+    },
+    deleteAddToCartProduct : {
+        url : `${backendDomin}/api/delete-cart-product`,
+        method : "post"
     }
+    
 }
 export default SummaryApi                                   // Xuất đối tượng SummaryApi để có thể sử dụng ở các tệp khác
