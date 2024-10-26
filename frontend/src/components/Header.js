@@ -84,11 +84,10 @@ const Header = () => {
           <div className='text-lg min-w-[50px] h-8 bg-red-600 flex items-center justify-center rounded-r-full text-white'>
             <ImSearch />
           </div>
-        </div>
 
 
-        {/* gợi ý tìm kiếm */}
-          <div className='absolute top-full block left-[33%]  '>
+          {/* gợi ý tìm kiếm */}
+          <div className=' top-full block w-full absolute mt-4'>
             {suggestions.length > 0 && (
               <div className='absolute bg-white w-80 shadow-lg rounded'>
                 {suggestions.map((suggestion) => (
@@ -99,6 +98,11 @@ const Header = () => {
               </div>
             )}
           </div>
+        </div>
+
+
+        
+
 
 
 
