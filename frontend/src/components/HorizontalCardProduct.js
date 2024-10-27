@@ -1,4 +1,5 @@
 import React, { useContext, useEffect, useRef, useState } from 'react'
+import { FaHeart,FaRegHeart } from "react-icons/fa";
 import fetchCategoryWiseProduct from "../helpers/fetchCategoryWiseProduct"
 import displayVNDCurrency from '../helpers/displayCurrency'
 import { FaAngleLeft, FaAngleRight } from 'react-icons/fa6'
@@ -14,6 +15,16 @@ const HorizontalCardProduct = ({category, heading}) => {
 
     const [scroll,setScroll] = useState(0)
     const scrollElement = useRef()
+
+    // xử lý khi click vào trái tim
+    const [likedItems,setLikedItems] = useState({})
+    const handleHeart = (e, productId) => {
+        e.preventDefault()
+        setLikedItems((prev) => ({
+            ...prev,
+            [productId]: !prev[productId]
+        }))
+    }
 
 
     const {fetchUserAddToCart}  = useContext(Context)
@@ -50,8 +61,8 @@ const HorizontalCardProduct = ({category, heading}) => {
 
           <div className='flex items-center gap-4 md:gap-6 overflow-scroll scrollbar-none transition-all animate-slide-in-right' ref={scrollElement}>
 
-            <button className='bg-white shadow-md rounded-full p-1 absolute left-0 text-lg hidden md:block hover:bg-red-400 hover:text-white transition-all duration-300 transform hover:scale-110' onClick={scrollLeft}><FaAngleLeft /></button>
-            <button className='bg-white shadow-md rounded-full p-1 absolute right-0 text-lg hidden md:block hover:bg-red-400 hover:text-white transition-all duration-300 transform hover:scale-110' onClick={scrollRight}><FaAngleRight /></button>
+            <button className='bg-white shadow-md rounded-full p-1 absolute left-0 text-lg hidden md:block hover:bg-red-400 hover:text-white transition-all duration-300 transform hover:scale-110 z-10' onClick={scrollLeft}><FaAngleLeft /></button>
+            <button className='bg-white shadow-md rounded-full p-1 absolute right-0 text-lg hidden md:block hover:bg-red-400 hover:text-white transition-all duration-300 transform hover:scale-110 z-10' onClick={scrollRight}><FaAngleRight /></button>
 
           {
             loading ? (
@@ -84,7 +95,13 @@ const HorizontalCardProduct = ({category, heading}) => {
                         </div>
                         <div className='p-4 grid'>
                             <h2 className='font-medium text-base md:text-lg text-ellipsis line-clamp-1 text-black hover:text-red-600 transition-colors duration-300' >{product?.productName}</h2>
-                            <p className='capitalize text-slate-500 hover:text-red-500 transition-colors duration-300'>{product?.category}</p>
+                                {/* Trai tim */}
+                            <div className='flex items-center justify-between'>
+                                    <p className='capitalize text-slate-500 hover:text-red-500 transition-colors duration-300'>{product?.category}</p>
+                                    <div className={`cursor-pointer ${likedItems[product._id] ? 'text-red-500' : 'text-gray-500'}`} onClick={e => handleHeart(e,product._id)} >
+                                        <FaRegHeart className='text-xl'/>  {/** Đang xử bỏ attribute của thẻ link cha trong thẻ div con */}
+                                    </div>
+                            </div>
                             <div className='flex gap-3'>
                                 <p className='text-red-600 font-medium animate-pulse'>{displayVNDCurrency(product?.sellingPrice)}</p>
                                 {product?.price !== product?.sellingPrice && (
