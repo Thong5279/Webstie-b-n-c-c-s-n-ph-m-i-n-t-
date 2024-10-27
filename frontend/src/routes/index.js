@@ -11,6 +11,7 @@ import CategoryProduct from '../pages/CategoryProduct'
 import ProductDetails from '../pages/ProductDetails'
 import Cart from '../pages/Cart'
 import SearchProduct from '../pages/SearchProduct'
+import LowStockProducts from '../pages/LowStockProducts'
 const router = createBrowserRouter([
     {
         path : "/",
@@ -60,9 +61,12 @@ const router = createBrowserRouter([
                     {
                         path: "all-product",
                         element : <AllProducts/>
+                    },
+                    {
+                        path: "low-stock-products",
+                        element: <LowStockProducts/>
                     }
                 ]
-
             },
         
            
