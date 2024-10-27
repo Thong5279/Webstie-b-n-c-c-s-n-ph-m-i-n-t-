@@ -106,7 +106,7 @@ const Cart = () => {
         //tong so luong san pham
     const totalQty = data.reduce((previousValue,currentValue)=> previousValue + currentValue.quantityCart,0)
     //tong gia tien
-    const totalPrice = data.reduce((preve,curr) => preve + (curr.quantityCart * curr?.productId?.price),0)
+    const totalPrice = data.reduce((preve,curr) => preve + (curr.quantityCart * curr?.productId?.sellingPrice),0)
   return (
     <div className='container mx-auto'>
         <div className='text-center text-lg my-3'>
@@ -129,7 +129,7 @@ const Cart = () => {
                                         </div>
                                     )
                                 })
-                              
+                            //   
                         ) : (
                            data.map((product,index)=>{
                             return(
@@ -145,8 +145,9 @@ const Cart = () => {
                                         <h2 className='text-lg lg:text-2xl text-ellipsis line-clamp-1'>{product?.productId?.productName}</h2>
                                         <p className='capitalize text-slate-500'>{product?.productId?.category}</p>
                                         <div className='flex items-center justify-between'>
-                                            <p  className='text-red-600 font-medium text-lg'>{displayVNDCurrency(product?.productId?.price)}</p>
-                                            <p  className='text-slate-600 font-semibold text-lg'>{displayVNDCurrency(product?.productId?.price * product?.quantityCart)}</p>
+                                            <p  className='text-red-600 font-medium text-lg'>{displayVNDCurrency(product?.productId?.sellingPrice)}</p>
+                                            <p  className='text-slate-500 font-medium text-lg line-through'>{displayVNDCurrency(product?.productId?.price)}</p>
+                                            <p  className='text-slate-600 font-semibold text-lg'>{displayVNDCurrency(product?.productId?.sellingPrice * product?.quantityCart)}</p>
                                         </div>
                                         <div className='flex items-center gap-3 mt-2'>
                                             <button className=' border border-red-600 text-red-600 rounded-full hover:bg-red-600 hover:text-white w-6 h-6 flex items-center justify-center' onClick={()=>decreaseQty(product?._id,product?.quantityCart)}>-</button>

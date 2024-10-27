@@ -98,8 +98,8 @@ const HorizontalCardProduct = ({category, heading}) => {
                                 {/* Trai tim */}
                             <div className='flex items-center justify-between'>
                                     <p className='capitalize text-slate-500 hover:text-red-500 transition-colors duration-300'>{product?.category}</p>
-                                    <div className={`cursor-pointer ${likedItems[product._id] ? 'text-red-500' : 'text-gray-500'}`} onClick={e => handleHeart(e,product._id)} >
-                                        <FaRegHeart className='text-xl'/>  {/** Đang xử bỏ attribute của thẻ link cha trong thẻ div con */}
+                                    <div className={`cursor-pointer ${likedItems[product._id] ? 'text-red-500' : 'text-slate-300'}`} onClick={e => handleHeart(e,product._id)} >
+                                        <FaHeart className='text-xl'/>  {/** Đang xử bỏ attribute của thẻ link cha trong thẻ div con */}
                                     </div>
                             </div>
                             <div className='flex gap-3'>

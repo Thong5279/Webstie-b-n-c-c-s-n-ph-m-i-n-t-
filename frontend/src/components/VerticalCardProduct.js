@@ -94,8 +94,8 @@ const VerticalCardProduct = ({category, heading}) => {
                             <h2 className='font-medium text-base md:text-lg text-ellipsis line-clamp-1 text-black ' >{product?.productName}</h2>
                             <div className='flex items-center justify-between'>
                                 <p className='capitalize text-slate-500'>{product?.category}</p>
-                                <div className={`cursor-pointer ${likedItems[product._id] ? 'text-red-500' : 'text-gray-500'}`} onClick={e => handleHeart(e,product._id)} >
-                                        <FaRegHeart className='text-xl'/>  {/** Đang xử bỏ attribute của thẻ link cha trong thẻ div con */}
+                                <div className={`cursor-pointer ${likedItems[product._id] ? 'text-red-500' : 'text-slate-300'}`} onClick={e => handleHeart(e,product._id)} >
+                                        <FaHeart className='text-xl'/>  {/** Đang xử bỏ attribute của thẻ link cha trong thẻ div con */}
                                 </div>
                             </div>
                             <div className='flex gap-3'>
