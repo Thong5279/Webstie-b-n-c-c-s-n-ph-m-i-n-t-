@@ -1,4 +1,4 @@
-import React, {useContext, useState} from 'react'; 
+import React, {useContext, useEffect, useRef, useState} from 'react'; 
 import Logo from './Logo';
 import { ImSearch } from "react-icons/im";
 import { FaCircleUser, FaRegCircleUser } from "react-icons/fa6";
@@ -23,6 +23,20 @@ const Header = () => {
   const searchInput = useLocation()
   const [search,setSearch] = useState(searchInput?.search?.split('=')[1])
   const [suggestions, setSuggestions] = useState([])
+
+  // Khi click ra ngoài thì ẩn gợi ý tìm kiếm
+  const suggestionRef = useRef(null)
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (suggestionRef.current && !suggestionRef.current.contains(event.target)) {
+        setSuggestions([]); // Ẩn danh sách gợi ý
+      }
+    };
+    document.addEventListener('click', handleClickOutside);
+    return () => {
+      document.removeEventListener('click', handleClickOutside);
+    };
+  }, []);
 
   console.log("searchInput", searchInput);
   
@@ -94,7 +108,7 @@ const Header = () => {
 
 
           {/* gợi ý tìm kiếm */}
-          <div className=' top-full block w-full absolute mt-4'>
+          <div ref={suggestionRef} className=' top-full block w-full absolute mt-4'>
             {suggestions.length > 0 && (
               <div className='absolute bg-white w-80 shadow-lg rounded'>
                 {suggestions.map((suggestion) => (
