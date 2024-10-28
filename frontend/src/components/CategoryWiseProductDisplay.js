@@ -7,6 +7,7 @@ import { Link } from 'react-router-dom' // Import component Link để tạo li�
 import addToCart from '../helpers/addToCart' // Import hàm thêm vào giỏ hàng
 import Context from '../context'
 import scrollTop from '../helpers/scrollTop'
+import { FaHeart,FaRegHeart } from "react-icons/fa";
 
 // Component hiển thị sản phẩm theo danh mục
 const CategoryWiseProductDisplay = ({category, heading}) => {
@@ -18,6 +19,17 @@ const CategoryWiseProductDisplay = ({category, heading}) => {
     const [isZoomed, setIsZoomed] = useState(false) // Trạng thái phóng to
 
     const {fetchUserAddToCart}  = useContext(Context)
+
+    // Xử lí trái tim
+    const [likedItems,setLikedItems] = useState({})
+    const handleHeart = (e, productId) => {
+        e.preventDefault()
+        e.stopPropagation()
+        setLikedItems((prev) => ({
+            ...prev,
+            [productId]: !prev[productId]
+        }))
+    }
 
     const handleAddToCart = async(e,id) =>{
        await addToCart(e,id)
@@ -105,7 +117,12 @@ const CategoryWiseProductDisplay = ({category, heading}) => {
                         </div>
                         <div className='p-4 grid gap-3 '>
                             <h2 className='font-medium text-base md:text-lg text-ellipsis line-clamp-1 text-black ' >{product?.productName}</h2>
-                            <p className='capitalize text-slate-500'>{product?.category}</p>
+                            <div className='flex items-center justify-between'>
+                                <p className='capitalize text-slate-500'>{product?.category}</p>
+                                <div className={`cursor-pointer ${likedItems[product._id] ? 'text-red-500' : 'text-slate-300'}`} onClick={e => handleHeart(e,product._id)} >
+                                    <FaHeart className='text-xl'/>  {/** Đang xử bỏ attribute của thẻ link cha trong thẻ div con */}
+                                </div>
+                            </div>
                             <div className='flex gap-3'>
                                 <p className='text-red-600 font-medium'>{displayVNDCurrency(product?.sellingPrice)}</p>
                                 {product?.price !== product?.sellingPrice && (<p className='text-slate-500 line-through'>{displayVNDCurrency(product?.price)}</p>)}  

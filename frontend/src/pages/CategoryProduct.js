@@ -121,8 +121,8 @@ const CategoryProduct = () => {
                         productCategory.map((categoryName,index) => {
                           return(
                             <div className='flex items-center gap-3'>
-                              <input type='checkbox' name={'category'} value={categoryName?.value} checked={selecCategory[categoryName?.value]} id={categoryName?.value} onChange={handleSelectCategory}/>
-                              <label htmlFor={categoryName?.value}>{categoryName?.label}</label>
+                              <input type='checkbox' className='cursor-pointer' name={'category'} value={categoryName?.value} checked={selecCategory[categoryName?.value]} id={categoryName?.value} onChange={handleSelectCategory}/>
+                              <label className='cursor-pointer' htmlFor={categoryName?.value}>{categoryName?.label}</label>
                             </div>
                           )
                         })

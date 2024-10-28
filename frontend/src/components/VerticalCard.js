@@ -5,6 +5,7 @@ import displayVNDCurrency from '../helpers/displayCurrency'
 import addToCart from '../helpers/addToCart'
 import { Link } from 'react-router-dom'
 import {useState} from 'react'
+import { FaHeart,FaRegHeart } from "react-icons/fa";
 
 const VerticalCard = ({loading,data = []}) => {
     const loadingList = new Array(13).fill(null) // Mảng để hiển thị skeleton loading
@@ -17,6 +18,17 @@ const VerticalCard = ({loading,data = []}) => {
         setHoveredProduct(null)
     }
     const {fetchUserAddToCart}  = useContext(Context)
+
+     // Xử lí trái tim
+     const [likedItems,setLikedItems] = useState({})
+     const handleHeart = (e, productId) => {
+         e.preventDefault()
+         e.stopPropagation()
+         setLikedItems((prev) => ({
+             ...prev,
+             [productId]: !prev[productId]
+         }))
+     }
 
     const handleAddToCart = async(e,id) =>{
        await addToCart(e,id)
@@ -73,7 +85,12 @@ const VerticalCard = ({loading,data = []}) => {
                         </div>
                         <div className='p-4 grid gap-3 '>
                             <h2 className='font-medium text-base md:text-lg text-ellipsis line-clamp-1 text-black transition-colors duration-300 hover:text-red-600'>{product?.productName}</h2>
-                            <p className='capitalize text-slate-500 transition-colors duration-300 hover:text-red-500'>{product?.category}</p>
+                            <div className='flex items-center justify-between'>
+                                <p className='capitalize text-slate-500 transition-colors duration-300 hover:text-red-500'>{product?.category}</p>
+                                <div className={`cursor-pointer ${likedItems[product._id] ? 'text-red-500' : 'text-slate-300'}`} onClick={e => handleHeart(e,product._id)} >
+                                    <FaHeart className='text-xl'/>  {/** Đang xử bỏ attribute của thẻ link cha trong thẻ div con */}
+                                </div>
+                            </div>
                             <div className='flex gap-3'>
                                 <p className='text-red-600 font-medium transition-all duration-300 hover:text-red-700 hover:font-bold'>{displayVNDCurrency(product?.sellingPrice)}</p>
                                 {product?.price !== product?.sellingPrice && (<p className='text-slate-500 line-through transition-all duration-300 hover:text-slate-700'>{displayVNDCurrency(product?.price)}</p>)}  

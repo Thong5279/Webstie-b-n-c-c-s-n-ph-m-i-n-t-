@@ -5,6 +5,7 @@ import { FaStar,FaStarHalf } from "react-icons/fa";
 import displayVNDCurrency from '../helpers/displayCurrency';
 import VerticalCardProduct from '../components/VerticalCardProduct';
 import CategoryWiseProductDisplay from '../components/CategoryWiseProductDisplay';
+import { FaHeart,FaRegHeart } from "react-icons/fa";
 
 const ProductDetails = () => {
   const [data,setData] = useState({
@@ -25,6 +26,16 @@ const ProductDetails = () => {
     x: 0,
     y: 0
   })
+
+  // Trái tim
+  const [likedItems,setLikedItems] = useState({})
+    const handleHeart = (e, productId) => {
+        e.preventDefault()
+        setLikedItems((prev) => ({
+            ...prev,
+            [productId]: !prev[productId]
+        }))
+    }
 
   const [zoomImg,setZoomImg] = useState(false)
 
@@ -167,8 +178,13 @@ const ProductDetails = () => {
             <div className='flex flex-col gap-1'>
               <p className='bg-red-200 text-red-600 p-2 rounded-full inline-block w-fit'>{data?.brandName}</p>
               <h2 className='text-2xl lg:text-4xl font-medium'>{data?.productName}</h2>
-              <p className='capitalize text-slate-400'>{data?.category}</p>
-
+              <div className='flex items-center'>
+                <p className='capitalize text-slate-400'>{data?.category}</p>
+                {/* Trái tim */}
+                <div className={`cursor-pointer ${likedItems[data?._id] ? 'text-red-500' : 'text-slate-300'}`} onClick={e => handleHeart(e,data?._id)} >
+                      <FaHeart className='text-xl ml-5'/>  {/** Đang xử bỏ attribute của thẻ link cha trong thẻ div con */}
+                </div>
+              </div>
               <div className='flex text-red-600 items-center gap-1'>
                 <FaStar />
                 <FaStar />
