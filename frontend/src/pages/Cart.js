@@ -205,14 +205,14 @@ const Cart = () => {
                                 <p>{context.user?.address}</p>
                             </div>
                                 {/* Ma giam gia */}
-                            <div className='px-4 py-4 font-medium text-slate-600'>
+                            <div className='px-4 py-4 font-medium text-slate-600 flex items-center justify-between'>
                                 <p className='pb-2 text-left flex items-center gap-2'><FaTicketAlt className="text-red-500"/> Mã Giảm Giá:</p>
-                                <input placeholder='Nhập mã giảm giá' className='outline-none border border-solid p-3 w-full' />
+                                <input placeholder='Nhập mã giảm giá' className='outline-none border border-solid p-3 w-[232px]' />
                             </div>
 
-                            <div className='px-4 flex items-center'>
+                            <div className='px-4 flex items-center justify-between'>
                                 <label className='text-slate-600 font-medium text-lg flex items-center gap-2'><FaTicketAlt className="text-red-500"/> Voucher Của Shop:</label>
-                                <select className='ml-3 border border-solid hover:border-red-500 outline-none p-3 cursor-pointer'>
+                                <select className='ml-3 border border-solid hover:border-red-500 outline-none p-3 cursor-pointer w-[232px]'>
                                     <option>Chọn Voucher</option>
                                     <option>Giảm tối đa 5%</option>
                                     <option>Giảm tối đa 10% </option>
@@ -221,24 +221,23 @@ const Cart = () => {
                             </div>
 
                             <div className='px-4 flex my-10 flex-col'>
-                                <div className='flex  items-center'>
+                                <div className='flex  items-center justify-between'>
                                     <label className='text-slate-600 font-medium text-lg flex items-center gap-2'><FaShippingFast className="text-red-500"/> Đơn vị vận chuyển:</label>
-                                    <select className='ml-3 border border-solid hover:border-red-500 outline-none p-3 cursor-pointer'>
+                                    <select className='ml-3 border border-solid hover:border-red-500 outline-none p-3 cursor-pointer w-[232px]'>
+                                        <option>Chọn đơn vị vận chuyển</option>
                                         <option>Giao hàng nhanh</option>
                                         <option>NinJa Van</option>
                                         <option>Giao hàng tiết kiệm</option>
                                     </select>
                                 </div>
                                    <div className='flex justify-between items-center pt-5'>
-                                        <p className='flex items-center gap-2'><FaTruck className="text-red-500"/> Phí vận chuyển:</p>
-                                        <p></p>
+                                        <p className='flex text-slate-600 font-medium text-lg items-center gap-2'><FaTruck className="text-red-500"/> Phí vận chuyển:</p>
+                                        <p className='text-slate-600 font-medium text-lg'></p>
                                    </div>
                             </div>
-                            <div className='px-4 flex items-center my-10'>
+                            <div className='px-4 flex items-center justify-between my-10'>
                                 <label className='text-slate-600 font-medium text-lg flex items-center gap-2'><FaMoneyBillWave className="text-red-500"/> Phương Thức Thanh Toán:</label>
-                                <select 
-                                className={`ml-3 border border-solid hover:border-red-500 outline-none p-3 cursor-pointer w-full `}
-                                >
+                                <select className={`ml-3 border border-solid hover:border-red-500 outline-none p-3 cursor-pointer `}>
                                     <option>Thanh toán khi nhận hàng</option>
                                     <option>PayPal</option>
                                     <option>QR Pay</option>
