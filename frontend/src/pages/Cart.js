@@ -136,7 +136,7 @@ const Cart = () => {
                            data.map((product,index)=>{
                             return(
                                 <div className='flex'>
-                                    <input type='checkbox' className='w-5 mx-4 bg-red-500 cursor-pointer'/>
+                                    <input type='checkbox' className="w-5 mx-4 bg-red-500 cursor-pointer"/>
                                     <div key={product?._id+"Add to cart loading"} className='w-full bg-white h-32 my-2 border-slate-300 rounded grid grid-cols-[128px,1fr]'>
                                         <div className='w-32 h-full bg-slate-200'>
                                             <img src={product?.productId?.productImage[0]} className='h-full object-cover' />
@@ -182,13 +182,17 @@ const Cart = () => {
                                 <p>Số Lượng:</p>
                                 <p>{totalQty}</p>
                             </div>
+                            <div className='px-4 py-4 font-medium text-lg text-slate-600'>
+                                <p>Thông tin người nhận:</p>
+                                <p></p>
+                            </div>
+                            <div className='px-4 py-4 font-medium text-lg text-slate-600'>
+                                <p>Số điện thoại:</p>
+                                <p></p>
+                            </div>
                             <div className='flex items-center justify-between px-4 py-4 font-medium gap-2 text-lg text-slate-600'>
                                 <p>Địa chỉ nhận hàng:</p>
                                 <p>{context.user?.address}</p>
-                            </div>
-                            <div className='flex items-center justify-between px-4 py-4 font-medium gap-2 text-lg text-slate-600'>
-                                <p>Tổng Cộng:</p>
-                                <p>{displayVNDCurrency(totalPrice)}</p>
                             </div>
                                 {/* Ma giam gia */}
                             <div className='px-4 py-4 font-medium text-slate-600'>
@@ -196,18 +200,46 @@ const Cart = () => {
                                 <input placeholder='Nhập mã giảm giá' className='outline-none border border-solid p-3 w-full' />
                             </div>
 
-                            <div className='px-4 py-4 font-medium text-slate-600 flex flex-col gap-6'>
-                                <p>Phương Thức Thanh Toán:</p>
-                                <button className='py-2 px-6 bg-[#0070ba] text-white flex items-center justify-center rounded-full hover:bg-white hover:text-[#0070ba] hover:border hover:border-[#0070ba]'>
-                                    <FaPaypal className='mr-2'/>
-                                    PayPal
-                                    </button>
-                                <button className='flex items-center justify-center py-2 px-6 bg-red-500 text-white rounded-full hover:bg-white hover:text-red-600 hover:border hover:border-red-600'>
-                                    <ImQrcode className='mr-2'/>
-                                    QR Pay
-                                    </button>
+                            <div className='px-4 flex items-center'>
+                                <label className='text-slate-600 font-medium text-lg'>Voucher Của Shop:</label>
+                                <select className='ml-3 border border-solid hover:border-red-500 outline-none p-3 cursor-pointer'>
+                                    <option>Chọn Voucher</option>
+                                    <option>Giảm tối đa 5%</option>
+                                    <option>Giảm tối đa 10% </option>
+                                    <option>Giảm tối đa 15% </option>
+                                </select>
                             </div>
 
+                            <div className='px-4 flex my-10 flex-col'>
+                                <div className='flex  items-center'>
+                                    <label className='text-slate-600 font-medium text-lg'>Đơn vị vận chuyển:</label>
+                                    <select className='ml-3 border border-solid hover:border-red-500 outline-none p-3 cursor-pointer'>
+                                        <option>Giao hàng nhanh</option>
+                                        <option>NinJa Van</option>
+                                        <option>Giao hàng tiết kiệm</option>
+                                    </select>
+                                </div>
+                                   <div className='flex justify-between items-center pt-5'>
+                                        <p>Phí vận chuyển:</p>
+                                        <p></p>
+                                   </div>
+                            </div>
+                            <div className='px-4 flex items-center my-10'>
+                                <label className='text-slate-600 font-medium text-lg'>Phương Thức Thanh Toán:</label>
+                                <select 
+                                className={`ml-3 border border-solid hover:border-red-500 outline-none p-3 cursor-pointer w-full `}
+                                >
+                                    <option>Thanh toán khi nhận hàng</option>
+                                    <option>PayPal</option>
+                                    <option>QR Pay</option>
+                                    <option>Thẻ tín dụng/ghi nợ</option>
+                                </select>
+                            </div>
+
+                            <div className='flex items-center justify-between px-4 py-4 font-medium gap-2 text-lg text-slate-600'>
+                                <p>Tổng Cộng:</p>
+                                <p>{displayVNDCurrency(totalPrice)}</p>
+                            </div>
                             <button className='bg-red-600 w-full text-white p-2 mt-4 hover:bg-white hover:text-red-600'>Thanh Toán</button>
                         </div>
                     )
