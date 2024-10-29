@@ -14,6 +14,7 @@ import { FaTicketAlt } from "react-icons/fa";
 import { FaMapMarkerAlt } from "react-icons/fa";
 import { FaPhoneAlt } from "react-icons/fa";
 import { FaUser } from "react-icons/fa";
+import { BiSolidCoinStack } from "react-icons/bi";
 
 const Cart = () => {
     const [data,setData] = useState([])
@@ -246,7 +247,7 @@ const Cart = () => {
                             </div>
 
                             <div className='flex items-center justify-between px-4 py-4 font-medium gap-2 text-lg text-slate-600'>
-                                <p>Tổng Cộng:</p>
+                                <p className='flex items-center gap-2'><BiSolidCoinStack className="text-red-500"/> Tổng Cộng:</p>
                                 <p>{displayVNDCurrency(totalPrice)}</p>
                             </div>
                             <button className='bg-red-600 w-full text-white p-2 mt-4 hover:bg-white hover:text-red-600'>Thanh Toán</button>
