@@ -22,6 +22,11 @@ const Cart = () => {
     const [loading,setLoading] = useState(false)
     const context = useContext(Context)
     const loadingCart = new Array(context.cartProductCount).fill(null)
+    const [userInfo, setUserInfo] = useState({
+        phone: "",
+        address: "",
+        name: ""
+    });
 
 
     const fetchData = async()=>{
@@ -53,6 +58,7 @@ const Cart = () => {
     useEffect(()=>{
         setLoading(true)
         handleLoading()
+        fetchUserInfo()
         setLoading(false)
        },[])
 
@@ -124,6 +130,40 @@ const Cart = () => {
     const totalQty = data.reduce((previousValue,currentValue)=> previousValue + currentValue.quantityCart,0)
     //tong gia tien
     const totalPrice = data.reduce((preve,curr) => preve + (curr.quantityCart * curr?.productId?.sellingPrice),0)
+
+    const fetchUserInfo = async () => {
+      try {
+        console.log("Đang gọi API lấy thông tin user...");
+        const response = await fetch(SummaryApi.getUserDetails.url, {
+          method: "GET",
+          credentials: "include",
+          headers: {
+            "Content-Type": "application/json"
+          }
+        });
+        
+        const responseData = await response.json();
+        console.log("Dữ liệu user nhận được:", responseData);
+        
+        if (responseData.success) {
+          setUserInfo({
+            phone: responseData.data.phone || "",
+            address: responseData.data.address || "",
+            name: responseData.data.name || ""
+          });
+          console.log("Đã cập nhật userInfo:", {
+            phone: responseData.data.phone,
+            address: responseData.data.address,
+            name: responseData.data.name
+          });
+        } else {
+          console.error("Lỗi khi lấy thông tin:", responseData.message);
+        }
+      } catch (error) {
+        console.error("Lỗi khi gọi API:", error);
+      }
+    };
+
   return (
     <div className='container mx-auto'>
         <div className='text-center text-lg my-3'>
@@ -197,17 +237,23 @@ const Cart = () => {
                                 <p>Số Lượng:</p>
                                 <p>{totalQty}</p>
                             </div>
-                            <div className='px-4 py-4 font-medium text-lg text-slate-600'>
-                                <p className='flex items-center gap-2'><FaUser className="text-red-500"/> Thông tin người nhận:</p>
-                                <p></p>
-                            </div>
-                            <div className='px-4 py-4 font-medium text-lg text-slate-600'>
-                                <p className='flex items-center gap-2'><FaPhoneAlt className="text-red-500"/> Số điện thoại:</p>
-                                <p></p>
+                            <div className='flex items-center justify-between px-4 py-4 font-medium gap-2 text-lg text-slate-600'>
+                                <p className='flex items-center gap-2'>
+                                    <FaUser className="text-red-500"/> Thông tin người nhận:
+                                </p>
+                                <p className="text-base">{userInfo.name}</p>
                             </div>
                             <div className='flex items-center justify-between px-4 py-4 font-medium gap-2 text-lg text-slate-600'>
-                                <p className='flex items-center gap-2'><FaMapMarkerAlt className="text-red-500"/> Địa chỉ nhận hàng:</p>
-                                <p>{context.user?.address}</p>
+                                <p className='flex items-center gap-2'>
+                                    <FaPhoneAlt className="text-red-500"/> Số điện thoại:
+                                </p>
+                                <p className="text-base">{userInfo.phone}</p>
+                            </div>
+                            <div className='flex items-center justify-between px-4 py-4 font-medium gap-2 text-lg text-slate-600'>
+                                <p className='flex items-center gap-2'>
+                                    <FaMapMarkerAlt className="text-red-500"/> Địa chỉ nhận hàng:
+                                </p>
+                                <p className="text-base">{userInfo.address}</p>
                             </div>
                                 {/* Ma giam gia */}
                             <div className='px-4 py-4 font-medium text-slate-600 flex items-center justify-between'>

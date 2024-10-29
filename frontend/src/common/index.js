@@ -81,6 +81,10 @@ const SummaryApi = {                                    // Định nghĩa các A
     suggestProduct: { // Thêm endpoint gợi ý tìm kiếm
         url: `${backendDomin}/api/suggest`,
         method: "get"
+    },
+    getUserDetails: {
+        url: `${backendDomin}/api/user-details`,
+        method: "GET"
     }
     
 }
