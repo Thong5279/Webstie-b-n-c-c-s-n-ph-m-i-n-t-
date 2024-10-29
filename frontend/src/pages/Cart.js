@@ -15,6 +15,7 @@ import { FaMapMarkerAlt } from "react-icons/fa";
 import { FaPhoneAlt } from "react-icons/fa";
 import { FaUser } from "react-icons/fa";
 import { BiSolidCoinStack } from "react-icons/bi";
+import { FaShoppingCart } from "react-icons/fa";
 
 const Cart = () => {
     const [data,setData] = useState([])
@@ -153,7 +154,7 @@ const Cart = () => {
                                         </div>
                                         <div className='px-4 relative'>
                                             {/* delete product */}
-                                            <div className='absolute right-0 text-red-600 rounded-full p-2 hover:bg-red-600 hover:text-white cursor-pointer' onClick={()=>deleteProduct(product?._id)}>
+                                            <div className='absolute right-0 text-red-600 rounded-full p-2 hover:bg-red-600 hover:text-white cursor-pointer transform hover:scale-110 transition duration-300' onClick={()=>deleteProduct(product?._id)}>
                                                 <FaTrash />
                                             </div>
                                             <h2 className='text-lg lg:text-2xl text-ellipsis line-clamp-1'>{product?.productId?.productName}</h2>
@@ -164,9 +165,9 @@ const Cart = () => {
                                                 <p  className='text-slate-600 font-semibold text-lg'>{displayVNDCurrency(product?.productId?.sellingPrice * product?.quantityCart)}</p>
                                             </div>
                                             <div className='flex items-center gap-3 mt-2'>
-                                                <button className=' border border-red-600 text-red-600 rounded-full hover:bg-red-600 hover:text-white w-6 h-6 flex items-center justify-center' onClick={()=>decreaseQty(product?._id,product?.quantityCart)}>-</button>
+                                                <button className='border border-red-600 text-red-600 rounded-full hover:bg-red-600 hover:text-white w-6 h-6 flex items-center justify-center transform hover:scale-110 transition duration-300 shadow-md' onClick={()=>decreaseQty(product?._id,product?.quantityCart)}>-</button>
                                                 <span>{product?.quantityCart}</span>
-                                                <button className=' border border-red-500 rounded-full hover:bg-red-500 hover:text-white w-6 h-6 flex items-center justify-center' onClick={()=>increaseQty(product?._id,product?.quantityCart)}>+</button>
+                                                <button className='border border-red-500 rounded-full hover:bg-red-500 hover:text-white w-6 h-6 flex items-center justify-center transform hover:scale-110 transition duration-300 shadow-md' onClick={()=>increaseQty(product?._id,product?.quantityCart)}>+</button>
                                             </div>
                                         </div>
                                     </div>
@@ -207,12 +208,12 @@ const Cart = () => {
                                 {/* Ma giam gia */}
                             <div className='px-4 py-4 font-medium text-slate-600 flex items-center justify-between'>
                                 <p className='pb-2 text-left flex items-center gap-2'><FaTicketAlt className="text-red-500"/> Mã Giảm Giá:</p>
-                                <input placeholder='Nhập mã giảm giá' className='outline-none border border-solid p-3 w-[232px]' />
+                                <input placeholder='Nhập mã giảm giá' className='outline-none border border-solid p-3 w-[232px] focus:border-red-500 transition duration-300' />
                             </div>
 
                             <div className='px-4 flex items-center justify-between'>
                                 <label className='text-slate-600 font-medium text-lg flex items-center gap-2'><FaTicketAlt className="text-red-500"/> Voucher Của Shop:</label>
-                                <select className='ml-3 border border-solid hover:border-red-500 outline-none p-3 cursor-pointer w-[232px]'>
+                                <select className='ml-3 border border-solid hover:border-red-500 outline-none p-3 cursor-pointer w-[232px] transition duration-300'>
                                     <option>Chọn Voucher</option>
                                     <option>Giảm tối đa 5%</option>
                                     <option>Giảm tối đa 10% </option>
@@ -223,7 +224,7 @@ const Cart = () => {
                             <div className='px-4 flex my-10 flex-col'>
                                 <div className='flex  items-center justify-between'>
                                     <label className='text-slate-600 font-medium text-lg flex items-center gap-2'><FaShippingFast className="text-red-500"/> Đơn vị vận chuyển:</label>
-                                    <select className='ml-3 border border-solid hover:border-red-500 outline-none p-3 cursor-pointer w-[232px]'>
+                                    <select className='ml-3 border border-solid hover:border-red-500 outline-none p-3 cursor-pointer w-[232px] transition duration-300'>
                                         <option>Chọn đơn vị vận chuyển</option>
                                         <option>Giao hàng nhanh</option>
                                         <option>NinJa Van</option>
@@ -237,7 +238,7 @@ const Cart = () => {
                             </div>
                             <div className='px-4 flex items-center justify-between my-10'>
                                 <label className='text-slate-600 font-medium text-lg flex items-center gap-2'><FaMoneyBillWave className="text-red-500"/> Phương Thức Thanh Toán:</label>
-                                <select className={`ml-3 border border-solid hover:border-red-500 outline-none p-3 cursor-pointer `}>
+                                <select className='ml-3 border border-solid hover:border-red-500 outline-none p-3 cursor-pointer w-[232px] transition duration-300'>
                                     <option>Thanh toán khi nhận hàng</option>
                                     <option>PayPal</option>
                                     <option>QR Pay</option>
@@ -249,7 +250,7 @@ const Cart = () => {
                                 <p className='flex items-center gap-2'><BiSolidCoinStack className="text-red-500"/> Tổng Cộng:</p>
                                 <p>{displayVNDCurrency(totalPrice)}</p>
                             </div>
-                            <button className='bg-red-600 w-full text-white p-2 mt-4 hover:bg-white hover:text-red-600'>Thanh Toán</button>
+                            <button className='bg-red-600 w-full text-white p-3 mt-4 hover:bg-white hover:text-red-600 border-2 border-red-600 rounded-lg font-bold text-lg transform hover:scale-105 transition duration-300 shadow-lg hover:shadow-xl flex items-center justify-center gap-2'><FaShoppingCart/> Thanh Toán</button>
                         </div>
                     )
                 }
