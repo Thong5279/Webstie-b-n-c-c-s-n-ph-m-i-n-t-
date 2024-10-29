@@ -5,6 +5,15 @@ import displayVNDCurrency from '../helpers/displayCurrency'
 import { FaTrash } from "react-icons/fa";
 import { FaPaypal } from "react-icons/fa6";
 import { ImQrcode } from "react-icons/im";
+import { FaMoneyBillWave } from "react-icons/fa";
+import { FaCreditCard } from "react-icons/fa";
+import { FaShippingFast } from "react-icons/fa";
+import { FaMotorcycle } from "react-icons/fa";
+import { FaTruck } from "react-icons/fa";
+import { FaTicketAlt } from "react-icons/fa";
+import { FaMapMarkerAlt } from "react-icons/fa";
+import { FaPhoneAlt } from "react-icons/fa";
+import { FaUser } from "react-icons/fa";
 
 const Cart = () => {
     const [data,setData] = useState([])
@@ -183,25 +192,25 @@ const Cart = () => {
                                 <p>{totalQty}</p>
                             </div>
                             <div className='px-4 py-4 font-medium text-lg text-slate-600'>
-                                <p>Thông tin người nhận:</p>
+                                <p className='flex items-center gap-2'><FaUser className="text-red-500"/> Thông tin người nhận:</p>
                                 <p></p>
                             </div>
                             <div className='px-4 py-4 font-medium text-lg text-slate-600'>
-                                <p>Số điện thoại:</p>
+                                <p className='flex items-center gap-2'><FaPhoneAlt className="text-red-500"/> Số điện thoại:</p>
                                 <p></p>
                             </div>
                             <div className='flex items-center justify-between px-4 py-4 font-medium gap-2 text-lg text-slate-600'>
-                                <p>Địa chỉ nhận hàng:</p>
+                                <p className='flex items-center gap-2'><FaMapMarkerAlt className="text-red-500"/> Địa chỉ nhận hàng:</p>
                                 <p>{context.user?.address}</p>
                             </div>
                                 {/* Ma giam gia */}
                             <div className='px-4 py-4 font-medium text-slate-600'>
-                                <p className='pb-2 text-left'>Mã Giảm Giá:</p>
+                                <p className='pb-2 text-left flex items-center gap-2'><FaTicketAlt className="text-red-500"/> Mã Giảm Giá:</p>
                                 <input placeholder='Nhập mã giảm giá' className='outline-none border border-solid p-3 w-full' />
                             </div>
 
                             <div className='px-4 flex items-center'>
-                                <label className='text-slate-600 font-medium text-lg'>Voucher Của Shop:</label>
+                                <label className='text-slate-600 font-medium text-lg flex items-center gap-2'><FaTicketAlt className="text-red-500"/> Voucher Của Shop:</label>
                                 <select className='ml-3 border border-solid hover:border-red-500 outline-none p-3 cursor-pointer'>
                                     <option>Chọn Voucher</option>
                                     <option>Giảm tối đa 5%</option>
@@ -212,7 +221,7 @@ const Cart = () => {
 
                             <div className='px-4 flex my-10 flex-col'>
                                 <div className='flex  items-center'>
-                                    <label className='text-slate-600 font-medium text-lg'>Đơn vị vận chuyển:</label>
+                                    <label className='text-slate-600 font-medium text-lg flex items-center gap-2'><FaShippingFast className="text-red-500"/> Đơn vị vận chuyển:</label>
                                     <select className='ml-3 border border-solid hover:border-red-500 outline-none p-3 cursor-pointer'>
                                         <option>Giao hàng nhanh</option>
                                         <option>NinJa Van</option>
@@ -220,12 +229,12 @@ const Cart = () => {
                                     </select>
                                 </div>
                                    <div className='flex justify-between items-center pt-5'>
-                                        <p>Phí vận chuyển:</p>
+                                        <p className='flex items-center gap-2'><FaTruck className="text-red-500"/> Phí vận chuyển:</p>
                                         <p></p>
                                    </div>
                             </div>
                             <div className='px-4 flex items-center my-10'>
-                                <label className='text-slate-600 font-medium text-lg'>Phương Thức Thanh Toán:</label>
+                                <label className='text-slate-600 font-medium text-lg flex items-center gap-2'><FaMoneyBillWave className="text-red-500"/> Phương Thức Thanh Toán:</label>
                                 <select 
                                 className={`ml-3 border border-solid hover:border-red-500 outline-none p-3 cursor-pointer w-full `}
                                 >
