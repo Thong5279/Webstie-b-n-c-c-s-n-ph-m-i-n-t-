@@ -60,7 +60,8 @@ const Header = () => {
 
     if(data.success){
       toast.success(data.message)  // Cập nhật Redux store: xóa thông tin người dùng bằng cách gửi action setUserDetails(null)
-      dispatch(setUserDetails(null))
+      dispatch(setUserDetails(null)) 
+      navigate("/")
     }
 
 

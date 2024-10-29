@@ -25,7 +25,7 @@ const Cart = () => {
 
 
     const fetchData = async()=>{
-        setLoading(true)
+       // setLoading(true)
        const response = await fetch(SummaryApi.addToCartProductView.url,{
         method : SummaryApi.addToCartProductView.method,
         credentials : "include",
@@ -35,7 +35,7 @@ const Cart = () => {
      
        })
 
-       setLoading(false)
+       //setLoading(false)
 
 
        const responseData = await response.json()
@@ -47,9 +47,13 @@ const Cart = () => {
             
     }
 
-    
+    const handleLoading = async()=>{
+        await fetchData()
+    }
     useEffect(()=>{
-        fetchData()
+        setLoading(true)
+        handleLoading()
+        setLoading(false)
        },[])
 
     const increaseQty = async(id,qty)=>{
