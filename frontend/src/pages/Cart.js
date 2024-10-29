@@ -74,7 +74,7 @@ const Cart = () => {
         }
     }
     const decreaseQty = async(id,qty)=>{
-        if(qty > 2){
+        if(qty > 1){
             const response = await fetch(SummaryApi.updateAddToCartProduct.url,{
                 method : SummaryApi.updateAddToCartProduct.method,
                 credentials : "include",
@@ -135,9 +135,9 @@ const Cart = () => {
                 <div className='w-full max-w-3xl'>
                     {
                         loading ? (
-                                loadingCart.map(el =>{
+                                loadingCart.map((el,index) =>{
                                     return(
-                                        <div key={el+"Add to cart loading"} className='w-full bg-slate-200 h-32 my-2 border-slate-300 animate-pulse rounded'>
+                                        <div key={el+"Add to cart loading" + index} className='w-full bg-slate-200 h-32 my-2 border-slate-300 animate-pulse rounded'>
 
                                         </div>
                                     )

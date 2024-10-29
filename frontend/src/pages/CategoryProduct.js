@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import productCategory from '../helpers/productCategory'
-import CategoryWiseProductDisplay from '../components/CategoryWiseProductDisplay'
 import VerticalCard from '../components/VerticalCard'
 import SummaryApi from '../common'
 
 const CategoryProduct = () => {
-    const params = useParams()
+
     const [data,setData] = useState([])
     const navigate = useNavigate()
     const [loading,setLoading] = useState(false)
@@ -25,6 +24,11 @@ const CategoryProduct = () => {
     const [selecCategory,setSelectCategory] = useState(urlCategoryListinOject)
     const [filterCategoryList,setFilterCategoryList] = useState([])
 
+  
+
+    const [sortBy,setSortBy] = useState('')
+    console.log('sortBy',sortBy);
+
 
     const fetchData = async() => {
       const response = await fetch(SummaryApi.filterProduct.url,{
@@ -39,52 +43,68 @@ const CategoryProduct = () => {
 
       const dataResponse = await response.json()
       setData(dataResponse?.data || [])
-      console.log(dataResponse);
+
       
     } 
 
+    // Hàm xử lý khi chọn danh mục sản phẩm
     const handleSelectCategory = (e) => {
+      // Lấy các thuộc tính từ sự kiện checkbox
       const { name, value, checked }  = e.target
 
+      // Cập nhật state selecCategory với giá trị checkbox mới
       setSelectCategory((prev) => {
         return{
           ...prev,
-          [value]: checked
+          [value]: checked // Thêm/xóa danh mục được chọn
         }
       })      
     }
 
+    // In ra console để kiểm tra các danh mục đã chọn
     console.log(selecCategory);
 
     useEffect(() => {
-      fetchData()
+      fetchData() // Gọi API để lấy dữ liệu khi danh sách lọc thay đổi
     },[filterCategoryList])
 
     useEffect(() => {
       const arrayOfCategory = Object.keys(selecCategory).map(categoryKeyName => {
         if(selecCategory[categoryKeyName]){
-            return categoryKeyName
+            return categoryKeyName // Lấy tên danh mục nếu được chọn
         }
         return null
       }).filter(el => el)
-      setFilterCategoryList(arrayOfCategory)
-      // Thay doi url khi click vao vao o checkbox
+      setFilterCategoryList(arrayOfCategory) // Cập nhật danh sách lọc
+      // Tạo chuỗi query params từ danh sách danh mục đã chọn
       const urlFormat = arrayOfCategory.map((el,index) => {
         if((arrayOfCategory.length - 1) === index){
-          return `category=${el}`
+          return `category=${el}` // Phần tử cuối không thêm &&
         }
-        return `category=${el}&&`
+        return `category=${el}&&` // Thêm && cho các phần tử không phải cuối
       })
+      navigate("/product-category?" + urlFormat.join('')) // Cập nhật URL với query params mới
 
-      console.log("urlforMate", urlFormat);
-      
-      navigate("/product-category?" + urlFormat.join(''))
-      // product-category?category=laptops&&category=mouse&&category=Mobiles
 
     },[selecCategory])
+    // Xử lý sắp xếp sản phẩm theo giá
+    const handleOnChangeSortBy = (e) => {
+      const { name, value } = e.target
+      setSortBy(value)
+      // Sắp xếp giá từ thấp đến cao
+      if(value === 'asc'){
+        setData(preve => preve.sort((a,b)=>a.sellingPrice - b.sellingPrice))
+      }
+      // Sắp xếp giá từ cao đến thấp 
+      if(value === 'dsc'){
+        setData(preve => preve.sort((a,b)=>b.sellingPrice - a.sellingPrice))
+      }
+    }
 
-    
-
+    // Effect theo dõi thay đổi của sortBy
+    useEffect(() => {
+      // Để trống vì logic đã xử lý trong handleOnChangeSortBy
+    },[sortBy])
     // {params?.categoryName}
   return (
     <div className='container mx-auto p-4'>
@@ -101,11 +121,11 @@ const CategoryProduct = () => {
 
                   <form className='text-sm flex flex-col gap-2 py-2'>
                       <div className='flex items-center gap-3'>
-                        <input type='radio' name='sortBy'/>
+                        <input type='radio' name='sortBy' checked={sortBy === 'asc'} value={'asc'} onChange={handleOnChangeSortBy}/>
                         <label>Giá - Thấp đến Cao</label>
                       </div>
                       <div className='flex items-center gap-3'>
-                        <input type='radio' name='sortBy'/>
+                        <input type='radio' name='sortBy' checked={sortBy === 'dsc'} value={'dsc'} onChange={handleOnChangeSortBy}/>
                         <label>Giá - Cao đến Thấp</label>
                       </div>
                   </form>
@@ -135,12 +155,15 @@ const CategoryProduct = () => {
 
 
             {/* right side(san pham) */}
-            <div>
-                {
-                  data.length !== 0 && !loading && (
-                    <VerticalCard data={data} loading={loading} />
-                  )
-                }
+            <div className='px-4'>
+              <p className='text-lg my-2 font-medium text-slate-800'>Kết quả tìm kiếm: {data.length} sản phẩm</p>
+                <div className='min-h-[calc(100vh-120px)] overflow-y-scroll max-h-[calc(100vh-120px)]'>
+                  {
+                    data.length !== 0 && !loading && (
+                      <VerticalCard data={data} loading={loading} />
+                    )
+                  }
+                </div>
             </div>
 
 

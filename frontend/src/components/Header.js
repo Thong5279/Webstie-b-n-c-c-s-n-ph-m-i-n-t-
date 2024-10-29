@@ -21,8 +21,15 @@ const Header = () => {
   const context = useContext(Context)
   const navigate = useNavigate()
   const searchInput = useLocation()
-  const [search,setSearch] = useState(searchInput?.search?.split('=')[1])
+
+  const URLSearch = new URLSearchParams(searchInput?.search)
+  const searchQuery = URLSearch.getAll('q')
+
+  const [search,setSearch] = useState(searchQuery)
   const [suggestions, setSuggestions] = useState([])
+
+
+ 
 
   // Khi click ra ngoài thì ẩn gợi ý tìm kiếm
   const suggestionRef = useRef(null)
