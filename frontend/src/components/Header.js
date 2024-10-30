@@ -169,15 +169,15 @@ const Header = () => {
                           <Link to={"/admin-panel/all-product"} className='whitespace-nowrap hidden md:block hover:bg-slate-100 p-2' onClick={()=>setMenuDisplay(preve => !preve)}>Trang Quản lý</Link>
                         )
                       }
-                       {user?.role !== ROLE.ADMIN && (
-                        <Link to="/profile" className="hover:text-red-600">
-                          Trang cá nhân
-                        </Link>
-                      )}
-                      {user?.role !== ROLE.ADMIN && (
-                        <Link to="/contact" className="hover:text-red-600">
-                          Liên hệ
-                        </Link>
+                      {user?._id && user?.role !== ROLE.ADMIN && (
+                        <>
+                          <Link to="/profile" className="whitespace-nowrap hover:bg-slate-100 p-2" onClick={()=>setMenuDisplay(prev => !prev)}>
+                            Trang cá nhân
+                          </Link>
+                          <Link to="/contact" className="whitespace-nowrap hover:bg-slate-100 p-2" onClick={()=>setMenuDisplay(prev => !prev)}>
+                            Liên hệ
+                          </Link>
+                        </>
                       )}
                     </nav>
                   </div>
