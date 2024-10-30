@@ -14,6 +14,7 @@ import SearchProduct from '../pages/SearchProduct'
 import LowStockProducts from '../pages/LowStockProducts'
 import AllContact from '../pages/AllContact'
 import Contact from '../pages/Contact'
+import Profile from '../pages/Profile'
 const router = createBrowserRouter([
     {
         path : "/",
@@ -55,6 +56,10 @@ const router = createBrowserRouter([
             {
                 path: "contact",
                 element: <Contact/>
+            },
+            {
+                path: "profile",
+                element: <Profile/>
             },
             {
                 path : "admin-panel",

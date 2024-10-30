@@ -98,6 +98,10 @@ const SummaryApi = {                                    // Định nghĩa các A
         url: `${backendDomin}/api/update-contact-status`,
         method: "POST"
     },
+    updateProfile: {
+        url: `${backendDomin}/api/update-profile`,
+        method: "POST"
+    }
 
     
 }
