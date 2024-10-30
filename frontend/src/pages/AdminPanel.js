@@ -6,6 +6,12 @@ import ROLE from '../common/role';
 import { FaUsers } from "react-icons/fa";
 import { MdProductionQuantityLimits } from "react-icons/md";
 import { RiAlertFill } from "react-icons/ri";
+import { FaShoppingCart } from "react-icons/fa";
+import { FaRegComment } from "react-icons/fa";
+import { FaRegEnvelope } from "react-icons/fa";
+import { FaTicketAlt } from "react-icons/fa"; 
+import { FaRegNewspaper } from "react-icons/fa";
+import { FaRegMoneyBill } from "react-icons/fa";
 
 const AdminPanel = () => {
     const user = useSelector(state => state?.user?.user)
@@ -50,6 +56,27 @@ const AdminPanel = () => {
                             <RiAlertFill className="mr-2 text-2xl text-red-600" />
                             Sản phẩm sắp hết hàng
                         </Link>
+                        <Link to={"all-order"} className='px-2 py-1 hover:bg-slate-100 flex items-center'>
+                            <FaShoppingCart className="mr-2 text-2xl text-blue-600" />
+                            Đơn hàng trên hệ thống
+                        </Link>
+                        <Link to={"all-voucher"} className='px-2 py-1 hover:bg-slate-100 flex items-center'>
+                            <FaTicketAlt className="mr-2 text-2xl text-green-600" />
+                            Mã giảm giá
+                        </Link>
+                        <Link to={"all-review"} className='px-2 py-1 hover:bg-slate-100 flex items-center'> 
+                            <FaRegComment className="mr-2 text-2xl text-red-600" />
+                            Đánh giá trên hệ thống
+                        </Link>
+                        <Link to={"all-contact"} className='px-2 py-1 hover:bg-slate-100 flex items-center'>
+                            <FaRegEnvelope className="mr-2 text-2xl text-blue-600" />
+                            Liên hệ trên hệ thống
+                        </Link>
+                        <Link to={"all-blog"} className='px-2 py-1 hover:bg-slate-100 flex items-center'>
+                            <FaRegNewspaper className="mr-2 text-2xl text-blue-600" />
+                            Bài viết trên hệ thống
+                        </Link>
+
                     </nav>
             </div>
 
