@@ -1,20 +1,49 @@
-import React, { useState, useContext } from 'react';
-import Context from '../context';
+import React, { useState, useEffect } from 'react';
 import { toast } from 'react-toastify';
 import SummaryApi from '../common';
 import { FaUser, FaEnvelope, FaPhone, FaMapMarkerAlt, FaTransgender } from 'react-icons/fa';
 
 const Profile = () => {
-    const { user, fetchUserDetails } = useContext(Context);
     const [isEditing, setIsEditing] = useState(false);
     const [loading, setLoading] = useState(false);
+    const [userData, setUserData] = useState(null);
     const [formData, setFormData] = useState({
-        name: user?.name || '',
-        email: user?.email || '',
-        phone: user?.phone || '',
-        address: user?.address || '',
-        sex: user?.sex || 'Khác'
+        name: '',
+        email: '',
+        phone: '',
+        address: '',
+        sex: 'Khác'
     });
+
+    // Fetch user data
+    const fetchUserData = async () => {
+        try {
+            const response = await fetch(SummaryApi.current_user.url, {
+                method: SummaryApi.current_user.method,
+                credentials: 'include'
+            });
+            const data = await response.json();
+
+            if (data.success) {
+                setUserData(data.data);
+                setFormData({
+                    name: data.data.name || '',
+                    email: data.data.email || '',
+                    phone: data.data.phone || '',
+                    address: data.data.address || '',
+                    sex: data.data.sex || 'Khác'
+                });
+            } else {
+                toast.error("Không thể tải thông tin người dùng");
+            }
+        } catch (error) {
+            toast.error("Lỗi khi tải thông tin người dùng");
+        }
+    };
+
+    useEffect(() => {
+        fetchUserData();
+    }, []);
 
     const handleChange = (e) => {
         setFormData({
@@ -41,7 +70,7 @@ const Profile = () => {
             if (data.success) {
                 toast.success('Cập nhật thông tin thành công!');
                 setIsEditing(false);
-                fetchUserDetails(); // Cập nhật lại thông tin user trong context
+                fetchUserData(); // Tải lại thông tin sau khi cập nhật
             } else {
                 toast.error(data.message);
             }
@@ -52,6 +81,10 @@ const Profile = () => {
         }
     };
 
+    if (!userData) {
+        return <div className="text-center py-8">Đang tải thông tin...</div>;
+    }
+
     return (
         <div className="container mx-auto px-4 py-8">
             <div className="max-w-2xl mx-auto bg-white rounded-lg shadow-md p-6">
@@ -60,12 +93,13 @@ const Profile = () => {
                     <button
                         onClick={() => {
                             if (isEditing) {
+                                // Reset form data khi hủy chỉnh sửa
                                 setFormData({
-                                    name: user?.name || '',
-                                    email: user?.email || '',
-                                    phone: user?.phone || '',
-                                    address: user?.address || '',
-                                    sex: user?.sex || 'Khác'
+                                    name: userData.name || '',
+                                    email: userData.email || '',
+                                    phone: userData.phone || '',
+                                    address: userData.address || '',
+                                    sex: userData.sex || 'Khác'
                                 });
                             }
                             setIsEditing(!isEditing);
@@ -92,7 +126,7 @@ const Profile = () => {
                                     required
                                 />
                             ) : (
-                                <p className="p-2">{user?.name}</p>
+                                <p className="p-2">{userData.name}</p>
                             )}
                         </div>
                     </div>
@@ -102,7 +136,7 @@ const Profile = () => {
                         <FaEnvelope className="text-red-600 text-xl" />
                         <div className="flex-1">
                             <label className="block text-gray-700 mb-1">Email</label>
-                            <p className="p-2">{user?.email}</p>
+                            <p className="p-2">{userData.email}</p>
                         </div>
                     </div>
 
@@ -121,7 +155,7 @@ const Profile = () => {
                                     required
                                 />
                             ) : (
-                                <p className="p-2">{user?.phone}</p>
+                                <p className="p-2">{userData.phone}</p>
                             )}
                         </div>
                     </div>
@@ -141,7 +175,7 @@ const Profile = () => {
                                     required
                                 />
                             ) : (
-                                <p className="p-2">{user?.address}</p>
+                                <p className="p-2">{userData.address}</p>
                             )}
                         </div>
                     </div>
@@ -163,7 +197,7 @@ const Profile = () => {
                                     <option value="Khác">Khác</option>
                                 </select>
                             ) : (
-                                <p className="p-2">{user?.sex}</p>
+                                <p className="p-2">{userData.sex}</p>
                             )}
                         </div>
                     </div>
@@ -185,4 +219,4 @@ const Profile = () => {
     );
 };
 
-export default Profile; 
+export default Profile;
