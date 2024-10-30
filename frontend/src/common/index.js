@@ -85,7 +85,20 @@ const SummaryApi = {                                    // Định nghĩa các A
     getUserDetails: {
         url: `${backendDomin}/api/user-details`,
         method: "GET"
-    }
+    },
+    getAllContacts: {
+        url: `${backendDomin}/api/all-contact`,
+        method: "GET"
+    },
+    createContact: {
+        url: `${backendDomin}/api/create-contact`,
+        method: "POST"
+    },
+    updateContactStatus: {
+        url: `${backendDomin}/api/update-contact-status`,
+        method: "POST"
+    },
+
     
 }
 export default SummaryApi                                   // Xuất đối tượng SummaryApi để có thể sử dụng ở các tệp khác

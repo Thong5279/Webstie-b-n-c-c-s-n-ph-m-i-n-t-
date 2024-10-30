@@ -10,6 +10,8 @@ import SummaryApi from './common';
 import Context from './context';
 import { UseDispatch, useDispatch } from 'react-redux';
 import { setUserDetails } from './store/userSlice';
+import AllContact from './pages/AllContact';
+import Contact from './pages/Contact';
 
 function App() {
   const dispatch = useDispatch()

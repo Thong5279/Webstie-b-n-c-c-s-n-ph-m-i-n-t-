@@ -12,6 +12,8 @@ import ProductDetails from '../pages/ProductDetails'
 import Cart from '../pages/Cart'
 import SearchProduct from '../pages/SearchProduct'
 import LowStockProducts from '../pages/LowStockProducts'
+import AllContact from '../pages/AllContact'
+import Contact from '../pages/Contact'
 const router = createBrowserRouter([
     {
         path : "/",
@@ -51,6 +53,10 @@ const router = createBrowserRouter([
                 element: <SearchProduct />
             },
             {
+                path: "contact",
+                element: <Contact/>
+            },
+            {
                 path : "admin-panel",
                 element : <AdminPanel/>,
                 children : [
@@ -65,9 +71,14 @@ const router = createBrowserRouter([
                     {
                         path: "low-stock-products",
                         element: <LowStockProducts/>
+                    },
+                    {
+                        path: "all-contact",
+                        element: <AllContact/>
                     }
                 ]
             },
+            
         
            
         ]

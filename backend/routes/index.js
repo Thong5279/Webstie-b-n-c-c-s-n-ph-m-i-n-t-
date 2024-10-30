@@ -23,6 +23,9 @@ const deleteAddToCartProduct = require('../controller/user/deleteAddToCartProduc
 const searchProduct = require('../controller/product/searchProduct')
 const filterProductController = require('../controller/product/filterProduct')
 const suggestProduct = require('../controller/product/suggestProduct');
+const getAllContacts = require('../controller/contact/getAllContacts');
+const updateContactStatus = require('../controller/contact/updateContactStatus');
+const createContact = require('../controller/contact/createContact');
 
 router.post("/signup",userSignUpController)
 router.post("/signin",userSignInController)
@@ -51,5 +54,11 @@ router.post("/update-cart-product",authToken,updateAddToCartProduct)
 router.post("/delete-cart-product",authToken,deleteAddToCartProduct)
 
 router.get("/suggest", suggestProduct);
+
+router.get("/all-contact", authToken, getAllContacts); // lấy danh sách liên hệ
+router.post("/update-contact-status", authToken, updateContactStatus);
+
+// Add new route
+router.post("/create-contact", createContact);
 
 module.exports = router

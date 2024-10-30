@@ -169,7 +169,9 @@ const Header = () => {
                           <Link to={"/admin-panel/all-product"} className='whitespace-nowrap hidden md:block hover:bg-slate-100 p-2' onClick={()=>setMenuDisplay(preve => !preve)}>Trang Quản lý</Link>
                         )
                       }
-                     
+                      <Link to="/contact" className="hover:text-red-600">
+                        Liên hệ
+                      </Link>
                     </nav>
                   </div>
                 )
