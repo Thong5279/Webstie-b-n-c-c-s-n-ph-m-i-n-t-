@@ -20,6 +20,7 @@ import { FaShoppingBag } from "react-icons/fa";
 import { FaGift } from "react-icons/fa";
 import { FaPercent } from "react-icons/fa";
 import { FaBox } from "react-icons/fa";
+import { FaAngleDown } from "react-icons/fa";
 
 const Cart = () => {
     const [data,setData] = useState([])
@@ -32,8 +33,37 @@ const Cart = () => {
         name: ""
     });
     const [selectedVoucher, setSelectedVoucher] = useState(0);
-    const [shippingFee, setShippingFee] = useState(0); // Mặc định là 0
-    const [showShippingFee, setShowShippingFee] = useState(false); // Thêm state mới
+    const [shippingFee, setShippingFee] = useState(0);
+    const [showShippingFee, setShowShippingFee] = useState(false);
+    const [showPaymentDropdown, setShowPaymentDropdown] = useState(false);
+    const [selectedPayment, setSelectedPayment] = useState({
+        icon: <FaMoneyBillWave className="text-red-500"/>,
+        text: "Thanh toán khi nhận hàng"
+    });
+
+    const paymentOptions = [
+        {
+            icon: <FaMoneyBillWave className="text-red-500"/>,
+            text: "Thanh toán khi nhận hàng"
+        },
+        {
+            icon: <FaPaypal className="text-blue-500"/>,
+            text: "PayPal"
+        },
+        {
+            icon: <ImQrcode className="text-green-500"/>,
+            text: "QR Pay"
+        },
+        {
+            icon: <FaCreditCard className="text-purple-500"/>,
+            text: "Thẻ tín dụng/ghi nợ"
+        }
+    ];
+
+    const handlePaymentSelect = (payment) => {
+        setSelectedPayment(payment);
+        setShowPaymentDropdown(false);
+    };
 
     const fetchData = async()=>{
        const response = await fetch(SummaryApi.addToCartProductView.url,{
@@ -186,9 +216,8 @@ const Cart = () => {
 
     const handleShippingChange = (e) => {
       const value = e.target.value;
-      setShowShippingFee(true); // Hiển thị phí vận chuyển khi có lựa chọn
+      setShowShippingFee(true);
       
-      // Kiểm tra điều kiện freeship
       if (finalPrice >= 5000000) {
         setShippingFee(0);
         return;
@@ -206,7 +235,7 @@ const Cart = () => {
           break;
         default:
           setShippingFee(30000);
-          setShowShippingFee(false); // Ẩn phí vận chuyển khi chọn mặc định
+          setShowShippingFee(false);
       }
     };
 
@@ -347,14 +376,38 @@ const Cart = () => {
                                 )}
 
                                 <div className='px-6 flex items-center justify-between border-b py-4'>
-                                    <label className='text-slate-600 font-medium text-lg flex items-center gap-2'><FaMoneyBillWave className="text-red-500 text-xl"/> Phương Thức Thanh Toán:</label>
-                                    <select className='ml-3 border border-solid hover:border-red-500 outline-none p-3 cursor-pointer w-[232px] transition duration-300 rounded-lg'>
-                                        <option>Thanh toán khi nhận hàng</option>
-                                        <option>PayPal</option>
-                                        <option>QR Pay</option>
-                                        <option>Thẻ tín dụng/ghi nợ</option>
-                                    </select>
+                                    <label className='text-slate-600 font-medium text-lg flex items-center gap-2'>
+                                        <FaMoneyBillWave className="text-red-500 text-xl"/> Phương Thức Thanh Toán:
+                                    </label>
+                                    <div className='relative'>
+                                        <div 
+                                            className='ml-3 border border-solid hover:border-red-500 outline-none p-3 cursor-pointer w-[232px] transition duration-300 rounded-lg flex items-center justify-between'
+                                            onClick={() => setShowPaymentDropdown(!showPaymentDropdown)}
+                                        >
+                                            <div className='flex items-center gap-2'>
+                                                {selectedPayment.icon}
+                                                <span>{selectedPayment.text}</span>
+                                            </div>
+                                            <FaAngleDown className={`transition-transform duration-300 ${showPaymentDropdown ? 'rotate-180' : ''}`}/>
+                                        </div>
+                                        
+                                        {showPaymentDropdown && (
+                                            <ul className='absolute z-10 w-[232px] mt-1 bg-white border border-gray-200 rounded-lg shadow-lg'>
+                                                {paymentOptions.map((option, index) => (
+                                                    <li 
+                                                        key={index}
+                                                        className='px-4 py-3 hover:bg-gray-50 cursor-pointer flex items-center gap-2'
+                                                        onClick={() => handlePaymentSelect(option)}
+                                                    >
+                                                        {option.icon}
+                                                        <span>{option.text}</span>
+                                                    </li>
+                                                ))}
+                                            </ul>
+                                        )}
+                                    </div>
                                 </div>
+
                                 {selectedVoucher > 0 && (
                                     <div className='flex items-center justify-between px-6 py-4 font-medium gap-2 text-lg text-slate-600 border-b'>
                                         <p className='flex items-center gap-2'>
