@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { toast } from 'react-toastify';
 import SummaryApi from '../common';
-import { FaUser, FaEnvelope, FaPhone, FaMapMarkerAlt, FaTransgender } from 'react-icons/fa';
+import { FaUser, FaEnvelope, FaPhone, FaMapMarkerAlt, FaTransgender, FaCamera } from 'react-icons/fa';
 
 const Profile = () => {
     const [isEditing, setIsEditing] = useState(false);
@@ -14,12 +14,14 @@ const Profile = () => {
         address: '',
         sex: 'Khác'
     });
+    const [avatarLoading, setAvatarLoading] = useState(false);
+    const fileInputRef = useRef(null);
 
     // Fetch user data
     const fetchUserData = async () => {
         try {
-            const response = await fetch(SummaryApi.current_user.url, {
-                method: SummaryApi.current_user.method,
+            const response = await fetch(SummaryApi.getUserDetails.url, {
+                method: SummaryApi.getUserDetails.method,
                 credentials: 'include'
             });
             const data = await response.json();
@@ -81,6 +83,53 @@ const Profile = () => {
         }
     };
 
+    const handleAvatarClick = () => {
+        fileInputRef.current.click();
+    };
+
+    const handleAvatarChange = async (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
+
+        // Kiểm tra kích thước file (ví dụ: giới hạn 2MB)
+        if (file.size > 2 * 1024 * 1024) {
+            toast.error('Kích thước ảnh không được vượt quá 2MB');
+            return;
+        }
+
+        // Kiểm tra định dạng file
+        const validTypes = ['image/jpeg', 'image/png', 'image/jpg'];
+        if (!validTypes.includes(file.type)) {
+            toast.error('Chỉ chấp nhận file ảnh định dạng JPG, JPEG hoặc PNG');
+            return;
+        }
+
+        setAvatarLoading(true);
+        const formData = new FormData();
+        formData.append('avatar', file);
+
+        try {
+            const response = await fetch(SummaryApi.updateAvatar.url, {
+                method: 'POST',
+                credentials: 'include',
+                body: formData
+            });
+
+            const data = await response.json();
+
+            if (data.success) {
+                toast.success('Cập nhật ảnh đại diện thành công!');
+                fetchUserData(); // Tải lại thông tin user để cập nhật ảnh mới
+            } else {
+                toast.error(data.message);
+            }
+        } catch (error) {
+            toast.error('Có lỗi xảy ra khi cập nhật ảnh đại diện');
+        } finally {
+            setAvatarLoading(false);
+        }
+    };
+
     if (!userData) {
         return <div className="text-center py-8">Đang tải thông tin...</div>;
     }
@@ -88,6 +137,47 @@ const Profile = () => {
     return (
         <div className="container mx-auto px-4 py-8">
             <div className="max-w-2xl mx-auto bg-white rounded-lg shadow-md p-6">
+                <div className="flex flex-col items-center mb-8">
+                    <div className="relative">
+                        <div className="w-32 h-32 rounded-full overflow-hidden border-4 border-red-600">
+                            {userData?.profilePic ? (
+                                <img 
+                                    src={userData.profilePic.startsWith('data:') 
+                                        ? userData.profilePic 
+                                        : `${SummaryApi.baseURL}/${userData.profilePic}`
+                                    }
+                                    alt="Avatar" 
+                                    className="w-full h-full object-cover"
+                                />
+                            ) : (
+                                <div className="w-full h-full bg-gray-200 flex items-center justify-center">
+                                    <FaUser className="text-4xl text-gray-400" />
+                                </div>
+                            )}
+                            {avatarLoading && (
+                                <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center rounded-full">
+                                    <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-white"></div>
+                                </div>
+                            )}
+                        </div>
+                        <button 
+                            onClick={handleAvatarClick}
+                            className="absolute bottom-0 right-0 bg-red-600 text-white p-2 rounded-full hover:bg-red-700 transition-colors"
+                        >
+                            <FaCamera />
+                        </button>
+                        <input
+                            type="file"
+                            ref={fileInputRef}
+                            onChange={handleAvatarChange}
+                            accept="image/jpeg,image/png,image/jpg"
+                            className="hidden"
+                        />
+                    </div>
+                    <h3 className="mt-4 text-xl font-semibold">{userData?.name}</h3>
+                    <p className="text-gray-500">{userData?.role}</p>
+                </div>
+
                 <div className="flex justify-between items-center mb-6">
                     <h2 className="text-2xl font-bold">Thông tin cá nhân</h2>
                     <button
