@@ -63,7 +63,7 @@ const Contact = () => {
                             <BiPhone className="text-2xl text-red-600" />
                             <div>
                                 <h3 className="font-semibold">Điện thoại</h3>
-                                <p>0123 456 789</p>
+                                <p>0337 61 52 79</p>
                             </div>
                         </div>
 
@@ -71,7 +71,7 @@ const Contact = () => {
                             <BiEnvelope className="text-2xl text-red-600" />
                             <div>
                                 <h3 className="font-semibold">Email</h3>
-                                <p>contact@example.com</p>
+                                <p>Thongdc2096n525@gmail.com</p>
                             </div>
                         </div>
 
@@ -79,7 +79,7 @@ const Contact = () => {
                             <BiMap className="text-2xl text-red-600" />
                             <div>
                                 <h3 className="font-semibold">Địa chỉ</h3>
-                                <p>123 Đường ABC, Quận XYZ, TP.HCM</p>
+                                <p>123 Đường ABC, Quận XYZ, TP.Cần Thơ</p>
                             </div>
                         </div>
                     </div>
