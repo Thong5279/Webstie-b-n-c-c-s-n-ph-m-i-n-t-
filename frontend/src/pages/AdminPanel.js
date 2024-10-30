@@ -44,35 +44,35 @@ const AdminPanel = () => {
             {/*Điều hướng  */}
             <div>
                     <nav className='grid'>
-                        <Link to={"all-user"} className='px-2 py-1 hover:bg-slate-100 flex items-center'>
+                        <Link to={"all-user"} className='px-2 py-1 flex items-center mt-2 transition hover:bg-red-400 hover:text-white'>
                             <FaUsers className="mr-2 text-2xl text-blue-600" />
                             Người dùng trên hệ thống
                         </Link>
-                        <Link to={"all-product"} className='px-2 py-1 hover:bg-slate-100 flex items-center'>
+                        <Link to={"all-product"} className='px-2 py-1 flex items-center mt-2 transition hover:bg-red-400 hover:text-white'>
                             <MdProductionQuantityLimits className="mr-2 text-2xl text-green-600" />
                             Sản phẩm Trên hệ thống
                         </Link>
-                        <Link to={"low-stock-products"} className='px-2 py-1 hover:bg-slate-100 flex items-center'>
+                        <Link to={"low-stock-products"} className='px-2 py-1 flex items-center mt-2 transition hover:bg-red-400 hover:text-white'>
                             <RiAlertFill className="mr-2 text-2xl text-red-600" />
                             Sản phẩm sắp hết hàng
                         </Link>
-                        <Link to={"all-order"} className='px-2 py-1 hover:bg-slate-100 flex items-center'>
+                        <Link to={"all-order"} className='px-2 py-1 flex items-center mt-2 transition hover:bg-red-400 hover:text-white'>
                             <FaShoppingCart className="mr-2 text-2xl text-blue-600" />
                             Đơn hàng trên hệ thống
                         </Link>
-                        <Link to={"all-voucher"} className='px-2 py-1 hover:bg-slate-100 flex items-center'>
+                        <Link to={"all-voucher"} className='px-2 py-1 flex items-center mt-2 transition hover:bg-red-400 hover:text-white'>
                             <FaTicketAlt className="mr-2 text-2xl text-green-600" />
                             Mã giảm giá
                         </Link>
-                        <Link to={"all-review"} className='px-2 py-1 hover:bg-slate-100 flex items-center'> 
+                        <Link to={"all-review"} className='px-2 py-1 flex items-center mt-2 transition hover:bg-red-400 hover:text-white'> 
                             <FaRegComment className="mr-2 text-2xl text-red-600" />
                             Đánh giá trên hệ thống
                         </Link>
-                        <Link to={"all-contact"} className='px-2 py-1 hover:bg-slate-100 flex items-center'>
+                        <Link to={"all-contact"} className='px-2 py-1 flex items-center mt-2 transition hover:bg-red-400 hover:text-white'>
                             <FaRegEnvelope className="mr-2 text-2xl text-blue-600" />
                             Liên hệ trên hệ thống
                         </Link>
-                        <Link to={"all-blog"} className='px-2 py-1 hover:bg-slate-100 flex items-center'>
+                        <Link to={"all-blog"} className='px-2 py-1 flex items-center mt-2 transition hover:bg-red-400 hover:text-white'>
                             <FaRegNewspaper className="mr-2 text-2xl text-blue-600" />
                             Bài viết trên hệ thống
                         </Link>

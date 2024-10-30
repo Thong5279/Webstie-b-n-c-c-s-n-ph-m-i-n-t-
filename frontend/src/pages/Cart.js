@@ -244,7 +244,7 @@ const Cart = () => {
         <div className='text-center text-lg my-3'>
             {
                 data.length === 0 && !loading && (
-                    <p className='bg-white py-5'>no data</p>
+                    <p className='bg-white py-5'>Không có đơn hàng </p>
                 )
             }
         </div>
@@ -328,7 +328,7 @@ const Cart = () => {
                                 </div>
                                 <div className='px-6 py-4 font-medium text-slate-600 flex items-center justify-between border-b'>
                                     <p className='pb-2 text-left flex items-center gap-2'><FaGift className="text-red-500 text-xl"/> Mã Giảm Giá:</p>
-                                    <input placeholder='Nhập mã giảm giá' className='outline-none border border-solid p-3 w-[232px] focus:border-red-500 transition duration-300 rounded-lg' />
+                                    <input placeholder='Nhập mã giảm giá' className='outline-none border border-solid p-3 w-[270px] focus:border-red-500 transition duration-300 rounded-lg' />
                                 </div>
 
                                 <div className='px-6 flex items-center justify-between border-b py-4'>
@@ -336,7 +336,7 @@ const Cart = () => {
                                         <FaPercent className="text-red-500 text-xl"/> Voucher Của Shop:
                                     </label>
                                     <select 
-                                        className='ml-3 border border-solid hover:border-red-500 outline-none p-3 cursor-pointer w-[232px] transition duration-300 rounded-lg'
+                                        className='ml-3 border border-solid hover:border-red-500 outline-none p-3 cursor-pointer w-[270px] transition duration-300 rounded-lg'
                                         onChange={handleVoucherChange}
                                     >
                                         <option>Chọn Voucher</option>
@@ -349,7 +349,7 @@ const Cart = () => {
                                 <div className='px-6 flex items-center justify-between border-b py-4'>
                                     <label className='text-slate-600 font-medium text-lg flex items-center gap-2'><FaShippingFast className="text-red-500 text-xl"/> Đơn vị vận chuyển:</label>
                                     <select 
-                                        className='ml-3 border border-solid hover:border-red-500 outline-none p-3 cursor-pointer w-[232px] transition duration-300 rounded-lg'
+                                        className='ml-3 border border-solid hover:border-red-500 outline-none p-3 cursor-pointer w-[270px] transition duration-300 rounded-lg'
                                         onChange={handleShippingChange}
                                     >
                                         <option>Chọn đơn vị vận chuyển</option>
@@ -381,7 +381,7 @@ const Cart = () => {
                                     </label>
                                     <div className='relative'>
                                         <div 
-                                            className='ml-3 border border-solid hover:border-red-500 outline-none p-3 cursor-pointer w-[232px] transition duration-300 rounded-lg flex items-center justify-between'
+                                            className='ml-3 border border-solid hover:border-red-500 outline-none p-3 cursor-pointer w-[270px] transition duration-300 rounded-lg flex items-center justify-between'
                                             onClick={() => setShowPaymentDropdown(!showPaymentDropdown)}
                                         >
                                             <div className='flex items-center gap-2'>
@@ -392,7 +392,7 @@ const Cart = () => {
                                         </div>
                                         
                                         {showPaymentDropdown && (
-                                            <ul className='absolute z-10 w-[232px] mt-1 bg-white border border-gray-200 rounded-lg shadow-lg'>
+                                            <ul className='absolute z-10 mt-1 bg-white border border-gray-200 rounded-lg shadow-lg w-full'>
                                                 {paymentOptions.map((option, index) => (
                                                     <li 
                                                         key={index}
