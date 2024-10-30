@@ -311,9 +311,9 @@ const Cart = () => {
                                         onChange={handleVoucherChange}
                                     >
                                         <option>Chọn Voucher</option>
-                                        <option>Giảm tối đa 5%</option>
-                                        <option>Giảm tối đa 10%</option>
-                                        <option>Giảm tối đa 15%</option>
+                                        {totalPrice >= 1000000 && <option>Giảm tối đa 5%</option>}
+                                        {totalPrice >= 3000000 && <option>Giảm tối đa 10%</option>}
+                                        {totalPrice >= 5000000 && <option>Giảm tối đa 15%</option>}
                                     </select>
                                 </div>
 
