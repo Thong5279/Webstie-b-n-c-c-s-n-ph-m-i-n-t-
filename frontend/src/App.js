@@ -46,7 +46,9 @@ function App() {
     // User Add To Cart
     fetchUserAddToCart()
   },[])
+  // Xoa cac trang co footer khong can thiet
   const location = useLocation()
+  const hideFooterPath = ['/login', '/contact', '/profile', '/cart','/admin-panel/all-product','/product-category','/admin-panel/all-user','/admin-panel/low-stock-products','/admin-panel/all-contact']
   return (
     <>
    <Context.Provider value={{
@@ -64,7 +66,7 @@ function App() {
      <main className='min-h-[calc(100vh-120px)] pt-16'>
         <Outlet/>
       </main>
-      {location.pathname !== '/login' && <Footer/>}
+      {!hideFooterPath.includes(location.pathname) && <Footer />}
    </Context.Provider>
    </>
   );

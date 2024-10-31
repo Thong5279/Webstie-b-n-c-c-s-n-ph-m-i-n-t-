@@ -24,7 +24,7 @@ const Footer = () => {
   },[])
   return (
     <div>
-        <div className='banner py-16 overflow-hidden bg-red-500'>
+        <div className='banner py-16 overflow-hidden bg-white'>
           <div className='banner__container max-w-max flex items-center gap-32 animate-scroll' ref={bannerRef}>
               <img src={banner1} className='h-[40px]'/>
               <img src={banner2} className='h-[40px]'/>
