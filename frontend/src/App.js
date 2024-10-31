@@ -1,6 +1,6 @@
 import logo from './logo.svg';
 import './App.css';
-import { Outlet } from 'react-router-dom';
+import { Outlet,useLocation } from 'react-router-dom';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import { ToastContainer} from 'react-toastify';
@@ -46,6 +46,7 @@ function App() {
     // User Add To Cart
     fetchUserAddToCart()
   },[])
+  const location = useLocation()
   return (
     <>
    <Context.Provider value={{
@@ -63,7 +64,7 @@ function App() {
      <main className='min-h-[calc(100vh-120px)] pt-16'>
         <Outlet/>
       </main>
-      <Footer/>
+      {location.pathname !== '/login' && <Footer/>}
    </Context.Provider>
    </>
   );

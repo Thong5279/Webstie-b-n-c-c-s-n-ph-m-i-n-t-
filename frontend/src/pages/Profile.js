@@ -179,7 +179,7 @@ const Profile = () => {
                 </div>
 
                 <div className="flex justify-between items-center mb-6">
-                    <h2 className="text-2xl font-bold">Thông tin cá nhân</h2>
+                    <h2 className="text-2xl font-bold uppercase">Thông tin cá nhân</h2>
                     <button
                         onClick={() => {
                             if (isEditing) {
@@ -202,10 +202,10 @@ const Profile = () => {
 
                 <form onSubmit={handleSubmit} className="space-y-4">
                     {/* Họ tên */}
-                    <div className="flex items-center space-x-4">
+                    <div className="flex items-center space-x-4 border-b-[1px] pb-3">
                         <FaUser className="text-red-600 text-xl" />
                         <div className="flex-1">
-                            <label className="block text-gray-700 mb-1">Họ tên</label>
+                            <label className="block text-slate-700 mb-1 text-lg uppercase font-semibold">Họ tên</label>
                             {isEditing ? (
                                 <input
                                     type="text"
@@ -216,25 +216,25 @@ const Profile = () => {
                                     required
                                 />
                             ) : (
-                                <p className="p-2">{userData.name}</p>
+                                <p className="">{userData.name}</p>
                             )}
                         </div>
                     </div>
 
                     {/* Email */}
-                    <div className="flex items-center space-x-4">
+                    <div className="flex items-center space-x-4 border-b-[1px] pb-3">
                         <FaEnvelope className="text-red-600 text-xl" />
                         <div className="flex-1">
-                            <label className="block text-gray-700 mb-1">Email</label>
-                            <p className="p-2">{userData.email}</p>
+                            <label className="block mb-1 text-slate-700 text-lg uppercase font-semibold">Email</label>
+                            <p className="">{userData.email}</p>
                         </div>
                     </div>
 
                     {/* Số điện thoại */}
-                    <div className="flex items-center space-x-4">
+                    <div className="flex items-center space-x-4 border-b-[1px] pb-3">
                         <FaPhone className="text-red-600 text-xl" />
                         <div className="flex-1">
-                            <label className="block text-gray-700 mb-1">Số điện thoại</label>
+                            <label className="block mb-1 text-slate-700 text-lg uppercase font-semibold">Số điện thoại</label>
                             {isEditing ? (
                                 <input
                                     type="tel"
@@ -245,16 +245,16 @@ const Profile = () => {
                                     required
                                 />
                             ) : (
-                                <p className="p-2">{userData.phone}</p>
+                                <p className="">{userData.phone}</p>
                             )}
                         </div>
                     </div>
 
                     {/* Địa chỉ */}
-                    <div className="flex items-center space-x-4">
+                    <div className="flex items-center space-x-4 border-b-[1px] pb-3">
                         <FaMapMarkerAlt className="text-red-600 text-xl" />
                         <div className="flex-1">
-                            <label className="block text-gray-700 mb-1">Địa chỉ</label>
+                            <label className="block mb-1 text-slate-700 text-lg uppercase font-semibold">Địa chỉ</label>
                             {isEditing ? (
                                 <input
                                     type="text"
@@ -265,7 +265,7 @@ const Profile = () => {
                                     required
                                 />
                             ) : (
-                                <p className="p-2">{userData.address}</p>
+                                <p className="">{userData.address}</p>
                             )}
                         </div>
                     </div>
@@ -274,7 +274,7 @@ const Profile = () => {
                     <div className="flex items-center space-x-4">
                         <FaTransgender className="text-red-600 text-xl" />
                         <div className="flex-1">
-                            <label className="block text-gray-700 mb-1">Giới tính</label>
+                            <label className="block mb-1 text-slate-700 text-lg uppercase font-semibold">Giới tính</label>
                             {isEditing ? (
                                 <select
                                     name="sex"
@@ -287,7 +287,7 @@ const Profile = () => {
                                     <option value="Khác">Khác</option>
                                 </select>
                             ) : (
-                                <p className="p-2">{userData.sex}</p>
+                                <p className="">{userData.sex}</p>
                             )}
                         </div>
                     </div>

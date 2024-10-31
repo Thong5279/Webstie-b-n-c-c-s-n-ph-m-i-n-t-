@@ -57,7 +57,7 @@ const ContactForm = () => {
                     name="name"
                     value={formData.name}
                     onChange={handleChange}
-                    className="w-full p-2 border rounded"
+                    className="w-full border p-2 rounded"
                     required
                 />
             </div>

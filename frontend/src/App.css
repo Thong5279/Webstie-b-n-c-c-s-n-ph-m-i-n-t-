@@ -19,3 +19,14 @@
 .scrollbar-none::-webkit-scrollbar{
   display: none ;
 }
+
+/* Banner footer */
+@keyframes scroll {
+  to {
+      transform: translateX(calc(-50% - 4rem));
+  }
+}
+
+.animate-scroll {
+  animation: scroll 45s linear infinite;
+}

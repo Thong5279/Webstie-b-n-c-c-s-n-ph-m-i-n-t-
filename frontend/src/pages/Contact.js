@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { toast } from 'react-toastify';
 import SummaryApi from '../common';
 import { BiPhone, BiEnvelope, BiMap } from 'react-icons/bi';
+import { ImCross } from 'react-icons/im';
 
 const Contact = () => {
     const [formData, setFormData] = useState({
@@ -18,6 +19,25 @@ const Contact = () => {
             [e.target.name]: e.target.value
         });
     };
+
+    // Xu ly phone chi nhap so khong nhap duoc ki tu
+    const handlePhone = (e) => {
+        const { value } = e.target
+        if(/^\d*$/.test(value)){
+            setFormData({...formData, phone:value})
+        }
+    }
+    // ClearInput
+    const clearName = () => {
+        setFormData({...formData, name: ''})
+    }
+
+    const clearEmail = () => {
+        setFormData({...formData, email: ''})
+    }
+    const clearPhone = () => {
+        setFormData({...formData, phone: ''})
+    }
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -56,7 +76,7 @@ const Contact = () => {
             <div className="grid md:grid-cols-2 gap-8">
                 {/* Thông tin liên hệ */}
                 <div className="bg-white p-6 rounded-lg shadow-md">
-                    <h2 className="text-2xl font-bold mb-6">Thông tin liên hệ</h2>
+                    <h2 className="text-2xl font-bold mb-6 uppercase">Thông tin liên hệ</h2>
                     
                     <div className="space-y-4">
                         <div className="flex items-center space-x-3">
@@ -87,10 +107,10 @@ const Contact = () => {
 
                 {/* Form liên hệ */}
                 <div className="bg-white p-6 rounded-lg shadow-md">
-                    <h2 className="text-2xl font-bold mb-6">Gửi liên hệ</h2>
+                    <h2 className="text-2xl font-bold mb-6 uppercase">Gửi liên hệ</h2>
                     
                     <form onSubmit={handleSubmit} className="space-y-4">
-                        <div>
+                        <div className='relative'>
                             <label className="block text-gray-700 mb-2">Họ tên</label>
                             <input
                                 type="text"
@@ -100,9 +120,16 @@ const Contact = () => {
                                 className="w-full p-2 border rounded focus:outline-none focus:border-red-500"
                                 required
                             />
+                            {
+                                formData.name && (
+                                    <div className="absolute right-3 top-[70%] transform -translate-y-1/2 cursor-pointer text-gray-300 text-sm" onClick={clearName}>
+                                        <ImCross />
+                                    </div>
+                                )
+                            }
                         </div>
 
-                        <div>
+                        <div className='relative'>
                             <label className="block text-gray-700 mb-2">Email</label>
                             <input
                                 type="email"
@@ -112,18 +139,32 @@ const Contact = () => {
                                 className="w-full p-2 border rounded focus:outline-none focus:border-red-500"
                                 required
                             />
+                            {
+                                formData.email && (
+                                    <div className="absolute right-3 top-[70%] transform -translate-y-1/2 cursor-pointer text-gray-300 text-sm" onClick={clearEmail}>
+                                        <ImCross />
+                                    </div>
+                                )
+                            }
                         </div>
 
-                        <div>
+                        <div className='relative'>
                             <label className="block text-gray-700 mb-2">Số điện thoại</label>
                             <input
                                 type="tel"
                                 name="phone"
                                 value={formData.phone}
-                                onChange={handleChange}
+                                onChange={handlePhone}
                                 className="w-full p-2 border rounded focus:outline-none focus:border-red-500"
                                 required
                             />
+                            {
+                                formData.phone && (
+                                    <div className="absolute right-3 top-[70%] transform -translate-y-1/2 cursor-pointer text-gray-300 text-sm" onClick={clearPhone}>
+                                        <ImCross />
+                                    </div>
+                                )
+                            }
                         </div>
 
                         <div>

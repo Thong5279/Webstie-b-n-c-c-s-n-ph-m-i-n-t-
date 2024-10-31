@@ -1,6 +1,6 @@
 import React, {useContext, useEffect, useRef, useState} from 'react'; 
 import Logo from './Logo';
-import { ImSearch } from "react-icons/im";
+import { ImSearch,ImCross } from "react-icons/im";
 import { FaCircleUser, FaRegCircleUser } from "react-icons/fa6";
 import { FaCartShopping } from "react-icons/fa6";
 import { Link, useLocation, useNavigate } from 'react-router-dom';
@@ -102,7 +102,7 @@ const Header = () => {
             <Logo w={90} h={50} />
           </Link>
         </div>
-        <div className='hidden lg:flex items-center w-full justify-between max-w-sm border rounded-full focus-within:shadow pl-2 relative'>
+        <div className='hidden lg:flex items-center w-full justify-between max-w-sm border rounded-full focus-within:shadow pl-2 relative hover:shadow-custom hover:border-1 hover:border-transparent hover:border-t hover:border-b hover:border-solid hover:border-r-0'>
           <input
             type='text'
             placeholder='Tìm kiếm sản phẩm .....'
@@ -134,10 +134,6 @@ const Header = () => {
         </div>
 
 
-        
-
-
-
 
         <div className='flex items-center gap-7'>
 
@@ -162,22 +158,24 @@ const Header = () => {
               
               {
                 menuDisplay &&(
-                    <div className='absolute bg-white bottom-0 top-11 h-fit p-2 shadow-lg rounded'>
+                    <div className='absolute bg-white bottom-0 left-0 top-11 h-fit p-2 shadow-lg rounded'>
                     <nav>
+                      {/* Hiển thị trên admin */}
                       {
                         user?.role === ROLE.ADMIN && (
                           <Link to={"/admin-panel/all-product"} className='whitespace-nowrap hidden md:block hover:bg-slate-100 p-2' onClick={()=>setMenuDisplay(preve => !preve)}>Trang Quản lý</Link>
                         )
                       }
+                      {/* Hiển thị trên user */}
                       {user?._id && user?.role !== ROLE.ADMIN && (
-                        <>
+                        <div className='flex flex-col'>
                           <Link to="/profile" className="whitespace-nowrap hover:bg-slate-100 p-2" onClick={()=>setMenuDisplay(prev => !prev)}>
                             Trang cá nhân
                           </Link>
                           <Link to="/contact" className="whitespace-nowrap hover:bg-slate-100 p-2" onClick={()=>setMenuDisplay(prev => !prev)}>
                             Liên hệ
                           </Link>
-                        </>
+                        </div>
                       )}
                     </nav>
                   </div>
