@@ -15,6 +15,7 @@ import LowStockProducts from '../pages/LowStockProducts'
 import AllContact from '../pages/AllContact'
 import Contact from '../pages/Contact'
 import Profile from '../pages/Profile'
+import ResetPassword from '../pages/ResetPassword'
 const router = createBrowserRouter([
     {
         path : "/",
@@ -32,6 +33,10 @@ const router = createBrowserRouter([
             {
                 path : "forgot-password",
                 element : <ForgotPassword/>
+            },
+            {
+                path: 'reset-password',
+                element: <ResetPassword />
             },
             {
                 path : "Sign-up",

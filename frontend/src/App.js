@@ -48,7 +48,7 @@ function App() {
   },[])
   // Xoa cac trang co footer khong can thiet
   const location = useLocation()
-  const hideFooterPath = ['/login', '/contact', '/profile', '/cart','/admin-panel/all-product','/product-category','/admin-panel/all-user','/admin-panel/low-stock-products','/admin-panel/all-contact']
+  const hideFooterPath = ['/login', '/contact', '/profile', '/cart','/admin-panel/all-product','/product-category','/admin-panel/all-user','/admin-panel/low-stock-products','/admin-panel/all-contact','/reset-password','/forgot-password']
   return (
     <>
    <Context.Provider value={{
