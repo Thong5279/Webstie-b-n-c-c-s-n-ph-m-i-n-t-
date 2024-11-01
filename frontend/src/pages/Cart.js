@@ -40,6 +40,7 @@ const Cart = () => {
         icon: <FaMoneyBillWave className="text-red-500"/>,
         text: "Thanh toán khi nhận hàng"
     });
+    const [selectedProducts, setSelectedProducts] = useState({});
 
     const paymentOptions = [
         {
@@ -159,10 +160,14 @@ const Cart = () => {
         }
     }
 
-    const totalQty = data.reduce((previousValue,currentValue)=> previousValue + currentValue.quantityCart,0)
-    const totalPrice = data.reduce((preve,curr) => preve + (curr.quantityCart * curr?.productId?.sellingPrice),0)
-    const discountAmount = totalPrice * selectedVoucher
-    const finalPrice = totalPrice - discountAmount
+    const totalQty = data.reduce((previousValue, currentValue) => 
+        selectedProducts[currentValue._id] ? previousValue + currentValue.quantityCart : previousValue, 0);
+
+    const totalPrice = data.reduce((preve, curr) => 
+        selectedProducts[curr._id] ? preve + (curr.quantityCart * curr?.productId?.sellingPrice) : preve, 0);
+
+    const discountAmount = totalPrice * selectedVoucher;
+    const finalPrice = totalPrice - discountAmount;
 
     const fetchUserInfo = async () => {
       try {
@@ -239,6 +244,13 @@ const Cart = () => {
       }
     };
 
+    const handleCheckboxChange = (productId) => {
+        setSelectedProducts(prev => ({
+            ...prev,
+            [productId]: !prev[productId]
+        }));
+    };
+
   return (
     <div className='container mx-auto'>
         <div className='text-center text-lg my-3'>
@@ -266,7 +278,12 @@ const Cart = () => {
                             data.map((product,index)=>{
                                 return(
                                     <div className='flex' key={product?._id}>
-                                        <input type='checkbox' className="w-5 mx-4 bg-red-500 cursor-pointer"/>
+                                        <input 
+                                            type='checkbox' 
+                                            className="w-5 mx-4 bg-red-500 cursor-pointer"
+                                            checked={selectedProducts[product._id] || false}
+                                            onChange={() => handleCheckboxChange(product._id)}
+                                        />
                                         <div className='w-full bg-white h-32 my-2 border-slate-300 rounded grid grid-cols-[128px,1fr]'>
                                             <div className='w-32 h-full bg-slate-200'>
                                                 <img src={product?.productId?.productImage[0]} className='h-full object-cover' alt="product" />
