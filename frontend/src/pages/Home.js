@@ -3,12 +3,14 @@ import CategoryList from '../components/CategoryList'
 import BannerProduct from '../components/BannerProduct'
 import HorizontalCardProduct from '../components/HorizontalCardProduct'
 import VerticalCardProduct from '../components/VerticalCardProduct'
+import ChatBox from '../components/ChatBox'
 
 const Home = () => {
   return (
     <div>
       <CategoryList/>
       <BannerProduct />
+      <ChatBox />
 
       <HorizontalCardProduct category={"smartwatch"}heading={"Smart watch nổi bật"}/>
       <HorizontalCardProduct category={"airpodes"}heading={"Tai nghe nổi bật"}/>
