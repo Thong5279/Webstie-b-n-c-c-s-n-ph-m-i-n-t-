@@ -9,11 +9,11 @@ const ForgotPassword = () => {
             <form className="w-full max-w-md bg-white shadow-lg rounded-lg p-6">
                 <h2 className="text-2xl font-semibold text-center text-gray-800 mb-6">Quên Mật Khẩu</h2>
                 
-                <label htmlFor="email" className="block text-gray-700 font-medium mb-2">Email:</label>
+                <label htmlFor="email" className="block text-gray-700 font-medium mb-2">Số điện thoại:</label>
                 <input
                     type="email"
                     id="email"
-                    placeholder="Nhập email của bạn"
+                    placeholder="Nhập số điện thoại của bạn"
                     required
                     className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:border-red-500"
                 />
