@@ -21,6 +21,8 @@ import { FaGift } from "react-icons/fa";
 import { FaPercent } from "react-icons/fa";
 import { FaBox } from "react-icons/fa";
 import { FaAngleDown } from "react-icons/fa";
+import { FaArrowRight } from "react-icons/fa";
+import { Link } from "react-router-dom";
 
 const Cart = () => {
     const [data,setData] = useState([])
@@ -256,7 +258,45 @@ const Cart = () => {
         <div className='text-center text-lg my-3'>
             {
                 data.length === 0 && !loading && (
-                    <p className='bg-white py-5'>Không có đơn hàng </p>
+                    <div className="flex flex-col items-center justify-center min-h-[60vh] px-4 text-center">
+                        <div className="animate-bounce mb-6">
+                            <FaShoppingCart className="text-8xl text-red-500" />
+                        </div>
+                        
+                        <h2 className="text-2xl font-bold mb-4 text-gray-800 animate-pulse">
+                            Ồ! Giỏ hàng của bạn đang trống
+                        </h2>
+                        
+                        <p className="text-gray-600 mb-8 max-w-md">
+                            Có vẻ như bạn chưa thêm bất kỳ sản phẩm nào vào giỏ hàng. 
+                            Hãy khám phá những sản phẩm tuyệt vời của chúng tôi!
+                        </p>
+                        
+                        <Link 
+                            to="/" 
+                            className="flex items-center gap-2 bg-red-600 hover:bg-red-700 text-white px-6 py-3 rounded-full transition-all duration-300 transform hover:scale-105 hover:shadow-lg"
+                        >
+                            <span>Mua sắm ngay</span>
+                            <FaArrowRight className="animate-pulse" />
+                        </Link>
+
+                        <div className="mt-8 grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
+                            <div className="p-4 bg-white rounded-lg shadow-md hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1">
+                                <h3 className="font-semibold text-lg mb-2 text-red-600">Sản phẩm chất lượng</h3>
+                                <p className="text-gray-600">Đảm bảo chính hãng 100%</p>
+                            </div>
+                            
+                            <div className="p-4 bg-white rounded-lg shadow-md hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1">
+                                <h3 className="font-semibold text-lg mb-2 text-red-600">Giao hàng nhanh</h3>
+                                <p className="text-gray-600">Nhận hàng trong 24h</p>
+                            </div>
+                            
+                            <div className="p-4 bg-white rounded-lg shadow-md hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1">
+                                <h3 className="font-semibold text-lg mb-2 text-red-600">Ưu đãi hấp dẫn</h3>
+                                <p className="text-gray-600">Giảm giá đến 50%</p>
+                            </div>
+                        </div>
+                    </div>
                 )
             }
         </div>
