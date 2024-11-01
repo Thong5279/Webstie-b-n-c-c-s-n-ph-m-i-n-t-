@@ -19,6 +19,7 @@ import ResetPassword from '../pages/ResetPassword'
 import BuyProduct from '../components/BuyProduct'
 import GuiPayMent from '../components/GuiPayMent'
 import Shipping from '../components/Shipping'
+import ReturnPolicy from '../components/ReturnPolicy'
 const router = createBrowserRouter([
     {
         path : "/",
@@ -80,6 +81,10 @@ const router = createBrowserRouter([
             {
                 path: '/policy/shipping',
                 element: <Shipping />
+            },
+            {
+                path: '/policy/return',
+                element: <ReturnPolicy />
             },
             {
                 path : "admin-panel",

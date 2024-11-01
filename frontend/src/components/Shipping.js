@@ -23,61 +23,86 @@ const Shipping = () => {
                 <h1 className='text-[36px] font-[400] text-center text-white'>Xin chào,Mobile Store có thể giúp gì được cho bạn</h1>
             </div>
         </div>
-        <div class="max-w-[1000px] mx-auto my-10 px-4">
-        <h1 class="text-3xl font-bold text-center text-red-500 mb-6">Chính Sách Vận Chuyển</h1>
         
-        {/* <!-- Giới thiệu về chính sách vận chuyển --> */}
-        <p class="text-lg mb-4">
-            Mobile Store luôn cố gắng đem lại dịch vụ vận chuyển tốt nhất nhằm đảm bảo khách hàng nhận được sản phẩm trong thời gian nhanh chóng và an toàn nhất.
-        </p>
+        <div className="max-w-[1000px] mx-auto my-12 px-6 lg:px-10 bg-white shadow-lg rounded-lg overflow-hidden">
+    {/* Tiêu đề */}
+    <h1 className="text-4xl font-extrabold text-center text-black my-8">
+        Chính Sách Vận Chuyển
+    </h1>
+    
+    {/* Giới thiệu về chính sách vận chuyển */}
+    <p className="text-lg text-gray-600 leading-relaxed mb-8 px-2 text-justify">
+        Mobile Store luôn cố gắng đem lại dịch vụ vận chuyển tốt nhất nhằm đảm bảo khách hàng nhận được sản phẩm trong thời gian nhanh chóng và an toàn nhất.
+    </p>
 
-        {/* <!-- 1. Phạm vi giao hàng --> */}
-        <h2 class="text-2xl font-semibold mt-8 mb-4">1. Phạm vi giao hàng</h2>
-        <p class="mb-3">
+    {/* 1. Phạm vi giao hàng */}
+    <div className="bg-gray-50 p-6 rounded-lg shadow-sm mb-6 transition-transform duration-300 transform hover:scale-105">
+        <h2 className="text-2xl font-semibold text-black mb-3">1. Phạm vi giao hàng</h2>
+        <p className="text-gray-600 leading-relaxed">
             Chúng tôi hỗ trợ giao hàng toàn quốc, bao gồm tất cả các tỉnh thành và khu vực ngoại thành, hải đảo, nhằm đảm bảo mọi khách hàng đều có thể nhận sản phẩm.
         </p>
+    </div>
 
-        {/* <!-- 2. Thời gian giao hàng --> */}
-        <h2 class="text-2xl font-semibold mt-8 mb-4">2. Thời gian giao hàng</h2>
-        <p class="mb-3">
-            - Nội thành (các thành phố lớn): 1-3 ngày làm việc kể từ ngày đặt hàng.
-        </p>
-        <p class="mb-3">
-            - Ngoại thành và khu vực xa: 3-7 ngày làm việc, tùy thuộc vào khoảng cách địa lý và điều kiện vận chuyển.
-        </p>
-        <p class="mb-3">
-            Lưu ý: Thời gian giao hàng có thể thay đổi trong các dịp lễ, Tết, hoặc trong trường hợp bất khả kháng như thiên tai, dịch bệnh.
-        </p>
-
-        {/* <!-- 3. Phí vận chuyển --> */}
-        <h2 class="text-2xl font-semibold mt-8 mb-4">3. Phí vận chuyển</h2>
-        <p class="mb-3">
-            Phí vận chuyển sẽ được tính dựa trên địa chỉ giao hàng, trọng lượng và kích thước sản phẩm. Quý khách sẽ thấy mức phí cụ thể khi thanh toán đơn hàng.
-        </p>
-        <p class="mb-3">
-            Mobile Store thường xuyên có các chương trình miễn phí vận chuyển cho đơn hàng đạt yêu cầu. Theo dõi trang web của chúng tôi để cập nhật thông tin khuyến mãi.
-        </p>
-
-        {/* <!-- 4. Chính sách kiểm tra hàng --> */}
-        <h2 class="text-2xl font-semibold mt-8 mb-4">4. Chính sách kiểm tra hàng</h2>
-        <p class="mb-3">
-            Khách hàng được quyền mở hộp và kiểm tra sản phẩm trước khi thanh toán để đảm bảo sản phẩm không bị hỏng hóc hay lỗi từ nhà sản xuất. Nếu phát hiện vấn đề, quý khách vui lòng từ chối nhận hàng và liên hệ bộ phận chăm sóc khách hàng của Mobile Store để được hỗ trợ.
-        </p>
-
-        {/* <!-- 5. Chính sách đổi trả khi sản phẩm bị lỗi do vận chuyển --> */}
-        <h2 class="text-2xl font-semibold mt-8 mb-4">5. Chính sách đổi trả khi sản phẩm bị lỗi do vận chuyển</h2>
-        <p class="mb-3">
-            Trong trường hợp sản phẩm bị hư hại hoặc lỗi do quá trình vận chuyển, Mobile Store cam kết hỗ trợ đổi sản phẩm mới cho khách hàng. Vui lòng liên hệ với chúng tôi trong vòng 48 giờ kể từ khi nhận hàng để được giải quyết.
-        </p>
-
-        {/* <!-- Liên hệ --> */}
-        <h2 class="text-2xl font-semibold mt-8 mb-4">Liên hệ</h2>
-        <p class="mb-3">
-            Mọi thắc mắc hoặc khiếu nại về chính sách vận chuyển, vui lòng liên hệ bộ phận chăm sóc khách hàng của chúng tôi qua email: 
-            <a href="mailto:thongdc2095n525@vlvh.ctu.edu.vn" class="text-blue-600 hover:underline hover:text-red-500">thongdc2095n525@vlvh.ctu.edu.vn</a> hoặc hotline: 
-            <a href="tel:0337615279" class="text-blue-600 hover:underline hover:text-red-500">0337615279</a>.
-        </p>
+    {/* 2. Thời gian giao hàng */}
+    <div className="bg-gray-50 p-6 rounded-lg shadow-sm mb-6 transition-transform duration-300 transform hover:scale-105">
+        <h2 className="text-2xl font-semibold text-black mb-3">2. Thời gian giao hàng</h2>
+        <div className="space-y-3">
+            <p className="text-gray-600"><span className="font-medium text-gray-800">- Nội thành:</span> 1-3 ngày làm việc kể từ ngày đặt hàng.</p>
+            <p className="text-gray-600"><span className="font-medium text-gray-800">- Ngoại thành:</span> 3-7 ngày làm việc, tùy thuộc vào khoảng cách địa lý.</p>
+            <p className="text-gray-500 italic">
+                *Thời gian có thể thay đổi trong các dịp lễ, Tết, hoặc trong trường hợp bất khả kháng.
+            </p>
         </div>
+    </div>
+
+    {/* 3. Phí vận chuyển */}
+    <div className="bg-gray-50 p-6 rounded-lg shadow-sm mb-6 transition-transform duration-300 transform hover:scale-105">
+        <h2 className="text-2xl font-semibold text-black mb-3">3. Phí vận chuyển</h2>
+        <p className="text-gray-600 leading-relaxed mb-3">
+            Phí vận chuyển tính dựa trên địa chỉ, trọng lượng và kích thước sản phẩm. Quý khách sẽ thấy phí cụ thể khi thanh toán.
+        </p>
+        <p className="text-gray-600 leading-relaxed">
+            Mobile Store thường xuyên có các chương trình miễn phí vận chuyển cho đơn hàng đạt yêu cầu. Theo dõi trang web của chúng tôi để cập nhật.
+        </p>
+    </div>
+
+    {/* 4. Chính sách kiểm tra hàng */}
+    <div className="bg-gray-50 p-6 rounded-lg shadow-sm mb-6 transition-transform duration-300 transform hover:scale-105">
+        <h2 className="text-2xl font-semibold text-black mb-3">4. Chính sách kiểm tra hàng</h2>
+        <p className="text-gray-600 leading-relaxed">
+            Khách hàng có thể mở hộp và kiểm tra sản phẩm trước khi thanh toán. Nếu phát hiện vấn đề, quý khách vui lòng từ chối nhận hàng và liên hệ chăm sóc khách hàng của Mobile Store để được hỗ trợ.
+        </p>
+    </div>
+
+    {/* 5. Chính sách đổi trả khi sản phẩm bị lỗi do vận chuyển */}
+    <div className="bg-gray-50 p-6 rounded-lg shadow-sm mb-6 transition-transform duration-300 transform hover:scale-105">
+        <h2 className="text-2xl font-semibold text-black mb-3">5. Chính sách đổi trả khi sản phẩm bị lỗi do vận chuyển</h2>
+        <p className="text-gray-600 leading-relaxed">
+            Nếu sản phẩm bị hư hại do vận chuyển, Mobile Store hỗ trợ đổi sản phẩm mới. Vui lòng liên hệ trong vòng 48 giờ kể từ khi nhận hàng.
+        </p>
+    </div>
+
+    {/* Liên hệ */}
+    <div className="bg-gray-50 p-6 rounded-lg shadow-sm mb-6 transition-transform duration-300 transform hover:scale-105">
+        <h2 className="text-2xl font-semibold text-black mb-3">Liên hệ</h2>
+        <p className="text-gray-600 leading-relaxed">
+            Mọi thắc mắc về chính sách vận chuyển, vui lòng liên hệ qua email: 
+            <a 
+                href="mailto:thongdc2095n525@vlvh.ctu.edu.vn" 
+                className="text-blue-600 hover:underline hover:text-red-500 transition-colors duration-200"
+            >
+                thongdc2095n525@vlvh.ctu.edu.vn
+            </a> hoặc hotline: 
+            <a 
+                href="tel:0337615279" 
+                className="text-blue-600 hover:underline hover:text-red-500 transition-colors duration-200"
+            >
+                0337615279
+            </a>.
+        </p>
+    </div>
+</div>
+
 
                 <div>
                     <div className='py-10 border-t flex flex-col'>
