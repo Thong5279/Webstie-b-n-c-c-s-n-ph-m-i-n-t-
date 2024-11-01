@@ -253,6 +253,25 @@ const Cart = () => {
         }));
     };
 
+    const [selectAllChecked, setSelectAllChecked] = useState(false);
+
+    // Reset selectAllChecked when data changes
+    useEffect(() => {
+        setSelectAllChecked(false);
+    }, [data]);
+
+    const handleSelectAll = () => {
+        const newSelectAllState = !selectAllChecked;
+        setSelectAllChecked(newSelectAllState);
+
+        // Cập nhật trạng thái chọn cho tất cả sản phẩm dựa trên newSelectAllState
+        const updatedSelectedProducts = {};
+        data.forEach(product => {
+            updatedSelectedProducts[product._id] = newSelectAllState;
+        });
+        setSelectedProducts(updatedSelectedProducts);
+    };
+
   return (
     <div className='container mx-auto'>
         <div className='text-center text-lg my-3'>
@@ -300,7 +319,23 @@ const Cart = () => {
                 )
             }
         </div>
-
+        
+        <div className=' my-12 px-4'>
+            {/* Checkbox Chọn Tất Cả */}
+            {
+                data.length > 0 && (
+            <div className="flex items-center gap-4 mb-4">
+                <input 
+                    type="checkbox"
+                    className="w-5 h-5 cursor-pointer"
+                    checked={selectAllChecked}
+                    onChange={handleSelectAll}
+                />
+                <label className="text-lg font-medium">Chọn tất cả sản phẩm</label>
+                </div>
+                )
+            }
+        
         {
             // Kiem tra neu khong có đơn hàng nào trong giỏ hàng thì ẩn phần thanh toán
             data.length > 0 && (
@@ -491,6 +526,9 @@ const Cart = () => {
                 </div>
             )
         }
+
+        </div>
+
 
     </div>
   )
