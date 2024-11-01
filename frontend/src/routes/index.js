@@ -16,6 +16,9 @@ import AllContact from '../pages/AllContact'
 import Contact from '../pages/Contact'
 import Profile from '../pages/Profile'
 import ResetPassword from '../pages/ResetPassword'
+import BuyProduct from '../components/BuyProduct'
+import GuiPayMent from '../components/GuiPayMent'
+import Shipping from '../components/Shipping'
 const router = createBrowserRouter([
     {
         path : "/",
@@ -65,6 +68,18 @@ const router = createBrowserRouter([
             {
                 path: "profile",
                 element: <Profile/>
+            },
+            {
+                path: '/guide/shopping',
+                element: <BuyProduct />
+            },
+            {
+                path: '/guide/payment',
+                element: <GuiPayMent />
+            },
+            {
+                path: '/policy/shipping',
+                element: <Shipping />
             },
             {
                 path : "admin-panel",
