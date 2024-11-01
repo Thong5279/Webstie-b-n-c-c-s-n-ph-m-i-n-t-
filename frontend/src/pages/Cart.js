@@ -327,7 +327,7 @@ const Cart = () => {
             <div className="flex items-center gap-4 mb-4">
                 <input 
                     type="checkbox"
-                    className="w-5 h-5 cursor-pointer"
+                    className="w-5 h-5 cursor-pointer accent-red-600"
                     checked={selectAllChecked}
                     onChange={handleSelectAll}
                 />
@@ -355,7 +355,7 @@ const Cart = () => {
                                     <div className='flex' key={product?._id}>
                                         <input 
                                             type='checkbox' 
-                                            className="w-5 mx-4 bg-red-500 cursor-pointer"
+                                            className="w-5 mx-4 cursor-pointer accent-red-600"
                                             checked={selectedProducts[product._id] || false}
                                             onChange={() => handleCheckboxChange(product._id)}
                                         />
