@@ -103,7 +103,7 @@ const Footer = () => {
 
         {/* Phần bản quyền */}
         <div className="border-t border-gray-200 mt-8 pt-8 text-center">
-          <p className="text-gray-500">© 2024 Tech Store. Tất cả quyền được bảo lưu.</p>
+          <p className="text-gray-500">© 2024 Mobile Store. Tất cả quyền được bảo lưu.</p>
         </div>
       </div>
     </footer>

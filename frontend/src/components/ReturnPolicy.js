@@ -15,7 +15,7 @@ const ReturnPolicy = () => {
         
         {/* <!-- Giới thiệu về chính sách đổi trả --> */}
         <p class="text-lg text-gray-700 mb-6">
-            <strong>Mobile Store</strong> cam kết đảm bảo quyền lợi tối đa cho khách hàng với chính sách đổi trả rõ ràng. Nếu sản phẩm gặp vấn đề về chất lượng, quý khách có thể yêu cầu đổi trả theo các điều kiện dưới đây.
+            <strong className='text-black'>Mobile Store</strong> cam kết đảm bảo quyền lợi tối đa cho khách hàng với chính sách đổi trả rõ ràng. Nếu sản phẩm gặp vấn đề về chất lượng, quý khách có thể yêu cầu đổi trả theo các điều kiện dưới đây.
         </p>
 
         {/* <!-- Điều kiện đổi trả --> */}

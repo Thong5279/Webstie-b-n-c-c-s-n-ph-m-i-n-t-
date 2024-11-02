@@ -20,6 +20,7 @@ import BuyProduct from '../components/BuyProduct'
 import GuiPayMent from '../components/GuiPayMent'
 import Shipping from '../components/Shipping'
 import ReturnPolicy from '../components/ReturnPolicy'
+import Warranty from '../components/Warranty'
 const router = createBrowserRouter([
     {
         path : "/",
@@ -85,6 +86,10 @@ const router = createBrowserRouter([
             {
                 path: '/policy/return',
                 element: <ReturnPolicy />
+            },
+            {
+                path: '/policy/warranty',
+                element: <Warranty />
             },
             {
                 path : "admin-panel",

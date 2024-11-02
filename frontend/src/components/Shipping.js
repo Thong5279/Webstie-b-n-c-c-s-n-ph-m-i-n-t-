@@ -32,7 +32,7 @@ const Shipping = () => {
     
     {/* Giới thiệu về chính sách vận chuyển */}
     <p className="text-lg text-gray-600 leading-relaxed mb-8 px-2 text-justify">
-        Mobile Store luôn cố gắng đem lại dịch vụ vận chuyển tốt nhất nhằm đảm bảo khách hàng nhận được sản phẩm trong thời gian nhanh chóng và an toàn nhất.
+        <strong className='text-black'>Mobile Store</strong> luôn cố gắng đem lại dịch vụ vận chuyển tốt nhất nhằm đảm bảo khách hàng nhận được sản phẩm trong thời gian nhanh chóng và an toàn nhất.
     </p>
 
     {/* 1. Phạm vi giao hàng */}
