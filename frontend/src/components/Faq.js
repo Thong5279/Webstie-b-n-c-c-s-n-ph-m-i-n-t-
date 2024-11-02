@@ -19,7 +19,7 @@ const FAQItem = ({ question, answer }) => {
             </button>
             {isOpen && (
                 <div className="text-gray-700 mt-3 px-5 pb-4">
-                    <p>{answer}</p>
+                    <p className='font-[500]'>{answer}</p>
                 </div>
             )}
         </div>

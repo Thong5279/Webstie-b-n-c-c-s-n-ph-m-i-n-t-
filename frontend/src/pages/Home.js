@@ -4,12 +4,14 @@ import BannerProduct from '../components/BannerProduct'
 import HorizontalCardProduct from '../components/HorizontalCardProduct'
 import VerticalCardProduct from '../components/VerticalCardProduct'
 import ChatBox from '../components/ChatBox'
+import ZaloBox from '../components/ZaloBox'
 
 const Home = () => {
   return (
     <div>
       <CategoryList/>
       <BannerProduct />
+      <ZaloBox />
       <ChatBox />
 
       <HorizontalCardProduct category={"smartwatch"}heading={"Smart watch nổi bật"}/>

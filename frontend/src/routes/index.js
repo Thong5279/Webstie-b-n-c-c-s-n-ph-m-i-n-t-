@@ -23,6 +23,8 @@ import ReturnPolicy from '../components/ReturnPolicy'
 import Warranty from '../components/Warranty'
 import Privacy from '../components/Privacy'
 import Faq from '../components/Faq'
+import ZaloBox from '../components/ZaloBox'
+import ZaloInformation from '../components/ZaloInformation'
 const router = createBrowserRouter([
     {
         path : "/",
@@ -100,6 +102,10 @@ const router = createBrowserRouter([
             {
                 path: '/faq',
                 element: <Faq />
+            },
+            {
+                path: '/zalo-box',
+                element: <ZaloInformation />
             },
             {
                 path : "admin-panel",
