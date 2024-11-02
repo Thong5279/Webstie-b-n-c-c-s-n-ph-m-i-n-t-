@@ -33,9 +33,9 @@ const Warranty = () => {
             </p>
 
             {/* <!-- 1. Điều kiện bảo hành --> */}
-            <div class="bg-gray-50 p-6 rounded-lg shadow-sm mb-6 transition-transform duration-300 transform hover:scale-105">
-                <h2 class="text-2xl font-semibold text-black mb-3">1. Điều kiện bảo hành</h2>
-                <ul class="list-disc pl-6 space-y-3 text-gray-600">
+            <div class="bg-gray-50 p-6 rounded-lg shadow-sm mb-6 transition-transform duration-300 transform hover:scale-105 hover:bg-red-400 group">
+                <h2 class="text-2xl font-semibold text-black mb-3 group-hover:text-white">1. Điều kiện bảo hành</h2>
+                <ul class="list-disc pl-6 space-y-3 text-gray-600 group-hover:text-white">
                     <li>Sản phẩm còn trong thời hạn bảo hành (tính từ ngày mua hàng).</li>
                     <li>Sản phẩm có phiếu bảo hành hoặc hóa đơn mua hàng từ Mobile Store.</li>
                     <li>Sản phẩm gặp vấn đề kỹ thuật hoặc lỗi từ nhà sản xuất.</li>
@@ -44,9 +44,9 @@ const Warranty = () => {
             </div>
 
             {/* <!-- 2. Các trường hợp không áp dụng bảo hành --> */}
-            <div class="bg-gray-50 p-6 rounded-lg shadow-sm mb-6 transition-transform duration-300 transform hover:scale-105">
-                <h2 class="text-2xl font-semibold text-black mb-3">2. Các trường hợp không áp dụng bảo hành</h2>
-                <ul class="list-disc pl-6 space-y-3 text-gray-600">
+            <div class="bg-gray-50 p-6 rounded-lg shadow-sm mb-6 transition-transform duration-300 transform hover:scale-105 hover:bg-red-400 group">
+                <h2 class="text-2xl font-semibold text-black mb-3 group-hover:text-white">2. Các trường hợp không áp dụng bảo hành</h2>
+                <ul class="list-disc pl-6 space-y-3 text-gray-600 group-hover:text-white">
                     <li>Sản phẩm đã hết thời hạn bảo hành.</li>
                     <li>Sản phẩm hư hỏng do va đập, rơi vỡ hoặc tác động bên ngoài.</li>
                     <li>Sản phẩm bị hư hại do nước hoặc các chất lỏng khác.</li>
@@ -55,17 +55,17 @@ const Warranty = () => {
             </div>
 
             {/* <!-- 3. Thời gian bảo hành --> */}
-            <div class="bg-gray-50 p-6 rounded-lg shadow-sm mb-6 transition-transform duration-300 transform hover:scale-105">
-                <h2 class="text-2xl font-semibold text-black mb-3">3. Thời gian bảo hành</h2>
-                <p class="text-gray-600 leading-relaxed">
+            <div class="bg-gray-50 p-6 rounded-lg shadow-sm mb-6 transition-transform duration-300 transform hover:scale-105 hover:bg-red-400 group">
+                <h2 class="text-2xl font-semibold text-black mb-3 group-hover:text-white">3. Thời gian bảo hành</h2>
+                <p class="text-gray-600 leading-relaxed group-hover:text-white">
                     Thời gian bảo hành thông thường từ 6 tháng đến 12 tháng, tùy thuộc vào loại sản phẩm và quy định của nhà sản xuất. Thời gian xử lý bảo hành dự kiến từ 7 đến 14 ngày làm việc kể từ khi nhận sản phẩm.
                 </p>
             </div>
 
             {/* <!-- 4. Quy trình bảo hành --> */}
-            <div class="bg-gray-50 p-6 rounded-lg shadow-sm mb-6 transition-transform duration-300 transform hover:scale-105">
-                <h2 class="text-2xl font-semibold text-black mb-3">4. Quy trình bảo hành</h2>
-                <ol class="list-decimal pl-6 space-y-3 text-gray-600">
+            <div class="bg-gray-50 p-6 rounded-lg shadow-sm mb-6 transition-transform duration-300 transform hover:scale-105 hover:bg-red-400 group">
+                <h2 class="text-2xl font-semibold text-black mb-3 group-hover:text-white">4. Quy trình bảo hành</h2>
+                <ol class="list-decimal pl-6 space-y-3 text-gray-600 group-hover:text-white">
                     <li>Liên hệ với bộ phận chăm sóc khách hàng qua hotline <a href="tel:0337615279" class="text-blue-600 hover:underline">0337615279</a> hoặc email <a href="mailto:support@mobilestore.com" class="text-blue-600 hover:underline">thongdc2095n525@vlvh.ctu.edu.vn</a> để đăng ký yêu cầu bảo hành.</li>
                     <li>Cung cấp thông tin sản phẩm và mô tả vấn đề cần bảo hành.</li>
                     <li>Gửi sản phẩm về trung tâm bảo hành hoặc địa chỉ được chỉ định. Mobile Store sẽ hướng dẫn quy trình chi tiết khi tiếp nhận yêu cầu.</li>
@@ -74,9 +74,9 @@ const Warranty = () => {
             </div>
 
             {/* <!-- 5. Liên hệ hỗ trợ --> */}
-            <div class="bg-gray-50 p-6 rounded-lg shadow-sm transition-transform duration-300 transform hover:scale-105">
-                <h2 class="text-2xl font-semibold text-black mb-3">5. Liên hệ hỗ trợ</h2>
-                <p class="text-gray-600 leading-relaxed">
+            <div class="bg-gray-50 p-6 rounded-lg shadow-sm transition-transform duration-300 transform hover:scale-105 hover:bg-red-400 group">
+                <h2 class="text-2xl font-semibold text-black mb-3 group-hover:text-white">5. Liên hệ hỗ trợ</h2>
+                <p class="text-gray-600 leading-relaxed group-hover:text-white">
                     Nếu có bất kỳ câu hỏi nào về chính sách bảo hành, vui lòng liên hệ với chúng tôi qua email: 
                     <a href="mailto:thongdc2095n525@vlvh.ctu.edu.vn" class="text-blue-600 hover:underline hover:text-red-500">thongdc2095n525@vlvh.ctu.edu.vn</a> hoặc hotline: 
                     <a href="tel:0337615279" class="text-blue-600 hover:underline hover:text-red-500">0337615279</a>.
@@ -123,7 +123,7 @@ const Warranty = () => {
                     )
                 }
             </div>
-                </div>
+        </div>
 
     </div>
 

@@ -21,6 +21,8 @@ import GuiPayMent from '../components/GuiPayMent'
 import Shipping from '../components/Shipping'
 import ReturnPolicy from '../components/ReturnPolicy'
 import Warranty from '../components/Warranty'
+import Privacy from '../components/Privacy'
+import Faq from '../components/Faq'
 const router = createBrowserRouter([
     {
         path : "/",
@@ -90,6 +92,14 @@ const router = createBrowserRouter([
             {
                 path: '/policy/warranty',
                 element: <Warranty />
+            },
+            {
+                path: '/policy/privacy',
+                element: <Privacy />
+            },
+            {
+                path: '/faq',
+                element: <Faq />
             },
             {
                 path : "admin-panel",

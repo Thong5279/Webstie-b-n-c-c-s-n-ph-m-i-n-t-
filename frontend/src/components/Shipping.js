@@ -36,56 +36,56 @@ const Shipping = () => {
     </p>
 
     {/* 1. Phạm vi giao hàng */}
-    <div className="bg-gray-50 p-6 rounded-lg shadow-sm mb-6 transition-transform duration-300 transform hover:scale-105">
-        <h2 className="text-2xl font-semibold text-black mb-3">1. Phạm vi giao hàng</h2>
-        <p className="text-gray-600 leading-relaxed">
+    <div className="bg-gray-50 p-6 rounded-lg shadow-sm mb-6 transition-transform duration-300 transform hover:scale-105 hover:bg-red-400 group">
+        <h2 className="text-2xl font-semibold text-black mb-3 group-hover:text-white">1. Phạm vi giao hàng</h2>
+        <p className="text-gray-600 leading-relaxed group-hover:text-white">
             Chúng tôi hỗ trợ giao hàng toàn quốc, bao gồm tất cả các tỉnh thành và khu vực ngoại thành, hải đảo, nhằm đảm bảo mọi khách hàng đều có thể nhận sản phẩm.
         </p>
     </div>
 
     {/* 2. Thời gian giao hàng */}
-    <div className="bg-gray-50 p-6 rounded-lg shadow-sm mb-6 transition-transform duration-300 transform hover:scale-105">
-        <h2 className="text-2xl font-semibold text-black mb-3">2. Thời gian giao hàng</h2>
-        <div className="space-y-3">
-            <p className="text-gray-600"><span className="font-medium text-gray-800">- Nội thành:</span> 1-3 ngày làm việc kể từ ngày đặt hàng.</p>
-            <p className="text-gray-600"><span className="font-medium text-gray-800">- Ngoại thành:</span> 3-7 ngày làm việc, tùy thuộc vào khoảng cách địa lý.</p>
-            <p className="text-gray-500 italic">
+    <div className="bg-gray-50 p-6 rounded-lg shadow-sm mb-6 transition-transform duration-300 transform hover:scale-105 hover:bg-red-400 group">
+        <h2 className="text-2xl font-semibold text-black mb-3 group-hover:text-white">2. Thời gian giao hàng</h2>
+        <div className="space-y-3 ">
+            <p className="text-gray-600 group-hover:text-white"><span className="font-medium text-gray-800 group-hover:text-white">- Nội thành:</span> 1-3 ngày làm việc kể từ ngày đặt hàng.</p>
+            <p className="text-gray-600 group-hover:text-white"><span className="font-medium text-gray-800 group-hover:text-white">- Ngoại thành:</span> 3-7 ngày làm việc, tùy thuộc vào khoảng cách địa lý.</p>
+            <p className="text-gray-500 italic group-hover:text-white">
                 *Thời gian có thể thay đổi trong các dịp lễ, Tết, hoặc trong trường hợp bất khả kháng.
             </p>
         </div>
     </div>
 
     {/* 3. Phí vận chuyển */}
-    <div className="bg-gray-50 p-6 rounded-lg shadow-sm mb-6 transition-transform duration-300 transform hover:scale-105">
-        <h2 className="text-2xl font-semibold text-black mb-3">3. Phí vận chuyển</h2>
-        <p className="text-gray-600 leading-relaxed mb-3">
+    <div className="bg-gray-50 p-6 rounded-lg shadow-sm mb-6 transition-transform duration-300 transform hover:scale-105 hover:bg-red-400 group">
+        <h2 className="text-2xl font-semibold text-black mb-3 group-hover:text-white">3. Phí vận chuyển</h2>
+        <p className="text-gray-600 leading-relaxed mb-3 group-hover:text-white">
             Phí vận chuyển tính dựa trên địa chỉ, trọng lượng và kích thước sản phẩm. Quý khách sẽ thấy phí cụ thể khi thanh toán.
         </p>
-        <p className="text-gray-600 leading-relaxed">
+        <p className="text-gray-600 leading-relaxed group-hover:text-white">
             Mobile Store thường xuyên có các chương trình miễn phí vận chuyển cho đơn hàng đạt yêu cầu. Theo dõi trang web của chúng tôi để cập nhật.
         </p>
     </div>
 
     {/* 4. Chính sách kiểm tra hàng */}
-    <div className="bg-gray-50 p-6 rounded-lg shadow-sm mb-6 transition-transform duration-300 transform hover:scale-105">
-        <h2 className="text-2xl font-semibold text-black mb-3">4. Chính sách kiểm tra hàng</h2>
-        <p className="text-gray-600 leading-relaxed">
+    <div className="bg-gray-50 p-6 rounded-lg shadow-sm mb-6 transition-transform duration-300 transform hover:scale-105 hover:bg-red-400 group">
+        <h2 className="text-2xl font-semibold text-black mb-3 group-hover:text-white">4. Chính sách kiểm tra hàng</h2>
+        <p className="text-gray-600 leading-relaxed group-hover:text-white">
             Khách hàng có thể mở hộp và kiểm tra sản phẩm trước khi thanh toán. Nếu phát hiện vấn đề, quý khách vui lòng từ chối nhận hàng và liên hệ chăm sóc khách hàng của Mobile Store để được hỗ trợ.
         </p>
     </div>
 
     {/* 5. Chính sách đổi trả khi sản phẩm bị lỗi do vận chuyển */}
-    <div className="bg-gray-50 p-6 rounded-lg shadow-sm mb-6 transition-transform duration-300 transform hover:scale-105">
-        <h2 className="text-2xl font-semibold text-black mb-3">5. Chính sách đổi trả khi sản phẩm bị lỗi do vận chuyển</h2>
-        <p className="text-gray-600 leading-relaxed">
+    <div className="bg-gray-50 p-6 rounded-lg shadow-sm mb-6 transition-transform duration-300 transform hover:scale-105 hover:bg-red-400 group">
+        <h2 className="text-2xl font-semibold text-black mb-3 group-hover:text-white">5. Chính sách đổi trả khi sản phẩm bị lỗi do vận chuyển</h2>
+        <p className="text-gray-600 leading-relaxed group-hover:text-white">
             Nếu sản phẩm bị hư hại do vận chuyển, Mobile Store hỗ trợ đổi sản phẩm mới. Vui lòng liên hệ trong vòng 48 giờ kể từ khi nhận hàng.
         </p>
     </div>
 
     {/* Liên hệ */}
-    <div className="bg-gray-50 p-6 rounded-lg shadow-sm mb-6 transition-transform duration-300 transform hover:scale-105">
-        <h2 className="text-2xl font-semibold text-black mb-3">Liên hệ</h2>
-        <p className="text-gray-600 leading-relaxed">
+    <div className="bg-gray-50 p-6 rounded-lg shadow-sm mb-6 transition-transform duration-300 transform hover:scale-105 hover:bg-red-400 group">
+        <h2 className="text-2xl font-semibold text-black mb-3 group-hover:text-white">Liên hệ</h2>
+        <p className="text-gray-600 leading-relaxed group-hover:text-white">
             Mọi thắc mắc về chính sách vận chuyển, vui lòng liên hệ qua email: 
             <a 
                 href="mailto:thongdc2095n525@vlvh.ctu.edu.vn" 
