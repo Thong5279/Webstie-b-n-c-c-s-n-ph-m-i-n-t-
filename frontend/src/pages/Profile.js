@@ -202,7 +202,7 @@ const Profile = () => {
 
                 <form onSubmit={handleSubmit} className="space-y-4">
                     {/* Họ tên */}
-                    <div className="flex items-center space-x-4 border-b-[1px] pb-3">
+                    <div className="flex space-x-4 border-b-[1px] pb-3">
                         <FaUser className="text-red-600 text-xl" />
                         <div className="flex-1">
                             <label className="block text-slate-700 mb-1 text-lg uppercase font-semibold">Họ tên</label>
@@ -222,7 +222,7 @@ const Profile = () => {
                     </div>
 
                     {/* Email */}
-                    <div className="flex items-center space-x-4 border-b-[1px] pb-3">
+                    <div className="flex space-x-4 border-b-[1px] pb-3">
                         <FaEnvelope className="text-red-600 text-xl" />
                         <div className="flex-1">
                             <label className="block mb-1 text-slate-700 text-lg uppercase font-semibold">Email</label>
@@ -231,7 +231,7 @@ const Profile = () => {
                     </div>
 
                     {/* Số điện thoại */}
-                    <div className="flex items-center space-x-4 border-b-[1px] pb-3">
+                    <div className="flex space-x-4 border-b-[1px] pb-3">
                         <FaPhone className="text-red-600 text-xl" />
                         <div className="flex-1">
                             <label className="block mb-1 text-slate-700 text-lg uppercase font-semibold">Số điện thoại</label>
@@ -251,7 +251,7 @@ const Profile = () => {
                     </div>
 
                     {/* Địa chỉ */}
-                    <div className="flex items-center space-x-4 border-b-[1px] pb-3">
+                    <div className="flex space-x-4 border-b-[1px] pb-3">
                         <FaMapMarkerAlt className="text-red-600 text-xl" />
                         <div className="flex-1">
                             <label className="block mb-1 text-slate-700 text-lg uppercase font-semibold">Địa chỉ</label>
@@ -271,7 +271,7 @@ const Profile = () => {
                     </div>
 
                     {/* Giới tính */}
-                    <div className="flex items-center space-x-4">
+                    <div className="flex space-x-4">
                         <FaTransgender className="text-red-600 text-xl" />
                         <div className="flex-1">
                             <label className="block mb-1 text-slate-700 text-lg uppercase font-semibold">Giới tính</label>
