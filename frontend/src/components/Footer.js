@@ -14,7 +14,7 @@ const Footer = () => {
             <ul className="space-y-3 text-gray-600">
               <li className="flex items-center gap-2 hover:text-red-600 transition-colors">
                 <MdLocationOn className="text-red-600" />
-                123 Đường ABC, Quận XYZ, TP.Cần Thơ
+                  <a href='https://www.google.com/maps/place/%C4%90%E1%BA%A1i+h%E1%BB%8Dc+C%E1%BA%A7n+Th%C6%A1/@10.0275593,105.7661104,5283m/data=!3m1!1e3!4m6!3m5!1s0x31a0895a51d60719:0x9d76b0035f6d53d0!8m2!3d10.0299337!4d105.7706153!16s%2Fm%2F02r6wmy?hl=vi-VN&entry=ttu&g_ep=EgoyMDI0MTAyOS4wIKXMDSoASAFQAw%3D%3D'>123 Đường ABC, Quận XYZ, TP.Cần Thơ</a>
               </li>
               <li className="flex items-center gap-2 hover:text-red-600 transition-colors">
                 <MdPhone className="text-red-600" />
