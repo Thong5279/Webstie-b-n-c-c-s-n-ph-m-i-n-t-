@@ -162,6 +162,22 @@ const Cart = () => {
         }
     }
 
+    const handlePayment = async() => {
+        const response = await fetch(SummaryApi.payment.url, {
+            method: SummaryApi.payment.method,
+            credentials: 'include',
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                cartItems : data,
+            })
+        })
+        const responseData = await response.json()
+
+        console.log("responseData", responseData)
+    }
+
     const totalQty = data.reduce((previousValue, currentValue) => 
         selectedProducts[currentValue._id] ? previousValue + currentValue.quantityCart : previousValue, 0);
 
@@ -387,142 +403,148 @@ const Cart = () => {
                             )
                         }    
                     </div>
-
-                    <div className='mt-5 lg:mt-0 w-full max-w-full'>
-                        {
-                            loading ? (
-                                <div className='h-36 bg-slate-200 border border-slate-300 animate-pulse'>
-                                </div>
-                            ) : (
-                                <>
-                                    <div className='min-h-36 bg-white rounded-lg shadow-lg'>
-                                        <h2 className='text-white bg-gradient-to-r from-red-600 to-red-400 px-6 py-3 rounded-t-lg text-xl font-bold flex items-center gap-3'>
-                                            <FaShoppingBag className="text-2xl"/> Đơn Hàng Của Bạn
-                                        </h2>
-                                        <div className='flex items-center justify-between px-6 py-4 font-medium gap-2 text-lg text-slate-600 border-b'>
-                                            <p className='flex items-center gap-2'><FaBox className="text-red-500 text-xl"/> Số Lượng Sản Phẩm:</p>
-                                            <p className='text-xl font-semibold'>{totalQty}</p>
-                                        </div>
-                                        <div className='flex items-center justify-between px-6 py-4 font-medium gap-2 text-lg text-slate-600 border-b'>
-                                            <p className='flex items-center gap-2'>
-                                                <FaUser className="text-red-500 text-xl"/> Thông tin người nhận:
-                                            </p>
-                                            <p className="text-lg font-medium">{userInfo.name}</p>
-                                        </div>
-                                        <div className='flex items-center justify-between px-6 py-4 font-medium gap-2 text-lg text-slate-600 border-b'>
-                                            <p className='flex items-center gap-2'>
-                                                <FaPhoneAlt className="text-red-500 text-xl"/> Số điện thoại:
-                                            </p>
-                                            <p className="text-lg font-medium">{userInfo.phone}</p>
-                                        </div>
-                                        <div className='flex items-center justify-between px-6 py-4 font-medium gap-2 text-lg text-slate-600 border-b'>
-                                            <p className='flex items-center gap-2'>
-                                                <FaMapMarkerAlt className="text-red-500 text-xl"/> Địa chỉ nhận hàng:
-                                            </p>
-                                            <p className="text-lg font-medium">{userInfo.address}</p>
-                                        </div>
-                                        <div className='px-6 py-4 font-medium text-slate-600 flex items-center justify-between border-b'>
-                                            <p className='pb-2 text-left flex items-center gap-2'><FaGift className="text-red-500 text-xl"/> Mã Giảm Giá:</p>
-                                            <input placeholder='Nhập mã giảm giá' className='outline-none border border-solid p-3 w-[270px] focus:border-red-500 transition duration-300 rounded-lg' />
-                                        </div>
-
-                                        <div className='px-6 flex items-center justify-between border-b py-4'>
-                                            <label className='text-slate-600 font-medium text-lg flex items-center gap-2'>
-                                                <FaPercent className="text-red-500 text-xl"/> Voucher Của Shop:
-                                            </label>
-                                            <select 
-                                                className='ml-3 border border-solid hover:border-red-500 outline-none p-3 cursor-pointer w-[270px] transition duration-300 rounded-lg'
-                                                onChange={handleVoucherChange}
-                                            >
-                                                <option>Chọn Voucher</option>
-                                                {totalPrice >= 1000000 && <option>Giảm tối đa 5%</option>}
-                                                {totalPrice >= 3000000 && <option>Giảm tối đa 10%</option>}
-                                                {totalPrice >= 5000000 && <option>Giảm tối đa 15%</option>}
-                                            </select>
-                                        </div>
-
-                                        <div className='px-6 flex items-center justify-between border-b py-4'>
-                                            <label className='text-slate-600 font-medium text-lg flex items-center gap-2'><FaShippingFast className="text-red-500 text-xl"/> Đơn vị vận chuyển:</label>
-                                            <select 
-                                                className='ml-3 border border-solid hover:border-red-500 outline-none p-3 cursor-pointer w-[270px] transition duration-300 rounded-lg'
-                                                onChange={handleShippingChange}
-                                            >
-                                                <option>Chọn đơn vị vận chuyển</option>
-                                                <option>Giao hàng nhanh</option>
-                                                <option>NinJa Van</option>
-                                                <option>Giao hàng tiết kiệm</option>
-                                            </select>
-                                        </div>
-                                        {showShippingFee && (
-                                        <div className='flex justify-between items-center px-6 py-4 border-b'>
-                                            <p className='flex text-slate-600 font-medium text-lg items-center gap-2'><FaTruck className="text-red-500 text-xl"/> Phí vận chuyển:</p>
-                                            <p className='text-slate-600 font-semibold text-lg flex items-center gap-2'>
-                                                {finalPrice >= 5000000 ? (
-                                                <>
-                                                    <FaGift className="text-green-500 text-xl"/> Miễn phí
-                                                </>
-                                                ) : (
-                                                <>
-                                                    <FaMoneyBillWave className="text-red-500 text-xl"/> {displayVNDCurrency(shippingFee)}
-                                                </>
-                                                )}
-                                            </p>
-                                        </div>
-                                        )}
-
-                                        <div className='px-6 flex items-center justify-between border-b py-4'>
-                                            <label className='text-slate-600 font-medium text-lg flex items-center gap-2'>
-                                                <FaMoneyBillWave className="text-red-500 text-xl"/> Phương Thức Thanh Toán:
-                                            </label>
-                                            <div className='relative'>
-                                                <div 
-                                                    className='ml-3 border border-solid hover:border-red-500 outline-none p-3 cursor-pointer w-[270px] transition duration-300 rounded-lg flex items-center justify-between'
-                                                    onClick={() => setShowPaymentDropdown(!showPaymentDropdown)}
-                                                >
-                                                    <div className='flex items-center gap-2'>
-                                                        {selectedPayment.icon}
-                                                        <span>{selectedPayment.text}</span>
-                                                    </div>
-                                                    <FaAngleDown className={`transition-transform duration-300 ${showPaymentDropdown ? 'rotate-180' : ''}`}/>
-                                                </div>
-                                                
-                                                {showPaymentDropdown && (
-                                                    <ul className='absolute z-10 mt-1 bg-white border border-gray-200 rounded-lg shadow-lg w-full'>
-                                                        {paymentOptions.map((option, index) => (
-                                                            <li 
-                                                                key={index}
-                                                                className='px-4 py-3 hover:bg-gray-50 cursor-pointer flex items-center gap-2'
-                                                                onClick={() => handlePaymentSelect(option)}
-                                                            >
-                                                                {option.icon}
-                                                                <span>{option.text}</span>
-                                                            </li>
-                                                        ))}
-                                                    </ul>
-                                                )}
+                    {/* Thanh toán */}
+                    {
+                        data[0] && (
+                            <div className='mt-5 lg:mt-0 w-full max-w-full'>
+                            {
+                                loading ? (
+                                    <div className='h-36 bg-slate-200 border border-slate-300 animate-pulse'>
+                                    </div>
+                                ) : (
+                                    <>
+                                        <div className='min-h-36 bg-white rounded-lg shadow-lg'>
+                                            <h2 className='text-white bg-gradient-to-r from-red-600 to-red-400 px-6 py-3 rounded-t-lg text-xl font-bold flex items-center gap-3'>
+                                                <FaShoppingBag className="text-2xl"/> Đơn Hàng Của Bạn
+                                            </h2>
+                                            <div className='flex items-center justify-between px-6 py-4 font-medium gap-2 text-lg text-slate-600 border-b'>
+                                                <p className='flex items-center gap-2'><FaBox className="text-red-500 text-xl"/> Số Lượng Sản Phẩm:</p>
+                                                <p className='text-xl font-semibold'>{totalQty}</p>
                                             </div>
-                                        </div>
-
-                                        {selectedVoucher > 0 && (
                                             <div className='flex items-center justify-between px-6 py-4 font-medium gap-2 text-lg text-slate-600 border-b'>
                                                 <p className='flex items-center gap-2'>
-                                                    <FaTicketAlt className="text-red-500 text-xl"/> Số tiền được giảm:
+                                                    <FaUser className="text-red-500 text-xl"/> Thông tin người nhận:
                                                 </p>
-                                                <p className="text-red-500 text-xl font-bold">-{displayVNDCurrency(discountAmount)}</p>
+                                                <p className="text-lg font-medium">{userInfo.name}</p>
                                             </div>
-                                        )}
-                                        <div className='flex items-center justify-between px-6 py-4 font-medium gap-2 text-xl border-b'>
-                                            <p className='flex items-center gap-2'><BiSolidCoinStack className="text-red-500 text-2xl"/> Tổng Thanh Toán:</p>
-                                            <p className="text-red-600 font-bold text-2xl">{displayVNDCurrency(finalPrice + (finalPrice >= 5000000 ? 0 : shippingFee))}</p>
+                                            <div className='flex items-center justify-between px-6 py-4 font-medium gap-2 text-lg text-slate-600 border-b'>
+                                                <p className='flex items-center gap-2'>
+                                                    <FaPhoneAlt className="text-red-500 text-xl"/> Số điện thoại:
+                                                </p>
+                                                <p className="text-lg font-medium">{userInfo.phone}</p>
+                                            </div>
+                                            <div className='flex items-center justify-between px-6 py-4 font-medium gap-2 text-lg text-slate-600 border-b'>
+                                                <p className='flex items-center gap-2'>
+                                                    <FaMapMarkerAlt className="text-red-500 text-xl"/> Địa chỉ nhận hàng:
+                                                </p>
+                                                <p className="text-lg font-medium">{userInfo.address}</p>
+                                            </div>
+                                            <div className='px-6 py-4 font-medium text-slate-600 flex items-center justify-between border-b'>
+                                                <p className='pb-2 text-left flex items-center gap-2'><FaGift className="text-red-500 text-xl"/> Mã Giảm Giá:</p>
+                                                <input placeholder='Nhập mã giảm giá' className='outline-none border border-solid p-3 w-[270px] focus:border-red-500 transition duration-300 rounded-lg' />
+                                            </div>
+    
+                                            <div className='px-6 flex items-center justify-between border-b py-4'>
+                                                <label className='text-slate-600 font-medium text-lg flex items-center gap-2'>
+                                                    <FaPercent className="text-red-500 text-xl"/> Voucher Của Shop:
+                                                </label>
+                                                <select 
+                                                    className='ml-3 border border-solid hover:border-red-500 outline-none p-3 cursor-pointer w-[270px] transition duration-300 rounded-lg'
+                                                    onChange={handleVoucherChange}
+                                                >
+                                                    <option>Chọn Voucher</option>
+                                                    {totalPrice >= 1000000 && <option>Giảm tối đa 5%</option>}
+                                                    {totalPrice >= 3000000 && <option>Giảm tối đa 10%</option>}
+                                                    {totalPrice >= 5000000 && <option>Giảm tối đa 15%</option>}
+                                                </select>
+                                            </div>
+    
+                                            <div className='px-6 flex items-center justify-between border-b py-4'>
+                                                <label className='text-slate-600 font-medium text-lg flex items-center gap-2'><FaShippingFast className="text-red-500 text-xl"/> Đơn vị vận chuyển:</label>
+                                                <select 
+                                                    className='ml-3 border border-solid hover:border-red-500 outline-none p-3 cursor-pointer w-[270px] transition duration-300 rounded-lg'
+                                                    onChange={handleShippingChange}
+                                                >
+                                                    <option>Chọn đơn vị vận chuyển</option>
+                                                    <option>Giao hàng nhanh</option>
+                                                    <option>NinJa Van</option>
+                                                    <option>Giao hàng tiết kiệm</option>
+                                                </select>
+                                            </div>
+                                            {showShippingFee && (
+                                            <div className='flex justify-between items-center px-6 py-4 border-b'>
+                                                <p className='flex text-slate-600 font-medium text-lg items-center gap-2'><FaTruck className="text-red-500 text-xl"/> Phí vận chuyển:</p>
+                                                <p className='text-slate-600 font-semibold text-lg flex items-center gap-2'>
+                                                    {finalPrice >= 5000000 ? (
+                                                    <>
+                                                        <FaGift className="text-green-500 text-xl"/> Miễn phí
+                                                    </>
+                                                    ) : (
+                                                    <>
+                                                        <FaMoneyBillWave className="text-red-500 text-xl"/> {displayVNDCurrency(shippingFee)}
+                                                    </>
+                                                    )}
+                                                </p>
+                                            </div>
+                                            )}
+    
+                                            <div className='px-6 flex items-center justify-between border-b py-4'>
+                                                <label className='text-slate-600 font-medium text-lg flex items-center gap-2'>
+                                                    <FaMoneyBillWave className="text-red-500 text-xl"/> Phương Thức Thanh Toán:
+                                                </label>
+                                                <div className='relative'>
+                                                    <div 
+                                                        className='ml-3 border border-solid hover:border-red-500 outline-none p-3 cursor-pointer w-[270px] transition duration-300 rounded-lg flex items-center justify-between'
+                                                        onClick={() => setShowPaymentDropdown(!showPaymentDropdown)}
+                                                    >
+                                                        <div className='flex items-center gap-2'>
+                                                            {selectedPayment.icon}
+                                                            <span>{selectedPayment.text}</span>
+                                                        </div>
+                                                        <FaAngleDown className={`transition-transform duration-300 ${showPaymentDropdown ? 'rotate-180' : ''}`}/>
+                                                    </div>
+                                                    
+                                                    {showPaymentDropdown && (
+                                                        <ul className='absolute z-10 mt-1 bg-white border border-gray-200 rounded-lg shadow-lg w-full'>
+                                                            {paymentOptions.map((option, index) => (
+                                                                <li 
+                                                                    key={index}
+                                                                    className='px-4 py-3 hover:bg-gray-50 cursor-pointer flex items-center gap-2'
+                                                                    onClick={() => handlePaymentSelect(option)}
+                                                                >
+                                                                    {option.icon}
+                                                                    <span>{option.text}</span>
+                                                                </li>
+                                                            ))}
+                                                        </ul>
+                                                    )}
+                                                </div>
+                                            </div>
+    
+                                            {selectedVoucher > 0 && (
+                                                <div className='flex items-center justify-between px-6 py-4 font-medium gap-2 text-lg text-slate-600 border-b'>
+                                                    <p className='flex items-center gap-2'>
+                                                        <FaTicketAlt className="text-red-500 text-xl"/> Số tiền được giảm:
+                                                    </p>
+                                                    <p className="text-red-500 text-xl font-bold">-{displayVNDCurrency(discountAmount)}</p>
+                                                </div>
+                                            )}
+                                            <div className='flex items-center justify-between px-6 py-4 font-medium gap-2 text-xl border-b'>
+                                                <p className='flex items-center gap-2'><BiSolidCoinStack className="text-red-500 text-2xl"/> Tổng Thanh Toán:</p>
+                                                <p className="text-red-600 font-bold text-2xl">{displayVNDCurrency(finalPrice + (finalPrice >= 5000000 ? 0 : shippingFee))}</p>
+                                            </div>
+                                            <div className='flex justify-center'>
+                                            {/* Đặt hàng */}
+                                            <button className='bg-gradient-to-r from-red-600 to-red-400 w-[95%] text-white p-4 my-4 hover:from-red-400 hover:to-red-600 rounded-lg font-bold text-xl transform hover:scale-105 transition duration-300 shadow-lg hover:shadow-xl flex items-center justify-center gap-3'onClick={handlePayment}><FaShoppingCart className="text-2xl"/> Đặt Hàng Ngay</button>
+                                            </div>
                                         </div>
-                                        <div className='flex justify-center'>
-                                        <button className='bg-gradient-to-r from-red-600 to-red-400 w-[95%] text-white p-4 my-4 hover:from-red-400 hover:to-red-600 rounded-lg font-bold text-xl transform hover:scale-105 transition duration-300 shadow-lg hover:shadow-xl flex items-center justify-center gap-3'><FaShoppingCart className="text-2xl"/> Đặt Hàng Ngay</button>
-                                        </div>
-                                    </div>
-                                </>
-                            )
-                        }
-                    </div>
+                                    </>
+                                )
+                            }
+                        </div>
+                        )
+                    }
+
                 </div>
             )
         }

@@ -106,6 +106,10 @@ const SummaryApi = {                                    // Định nghĩa các A
         url: `${backendDomin}/api/update-avatar`,
         method: "POST"
     },
+    payment: {
+        url: `${backendDomin}/api/checkout`,
+        method: "POST"
+    }
 
 
 
