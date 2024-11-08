@@ -138,5 +138,9 @@ const SummaryApi = {
     url: `${backendDomin}/api/checkout`,
     method: "POST",
   },
+  getOrder : {
+    url: `${backendDomin}/api/order-list`,
+    method: "GET",
+  },
 };
 export default SummaryApi; // Xuất đối tượng SummaryApi để có thể sử dụng ở các tệp khác
