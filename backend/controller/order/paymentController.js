@@ -20,7 +20,6 @@ const paymentController = async (request, response) => {
             //     }
             // ]
             customer_email: user.email,
-            phone: user.phone,
             line_items: cartItems.map((item,index) => {
                 return{
                     price_data: {
