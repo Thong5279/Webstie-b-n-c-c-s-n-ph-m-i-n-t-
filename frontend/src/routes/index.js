@@ -26,6 +26,8 @@ import Faq from '../components/Faq'
 import ZaloBox from '../components/ZaloBox'
 import ZaloInformation from '../components/ZaloInformation'
 import VoucherManager from '../components/VoucherManager'
+import Succes from '../pages/Succes'
+import Cancel from '../pages/Cancel'
 const router = createBrowserRouter([
     {
         path : "/",
@@ -107,6 +109,14 @@ const router = createBrowserRouter([
             {
                 path: '/zalo-box',
                 element: <ZaloInformation />
+            },
+            {
+                path: '/success',
+                element: <Succes />
+            },
+            {
+                path: '/cancel',
+                element: <Cancel />
             },
             {
                 path : "admin-panel",

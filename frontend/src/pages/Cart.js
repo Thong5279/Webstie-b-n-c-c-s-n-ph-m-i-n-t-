@@ -24,6 +24,7 @@ import { FaAngleDown } from "react-icons/fa";
 import { FaArrowRight } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import CheckoutPage from "../components/CheckoutPage";
+import { loadStripe } from "@stripe/stripe-js";
 
 const Cart = () => {
   const [data, setData] = useState([]);
@@ -163,6 +164,10 @@ const Cart = () => {
   };
 
   const handlePayment = async () => {
+
+    
+
+    const stripePromise = await loadStripe(process.env.REACT_APP_STRIPE_PUBLIC_KEY)
     const response = await fetch(SummaryApi.payment.url, {
       method: SummaryApi.payment.method,
       credentials: "include",
@@ -175,7 +180,12 @@ const Cart = () => {
     });
     const responseData = await response.json();
 
-    console.log("responseData", responseData);
+    if(responseData?.id){
+        stripePromise.redirectToCheckout({sessionId : responseData.id})
+
+    }
+
+    console.log("payment responseData", responseData);
   };
 
   const totalQty = data.reduce(
