@@ -80,15 +80,22 @@ const VoucherManager = () => {
   const updateVoucher = async () => {
     try {
       const response = await axios({
-        method: "PUT",
-        url: `${SummaryApi.updateVoucher.url}/${editVoucher.code}`,
-        data: editVoucher,
+        method: SummaryApi.updateVoucher.method, // Cập nhật dữ liệu nên dùng PUT
+        url: `${SummaryApi.updateVoucher.url}/${editVoucher.code}`, // Đường dẫn cập nhật voucher, sử dụng mã voucher
+        data: {
+          code: editVoucher.code,
+          discountType: editVoucher.discountType,
+          discountValue: editVoucher.discount,
+          minPurchase: editVoucher.minPurchase,
+          expirationDate: editVoucher.expirationDate,
+        },
       });
-      alert(response.data.message);
-      fetchVouchers(); // Làm mới danh sách voucher
-      setEditVoucher(null); // Ẩn form chỉnh sửa
+      alert(response.data.message); // Thông báo sau khi cập nhật thành công
+      fetchVouchers(); // Làm mới danh sách mã giảm giá
+      setEditVoucher(null); // Đặt lại trạng thái sau khi cập nhật thành công
     } catch (error) {
       console.error("Lỗi khi cập nhật mã giảm giá:", error);
+      alert("Cập nhật mã giảm giá thất bại");
     }
   };
 
@@ -221,6 +228,76 @@ const VoucherManager = () => {
       </div>
       {/* Ham update ma gia gia */}
       {editVoucher && (
+        // <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+        //   <div className="relative max-w-md w-full p-8 bg-gradient-to-br from-red-50 to-pink-50 rounded-2xl shadow-2xl transform transition-all scale-100">
+        //     {/* Nút đóng modal */}
+        //     <button
+        //       onClick={() => setEditVoucher(null)}
+        //       className="absolute top-4 right-4 text-red-500 hover:text-red-700 transition-transform transform hover:scale-110"
+        //     >
+        //       <IoMdClose size={24} />
+        //     </button>
+
+        //     <h3 className="text-2xl font-semibold mb-6 text-red-600 text-center">
+        //       Chỉnh Sửa Mã Giảm Giá
+        //     </h3>
+        //     <div className="space-y-5">
+        //       <input
+        //         type="text"
+        //         placeholder="Mã giảm giá"
+        //         value={editVoucher.code}
+        //         onChange={(e) =>
+        //           setEditVoucher({ ...editVoucher, code: e.target.value })
+        //         }
+        //         className="w-full p-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-400 text-gray-700 placeholder-gray-400"
+        //       />
+        //       <input
+        //         type="number"
+        //         placeholder="Giảm Giá (%)"
+        //         value={editVoucher.discount}
+        //         onChange={(e) =>
+        //           setEditVoucher({
+        //             ...editVoucher,
+        //             discount: Number(e.target.value),
+        //           })
+        //         }
+        //         className="w-full p-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-400 text-gray-700 placeholder-gray-400"
+        //       />
+        //       <input
+        //         type="number"
+        //         placeholder="Giá trị tối thiểu (VND)"
+        //         value={editVoucher.minPurchase}
+        //         onChange={(e) =>
+        //           setEditVoucher({
+        //             ...editVoucher,
+        //             minPurchase: Number(e.target.value),
+        //           })
+        //         }
+        //         className="w-full p-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-400 text-gray-700 placeholder-gray-400"
+        //       />
+        //       <input
+        //         type="date"
+        //         placeholder="Ngày hết hạn"
+        //         value={new Date(editVoucher.expirationDate)
+        //           .toISOString()
+        //           .slice(0, 10)}
+        //         onChange={(e) =>
+        //           setEditVoucher({
+        //             ...editVoucher,
+        //             expirationDate: e.target.value,
+        //           })
+        //         }
+        //         className="w-full p-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-400 text-gray-700"
+        //       />
+        //       <button
+        //         onClick={updateVoucher}
+        //         className="w-full py-3 bg-red-500 text-white font-semibold rounded-lg shadow-lg transition duration-200 transform hover:bg-red-400 hover:shadow-xl hover:-translate-y-0.5 hover:scale-105"
+        //       >
+        //         Cập Nhật Mã Giảm Giá
+        //       </button>
+        //     </div>
+        //   </div>
+        // </div>
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
           <div className="relative max-w-md w-full p-8 bg-gradient-to-br from-red-50 to-pink-50 rounded-2xl shadow-2xl transform transition-all scale-100">
             {/* Nút đóng modal */}
@@ -244,9 +321,30 @@ const VoucherManager = () => {
                 }
                 className="w-full p-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-400 text-gray-700 placeholder-gray-400"
               />
+
+              {/* Trường chọn kiểu giảm giá */}
+              <select
+                value={editVoucher.discountType}
+                onChange={(e) =>
+                  setEditVoucher({
+                    ...editVoucher,
+                    discountType: e.target.value,
+                  })
+                }
+                className="w-full p-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-400 text-gray-700"
+              >
+                <option value="percentage">Giảm giá (%)</option>
+                <option value="amount">Giảm giá theo số tiền</option>
+              </select>
+
+              {/* Trường nhập giá trị giảm giá */}
               <input
                 type="number"
-                placeholder="Giảm Giá (%)"
+                placeholder={
+                  editVoucher.discountType === "percentage"
+                    ? "Giảm Giá (%)"
+                    : "Giảm Giá (VND)"
+                }
                 value={editVoucher.discount}
                 onChange={(e) =>
                   setEditVoucher({
@@ -256,6 +354,8 @@ const VoucherManager = () => {
                 }
                 className="w-full p-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-400 text-gray-700 placeholder-gray-400"
               />
+
+              {/* Trường nhập giá trị tối thiểu */}
               <input
                 type="number"
                 placeholder="Giá trị tối thiểu (VND)"
@@ -268,9 +368,10 @@ const VoucherManager = () => {
                 }
                 className="w-full p-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-400 text-gray-700 placeholder-gray-400"
               />
+
+              {/* Trường chọn ngày hết hạn */}
               <input
                 type="date"
-                placeholder="Ngày hết hạn"
                 value={new Date(editVoucher.expirationDate)
                   .toISOString()
                   .slice(0, 10)}
@@ -282,6 +383,7 @@ const VoucherManager = () => {
                 }
                 className="w-full p-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-400 text-gray-700"
               />
+
               <button
                 onClick={updateVoucher}
                 className="w-full py-3 bg-red-500 text-white font-semibold rounded-lg shadow-lg transition duration-200 transform hover:bg-red-400 hover:shadow-xl hover:-translate-y-0.5 hover:scale-105"
