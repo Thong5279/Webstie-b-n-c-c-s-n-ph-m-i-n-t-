@@ -29,6 +29,7 @@ const createContact = require('../controller/contact/createContact');
 const updateProfile = require('../controller/user/updateProfile');
 const { createVoucher, getAllVouchers, applyVoucher, deleteVoucher, updateVoucher } = require('../controller/product/voucherController')
 const paymentController = require('../controller/order/paymentController')
+const webhooks = require('../controller/order/webhook')
 
 
 router.post("/signup",userSignUpController)
@@ -86,5 +87,8 @@ router.post("/update-profile", authToken, updateProfile);
 
 //payment
 router.post("/checkout",authToken,paymentController)
+
+//webhook
+router.post("/webhook",webhooks) // api để xử lý các sự kiện từ stripe
 
 module.exports = router
