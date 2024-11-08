@@ -26,8 +26,9 @@ import Faq from '../components/Faq'
 import ZaloBox from '../components/ZaloBox'
 import ZaloInformation from '../components/ZaloInformation'
 import VoucherManager from '../components/VoucherManager'
-import Succes from '../pages/Succes'
+import Succes from '../pages/Success'
 import Cancel from '../pages/Cancel'
+import OderPage from '../pages/OderPage'
 const router = createBrowserRouter([
     {
         path : "/",
@@ -117,6 +118,10 @@ const router = createBrowserRouter([
             {
                 path: '/cancel',
                 element: <Cancel />
+            },
+            {
+                path: '/order',
+                element: <OderPage/>
             },
             {
                 path : "admin-panel",
