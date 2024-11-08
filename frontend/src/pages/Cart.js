@@ -164,10 +164,9 @@ const Cart = () => {
   };
 
   const handlePayment = async () => {
-
-    
-
-    const stripePromise = await loadStripe(process.env.REACT_APP_STRIPE_PUBLIC_KEY)
+    const stripePromise = await loadStripe(
+      process.env.REACT_APP_STRIPE_PUBLIC_KEY
+    );
     const response = await fetch(SummaryApi.payment.url, {
       method: SummaryApi.payment.method,
       credentials: "include",
@@ -180,9 +179,8 @@ const Cart = () => {
     });
     const responseData = await response.json();
 
-    if(responseData?.id){
-        stripePromise.redirectToCheckout({sessionId : responseData.id})
-
+    if (responseData?.id) {
+      stripePromise.redirectToCheckout({ sessionId: responseData.id });
     }
 
     console.log("payment responseData", responseData);
@@ -518,16 +516,6 @@ const Cart = () => {
                             totalAmount={finalPrice}
                             onVoucherStatusChange={handleVoucherStatusChange}
                             className="w-full"
-                          />
-                        </div>
-                        <div className="px-6 py-4 font-medium text-slate-600 flex items-center justify-between border-b">
-                          <p className="pb-2 text-left flex items-center gap-2">
-                            <FaGift className="text-red-500 text-xl" /> Mã Giảm
-                            Giá:
-                          </p>
-                          <input
-                            placeholder="Nhập mã giảm giá"
-                            className="outline-none border border-solid p-3 w-[270px] focus:border-red-500 transition duration-300 rounded-lg"
                           />
                         </div>
 
