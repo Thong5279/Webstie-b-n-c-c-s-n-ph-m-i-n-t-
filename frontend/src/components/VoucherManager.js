@@ -13,6 +13,7 @@ const VoucherManager = () => {
   const [minPurchase, setMinPurchase] = useState("");
   const [expirationDate, setExpirationDate] = useState("");
   const [vouchers, setVouchers] = useState([]); // Danh sách mã giảm giá
+  const [isFreeShipping, setIsFreeShipping] = useState(false); //Trạng thái miễn phí ship
 
   // Ham update giam gia
   const [editVoucher, setEditVoucher] = useState(null); // Voucher đang chỉnh sửa
@@ -47,9 +48,11 @@ const VoucherManager = () => {
         data: {
           code,
           discountType,
-          discountValue,
+          discountValue:
+            discountType === "shipping" && isFreeShipping ? 0 : discountValue,
           minPurchase,
           expirationDate,
+          isFreeShipping: discountType === "shipping" ? isFreeShipping : false,
         },
       });
       alert(response.data.message);
@@ -119,18 +122,45 @@ const VoucherManager = () => {
         >
           <option value="percentage">Giảm giá (%)</option>
           <option value="amount">Giảm giá theo số tiền</option>
+          <option value="shipping">Phí Ship</option>
         </select>
-        <input
-          type="number"
-          placeholder={
-            discountType === "percentage"
-              ? "Giảm giá (%)"
-              : "Giảm giá theo số tiền"
-          }
-          value={discountValue}
-          onChange={(e) => setDiscountValue(Number(e.target.value))}
-          className="w-full p-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 placeholder-gray-400 text-lg transition-all duration-200 hover:bg-gray-50"
-        />
+
+        {discountType === "shipping" ? (
+          <div className="flex items-center space-x-4 mt-4">
+            <label className="flex items-center space-x-2 text-gray-700">
+              <input
+                type="checkbox"
+                checked={isFreeShipping}
+                onChange={() => setIsFreeShipping(!isFreeShipping)} // Toggle giá trị isFreeShipping
+                className="h-5 w-5 text-green-500 focus:ring-green-500"
+              />
+              <span className="text-sm">Miễn phí ship</span>
+            </label>
+
+            {/* Hiển thị input giảm phí ship chỉ khi chưa chọn miễn phí ship */}
+            {!isFreeShipping && (
+              <input
+                type="number"
+                placeholder="Số tiền giảm phí ship"
+                value={discountValue}
+                onChange={(e) => setDiscountValue(Number(e.target.value))}
+                className="w-32 p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 text-sm"
+              />
+            )}
+          </div>
+        ) : (
+          <input
+            type="number"
+            placeholder={
+              discountType === "percentage"
+                ? "Giảm giá (%)"
+                : "Giảm giá theo số tiền"
+            }
+            value={discountValue}
+            onChange={(e) => setDiscountValue(Number(e.target.value))}
+            className="w-full p-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 placeholder-gray-400 text-lg transition-all duration-200 hover:bg-gray-50"
+          />
+        )}
 
         <input
           type="number"
@@ -163,16 +193,17 @@ const VoucherManager = () => {
           <thead>
             <tr className="bg-gradient-to-r from-gray-100 to-gray-200 text-gray-700 w-full">
               <th className="px-6 py-3 text-left font-semibold">Mã</th>
-              <th className="px-6 py-3 text-left font-semibold">
-                Giảm Giá (%)
+              <th className="px-6 py-3 text-center font-semibold">
+                Giảm Giá (%)/ Phí Ship
               </th>
-              <th className="px-6 py-3 text-left font-semibold">
+              <th className="px-6 py-3 font-semibold text-center">
                 Số Tiền Tối Thiểu
               </th>
-              <th className="px-6 py-3 text-left font-semibold">
+              <th className="px-6 py-3 text-center font-semibold">
                 Ngày Hết Hạn
               </th>
-              <th className="px-6 py-3 text-left font-semibold">Thao tác</th>
+              {/* Cột Phí Ship */}
+              <th className="px-6 py-3 text-center font-semibold">Thao tác</th>
             </tr>
           </thead>
           <tbody>
@@ -182,41 +213,50 @@ const VoucherManager = () => {
                   key={voucher.code}
                   className="text-gray-800 text-sm border-b hover:bg-gray-100 transition duration-200"
                 >
-                  <td className="px-6 py-3">{voucher.code}</td>
+                  <td className="px-6 py-3 text-center">{voucher.code}</td>
 
-                  <td className="px-6 py-3">
-                    {/* Kiểm tra xem voucher là giảm giá theo phần trăm hay số tiền */}
+                  <td className="px-6 py-3 text-center">
+                    {/* Kiểm tra loại giảm giá: phần trăm, số tiền hoặc phí ship */}
                     {voucher.discountType === "percentage"
                       ? `${voucher.discountValue}%`
-                      : voucher.discountValue
+                      : voucher.discountType === "amount"
                       ? `${voucher.discountValue.toLocaleString("vi-VN")} VND`
+                      : voucher.discountType === "shipping" &&
+                        voucher.isFreeShipping
+                      ? "Miễn phí ship" // Nếu là loại giảm giá 'shipping' và có isFreeShipping thì hiển thị "Miễn phí ship"
+                      : voucher.discountType === "shipping"
+                      ? `${voucher.discountValue.toLocaleString(
+                          "vi-VN"
+                        )} VND giảm phí ship`
                       : "Không có giá trị"}
                   </td>
 
-                  <td className="px-6 py-3">
-                    {/* Kiểm tra voucher.minPurchase có giá trị hợp lệ */}
+                  <td className="px-6 py-3 text-center">
+                    {/* Hiển thị giá trị tối thiểu để áp dụng */}
                     {voucher.minPurchase
                       ? `${voucher.minPurchase.toLocaleString("vi-VN")} VND`
                       : "Không có giá trị"}
                   </td>
 
-                  <td className="px-6 py-3">
-                    {/* Kiểm tra voucher.expirationDate có giá trị hợp lệ */}
+                  <td className="px-6 py-3 text-center">
+                    {/* Hiển thị ngày hết hạn của voucher */}
                     {voucher.expirationDate
                       ? new Date(voucher.expirationDate).toLocaleDateString(
                           "vi-VN"
                         )
                       : "Không có ngày hết hạn"}
                   </td>
-
                   <td className="px-6 py-3 text-center">
                     <div className="flex items-center justify-center">
+                      {/* Nút xóa voucher */}
                       <button
                         onClick={() => deleteVoucher(voucher.code)}
                         className="p-2 text-red-500 transition duration-200"
                       >
                         <IoTrashBin size={18} className="hover:text-red-700" />
                       </button>
+
+                      {/* Nút chỉnh sửa voucher */}
                       <button
                         onClick={() => selectVoucherForEdit(voucher)}
                         className="p-2 text-red-500 transition duration-200"
