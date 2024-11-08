@@ -122,7 +122,11 @@ const VoucherManager = () => {
         </select>
         <input
           type="number"
-          placeholder="Số tiền giảm"
+          placeholder={
+            discountType === "percentage"
+              ? "Giảm giá (%)"
+              : "Giảm giá theo số tiền"
+          }
           value={discountValue}
           onChange={(e) => setDiscountValue(Number(e.target.value))}
           className="w-full p-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 placeholder-gray-400 text-lg transition-all duration-200 hover:bg-gray-50"
@@ -130,7 +134,7 @@ const VoucherManager = () => {
 
         <input
           type="number"
-          placeholder="Giá trị tối thiểu"
+          placeholder="Số tiền tối thiểu"
           value={minPurchase}
           onChange={(e) => setMinPurchase(Number(e.target.value))}
           className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
