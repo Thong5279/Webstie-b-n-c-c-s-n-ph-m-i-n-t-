@@ -25,6 +25,7 @@ import Privacy from '../components/Privacy'
 import Faq from '../components/Faq'
 import ZaloBox from '../components/ZaloBox'
 import ZaloInformation from '../components/ZaloInformation'
+import VoucherManager from '../components/VoucherManager'
 const router = createBrowserRouter([
     {
         path : "/",
@@ -126,6 +127,10 @@ const router = createBrowserRouter([
                     {
                         path: "all-contact",
                         element: <AllContact/>
+                    },
+                    {
+                        path: "all-voucher",
+                        element: <VoucherManager />
                     }
                 ]
             },

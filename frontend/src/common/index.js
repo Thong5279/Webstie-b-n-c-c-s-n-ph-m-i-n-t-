@@ -106,6 +106,28 @@ const SummaryApi = {                                    // Định nghĩa các A
         url: `${backendDomin}/api/update-avatar`,
         method: "POST"
     },
+    // voucher
+    createVoucher: {
+        url: `${backendDomin}/api/create-voucher`,
+        method: "POST"
+    },
+    getAllVouchers: {
+        url: `${backendDomin}/api/all-voucher`,
+        method: "GET"
+    },
+    applyVoucher: {
+        url: `${backendDomin}/api/apply-voucher`,
+        method: "POST"
+    },
+    deleteVoucher:{
+        url: `${backendDomin}/api/delete-voucher`,
+        method: "DELETE"
+    },
+    updateVoucher:{
+        url: `${backendDomin}/api/update-voucher`,
+        method: "PUT"
+    }
+
 
 
 

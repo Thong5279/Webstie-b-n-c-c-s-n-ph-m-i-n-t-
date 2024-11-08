@@ -27,6 +27,7 @@ const getAllContacts = require('../controller/contact/getAllContacts');
 const updateContactStatus = require('../controller/contact/updateContactStatus');
 const createContact = require('../controller/contact/createContact');
 const updateProfile = require('../controller/user/updateProfile');
+const { createVoucher, getAllVouchers, applyVoucher, deleteVoucher, updateVoucher } = require('../controller/product/voucherController')
 
 
 router.post("/signup",userSignUpController)
@@ -47,6 +48,21 @@ router.post("/category-product",getCategoryWiseProduct)
 router.post("/product-details",getProductDetails)
 router.get("/search",searchProduct)
 router.post("/filter-product",filterProductController)
+
+// Route tạo mã giảm giá (chỉ admin sử dụng)
+router.post('/create-voucher', createVoucher);
+
+// Ham xoa voucher
+router.delete('/delete-voucher/:code', deleteVoucher)
+
+//Ham sua ma giam gia
+router.put('/update-voucher/:code', updateVoucher) 
+
+// Route lấy danh sách mã giảm giá
+router.get('/all-voucher', getAllVouchers);
+
+// Route áp dụng mã giảm giá khi thanh toán
+router.post('/apply-voucher', applyVoucher);
 
 //user add to cart
 router.post("/addtocart",authToken,addToCartController)

@@ -23,6 +23,7 @@ import { FaBox } from "react-icons/fa";
 import { FaAngleDown } from "react-icons/fa";
 import { FaArrowRight } from "react-icons/fa";
 import { Link } from "react-router-dom";
+import CheckoutPage from '../components/CheckoutPage';
 
 const Cart = () => {
     const [data,setData] = useState([])
@@ -43,6 +44,13 @@ const Cart = () => {
         text: "Thanh toán khi nhận hàng"
     });
     const [selectedProducts, setSelectedProducts] = useState({});
+    const [isShopVoucherDisabled,setIsShopVoucherDisabled] = useState(false)
+
+    // Ham CallBack de nhan trang thai tu component con
+
+    const handleVoucherStatusChange = (status) => {
+        setIsShopVoucherDisabled(status)
+    }
 
     const paymentOptions = [
         {
@@ -170,6 +178,7 @@ const Cart = () => {
 
     const discountAmount = totalPrice * selectedVoucher;
     const finalPrice = totalPrice - discountAmount;
+    
 
     const fetchUserInfo = async () => {
       try {
@@ -421,9 +430,10 @@ const Cart = () => {
                                             </p>
                                             <p className="text-lg font-medium">{userInfo.address}</p>
                                         </div>
-                                        <div className='px-6 py-4 font-medium text-slate-600 flex items-center justify-between border-b'>
-                                            <p className='pb-2 text-left flex items-center gap-2'><FaGift className="text-red-500 text-xl"/> Mã Giảm Giá:</p>
-                                            <input placeholder='Nhập mã giảm giá' className='outline-none border border-solid p-3 w-[270px] focus:border-red-500 transition duration-300 rounded-lg' />
+                                        <div className='px-6 py-4 font-medium text-slate-600 border-b '>
+                                            {/* <p className='pb-2 text-left flex items-center gap-2'><FaGift className="text-red-500 text-xl"/> Mã Giảm Giá:</p> */}
+                                            {/* <input placeholder='Nhập mã giảm giá' className='outline-none border border-solid p-3 w-[270px] focus:border-red-500 transition duration-300 rounded-lg' /> */}
+                                            <CheckoutPage totalAmount={finalPrice} onVoucherStatusChange={handleVoucherStatusChange} className='w-full'/>
                                         </div>
 
                                         <div className='px-6 flex items-center justify-between border-b py-4'>
@@ -433,6 +443,7 @@ const Cart = () => {
                                             <select 
                                                 className='ml-3 border border-solid hover:border-red-500 outline-none p-3 cursor-pointer w-[270px] transition duration-300 rounded-lg'
                                                 onChange={handleVoucherChange}
+                                                disabled={isShopVoucherDisabled}
                                             >
                                                 <option>Chọn Voucher</option>
                                                 {totalPrice >= 1000000 && <option>Giảm tối đa 5%</option>}
