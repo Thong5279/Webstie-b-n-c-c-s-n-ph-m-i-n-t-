@@ -47,6 +47,12 @@ const Cart = () => {
   const [selectedProducts, setSelectedProducts] = useState({});
   const [isShopVoucherDisabled, setIsShopVoucherDisabled] = useState(false);
 
+  const [totalDiscountAmount, setTotalDiscountAmount] = useState(0);
+
+  const handleDiscountAmountChange = (discountAmount) => {
+    setTotalDiscountAmount(discountAmount);
+  };
+
   // Ham CallBack de nhan trang thai tu component con
 
   const handleVoucherStatusChange = (status) => {
@@ -515,6 +521,7 @@ const Cart = () => {
                           <CheckoutPage
                             totalAmount={finalPrice}
                             onVoucherStatusChange={handleVoucherStatusChange}
+                            onDiscountAmountChange={handleDiscountAmountChange}
                             className="w-full"
                           />
                         </div>
@@ -619,17 +626,54 @@ const Cart = () => {
                           </div>
                         </div>
 
-                        {selectedVoucher > 0 && (
+                        {/* {totalDiscountAmount > 0 ? (
                           <div className="flex items-center justify-between px-6 py-4 font-medium gap-2 text-lg text-slate-600 border-b">
                             <p className="flex items-center gap-2">
-                              <FaTicketAlt className="text-red-500 text-xl" />{" "}
+                              <FaTicketAlt className="text-red-500 text-xl" />
                               Số tiền được giảm:
                             </p>
                             <p className="text-red-500 text-xl font-bold">
-                              -{displayVNDCurrency(discountAmount)}
+                              -{displayVNDCurrency(totalDiscountAmount)}
                             </p>
                           </div>
+                        ) : (
+                          selectedVoucher > 0 && (
+                            <div className="flex items-center justify-between px-6 py-4 font-medium gap-2 text-lg text-slate-600 border-b">
+                              <p className="flex items-center gap-2">
+                                <FaTicketAlt className="text-red-500 text-xl" />
+                                Số tiền được giảm:
+                              </p>
+                              <p className="text-red-500 text-xl font-bold">
+                                -{displayVNDCurrency(discountAmount)}
+                              </p>
+                            </div>
+                          )
+                        )} */}
+                        {totalDiscountAmount > 0 ? (
+                          <div className="flex items-center justify-between px-6 py-4 font-medium gap-2 text-lg text-slate-600 border-b">
+                            <p className="flex items-center gap-2">
+                              <FaTicketAlt className="text-red-500 text-xl" />
+                              Số tiền được giảm:
+                            </p>
+                            <p className="text-red-500 text-xl font-bold">
+                              -{displayVNDCurrency(totalDiscountAmount)}
+                            </p>
+                          </div>
+                        ) : (
+                          selectedVoucher > 0 &&
+                          discountAmount > 0 && (
+                            <div className="flex items-center justify-between px-6 py-4 font-medium gap-2 text-lg text-slate-600 border-b">
+                              <p className="flex items-center gap-2">
+                                <FaTicketAlt className="text-red-500 text-xl" />
+                                Số tiền được giảm:
+                              </p>
+                              <p className="text-red-500 text-xl font-bold">
+                                -{displayVNDCurrency(discountAmount)}
+                              </p>
+                            </div>
+                          )
                         )}
+
                         <div className="flex items-center justify-between px-6 py-4 font-medium gap-2 text-xl border-b">
                           <p className="flex items-center gap-2">
                             <BiSolidCoinStack className="text-red-500 text-2xl" />{" "}

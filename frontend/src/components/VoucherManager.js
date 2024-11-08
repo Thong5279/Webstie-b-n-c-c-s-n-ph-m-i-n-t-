@@ -82,15 +82,25 @@ const VoucherManager = () => {
   // Ham update ma giam gia
   const updateVoucher = async () => {
     try {
+      // Kiểm tra nếu loại giảm giá là "shipping" và nếu là miễn phí ship
+      const isShippingDiscount = editVoucher.discountType === "shipping";
+      const discountValue =
+        isShippingDiscount && editVoucher.isFreeShipping
+          ? 0
+          : editVoucher.discount;
+
       const response = await axios({
         method: SummaryApi.updateVoucher.method, // Cập nhật dữ liệu nên dùng PUT
         url: `${SummaryApi.updateVoucher.url}/${editVoucher.code}`, // Đường dẫn cập nhật voucher, sử dụng mã voucher
         data: {
           code: editVoucher.code,
           discountType: editVoucher.discountType,
-          discountValue: editVoucher.discount,
+          discountValue: discountValue, // Cập nhật giá trị giảm giá
           minPurchase: editVoucher.minPurchase,
           expirationDate: editVoucher.expirationDate,
+          isFreeShipping: isShippingDiscount
+            ? editVoucher.isFreeShipping
+            : false, // Nếu là miễn phí ship, gửi isFreeShipping
         },
       });
       alert(response.data.message); // Thông báo sau khi cập nhật thành công
@@ -309,25 +319,63 @@ const VoucherManager = () => {
               >
                 <option value="percentage">Giảm giá (%)</option>
                 <option value="amount">Giảm giá theo số tiền</option>
+                <option value="shipping">Phí ship</option>
               </select>
 
-              {/* Trường nhập giá trị giảm giá */}
-              <input
-                type="number"
-                placeholder={
-                  editVoucher.discountType === "percentage"
-                    ? "Giảm Giá (%)"
-                    : "Giảm Giá (VND)"
-                }
-                value={editVoucher.discount}
-                onChange={(e) =>
-                  setEditVoucher({
-                    ...editVoucher,
-                    discount: Number(e.target.value),
-                  })
-                }
-                className="w-full p-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-400 text-gray-700 placeholder-gray-400"
-              />
+              {/* Trường miễn phí ship */}
+              {editVoucher.discountType === "shipping" && (
+                <div className="flex items-center space-x-3">
+                  <label className="flex items-center">
+                    <input
+                      type="checkbox"
+                      checked={editVoucher.isFreeShipping}
+                      onChange={() =>
+                        setEditVoucher({
+                          ...editVoucher,
+                          isFreeShipping: !editVoucher.isFreeShipping,
+                          discount: 0, // Nếu miễn phí ship, discountValue là 0
+                        })
+                      }
+                      className="text-red-500"
+                    />
+                    <span className="ml-2 text-gray-700">Miễn phí ship</span>
+                  </label>
+                  {!editVoucher.isFreeShipping && (
+                    <input
+                      type="number"
+                      placeholder="Số tiền giảm phí ship"
+                      value={editVoucher.discount}
+                      onChange={(e) =>
+                        setEditVoucher({
+                          ...editVoucher,
+                          discount: Number(e.target.value),
+                        })
+                      }
+                      className="w-full p-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-400 text-gray-700 placeholder-gray-400"
+                    />
+                  )}
+                </div>
+              )}
+
+              {/* Trường nhập giá trị giảm giá cho phần trăm và số tiền */}
+              {editVoucher.discountType !== "shipping" && (
+                <input
+                  type="number"
+                  placeholder={
+                    editVoucher.discountType === "percentage"
+                      ? "Giảm Giá (%)"
+                      : "Giảm Giá (VND)"
+                  }
+                  value={editVoucher.discount}
+                  onChange={(e) =>
+                    setEditVoucher({
+                      ...editVoucher,
+                      discount: Number(e.target.value),
+                    })
+                  }
+                  className="w-full p-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-400 text-gray-700 placeholder-gray-400"
+                />
+              )}
 
               {/* Trường nhập giá trị tối thiểu */}
               <input

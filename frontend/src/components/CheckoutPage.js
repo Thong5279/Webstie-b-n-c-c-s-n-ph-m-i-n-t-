@@ -3,12 +3,15 @@ import axios from "axios";
 import SummaryApi from "../common";
 import displayVNDCurrency from "../helpers/displayCurrency";
 
-const CheckoutPage = ({ totalAmount, finalPrice, onVoucherStatusChange }) => {
+const CheckoutPage = ({
+  totalAmount,
+  finalPrice,
+  onVoucherStatusChange,
+  onDiscountAmountChange,
+}) => {
   const [voucherCode, setVoucherCode] = useState("");
   const [discountAmount, setDiscountAmount] = useState(0);
   const [isVoucherValid, setIsVoucherValid] = useState(false);
-
-  const totalDiscountAmount = totalAmount - discountAmount;
 
   const handleApplyVoucher = async () => {
     try {
@@ -17,6 +20,11 @@ const CheckoutPage = ({ totalAmount, finalPrice, onVoucherStatusChange }) => {
         url: SummaryApi.applyVoucher.url,
         data: { code: voucherCode, totalAmount },
       });
+      console.log(response.data);
+      const totalDiscountAmount = totalAmount - discountAmount;
+      console.log(totalDiscountAmount);
+      onDiscountAmountChange(totalDiscountAmount);
+
       setDiscountAmount(response.data.discountAmount);
       setIsVoucherValid(true); //Neu user nhap ma hop le
       onVoucherStatusChange(true); //goi ham onVoucherStatusChange de cap nhat trang thai component cha
@@ -50,11 +58,11 @@ const CheckoutPage = ({ totalAmount, finalPrice, onVoucherStatusChange }) => {
       {isVoucherValid && discountAmount > 0 && (
         <div className="mt-6 p-4 bg-green-100 rounded-lg border border-green-300">
           <p className="text-lg text-green-700">
-            Giảm giá: -{displayVNDCurrency(discountAmount)}
+            Giảm giá: {displayVNDCurrency(discountAmount)}
           </p>
-          <p className="text-xl font-bold text-green-800">
+          {/* <p className="text-xl font-bold text-green-800">
             Tổng tiền sau giảm: {displayVNDCurrency(totalDiscountAmount)}
-          </p>
+          </p> */}
         </div>
       )}
     </div>
