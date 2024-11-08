@@ -9,14 +9,15 @@ async function getLineItems(lineItems) {
         for(const item of lineItems.data){
             const product = await stripe.products.retrieve(item.price.product)
             const productId = product.metadata.productId
-            const productData = {
-                productId: productId,
-                name: product.name,
-                price: item.price.unit_amount/100,
-                quantity: item.quantity,
-                image: product.images[0]
-            }
 
+            const productData = {
+                productId : productId,
+                name : product.name,
+                price : item.price.unit_amount / 100,
+                quantity : item.quantity,
+                image : product.images
+            }
+            console.log("image",product)
             ProductItems.push(productData)
 
         }
