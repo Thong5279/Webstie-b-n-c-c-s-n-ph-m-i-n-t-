@@ -126,8 +126,11 @@ const SummaryApi = {                                    // Định nghĩa các A
     updateVoucher:{
         url: `${backendDomin}/api/update-voucher`,
         method: "PUT"
+    },
+    payment: {
+        url: `${backendDomin}/api/checkout`,
+        method: "POST"
     }
-
 
 
 

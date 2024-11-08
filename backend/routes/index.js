@@ -28,6 +28,7 @@ const updateContactStatus = require('../controller/contact/updateContactStatus')
 const createContact = require('../controller/contact/createContact');
 const updateProfile = require('../controller/user/updateProfile');
 const { createVoucher, getAllVouchers, applyVoucher, deleteVoucher, updateVoucher } = require('../controller/product/voucherController')
+const paymentController = require('../controller/order/paymentController')
 
 
 router.post("/signup",userSignUpController)
@@ -83,6 +84,7 @@ router.post("/create-contact", createContact);
 // Add route (yêu cầu đăng nhập)
 router.post("/update-profile", authToken, updateProfile);
 
-
+//payment
+router.post("/checkout",authToken,paymentController)
 
 module.exports = router
