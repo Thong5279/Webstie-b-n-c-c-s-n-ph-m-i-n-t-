@@ -153,34 +153,7 @@ const Header = () => {
             }
             
               
-              {
-                menuDisplay &&(
-                    <div className='absolute bg-white bottom-0 left-0 top-11 h-fit p-2 shadow-lg rounded'>
-                    <nav>
-                      {/* Hiển thị trên admin */}
-                      {
-                        user?.role === ROLE.ADMIN && (
-                          <Link to={"/admin-panel/all-product"} className='whitespace-nowrap hidden md:block hover:bg-slate-100 p-2' onClick={()=>setMenuDisplay(preve => !preve)}>Trang Quản lý</Link>
-                        )
-                      }
-                      {/* Hiển thị trên user */}
-                      {user?._id && user?.role !== ROLE.ADMIN && (
-                        <div className='flex flex-col'>
-                          <Link to="/profile" className="whitespace-nowrap hover:bg-slate-100 p-2" onClick={()=>setMenuDisplay(prev => !prev)}>
-                            Trang cá nhân
-                          </Link>
-                          <Link to="/order" className="whitespace-nowrap hover:bg-slate-100 p-2" onClick={()=>setMenuDisplay(prev => !prev)}>
-                            Đơn hàng của bạn
-                          </Link>
-                          <Link to="/contact" className="whitespace-nowrap hover:bg-slate-100 p-2" onClick={()=>setMenuDisplay(prev => !prev)}>
-                            Liên hệ
-                          </Link>
-                        </div>
-                      )}
-                    </nav>
-                  </div>
-                )
-              }
+              
 
             {menuDisplay && (
               <div className="absolute bg-white bottom-0 left-0 top-11 h-fit p-2 shadow-lg rounded">
@@ -204,6 +177,14 @@ const Header = () => {
                         onClick={() => setMenuDisplay((prev) => !prev)}
                       >
                         Trang cá nhân
+                      </Link>
+                      
+                      <Link
+                        to="/order"
+                        className="whitespace-nowrap hover:bg-slate-100 p-2"
+                        onClick={() => setMenuDisplay((prev) => !prev)}
+                      >
+                        Đơn hàng của bạn
                       </Link>
                       <Link
                         to="/contact"
