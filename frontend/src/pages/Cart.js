@@ -170,9 +170,16 @@ const Cart = () => {
   };
 
   const handlePayment = async () => {
-    const stripePromise = await loadStripe(
-      process.env.REACT_APP_STRIPE_PUBLIC_KEY
-    );
+    // Lọc ra các sản phẩm được chọn
+    const selectedItems = data.filter(product => selectedProducts[product._id]);
+    
+    if (selectedItems.length === 0) {
+      alert('Vui lòng chọn ít nhất một sản phẩm để thanh toán');
+      return;
+    }
+
+    const stripePromise = await loadStripe(process.env.REACT_APP_STRIPE_PUBLIC_KEY);
+    
     const response = await fetch(SummaryApi.payment.url, {
       method: SummaryApi.payment.method,
       credentials: "include",
@@ -180,16 +187,15 @@ const Cart = () => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        cartItems: data,
+        cartItems: selectedItems, // Chỉ gửi những sản phẩm được chọn
       }),
     });
+    
     const responseData = await response.json();
 
     if (responseData?.id) {
       stripePromise.redirectToCheckout({ sessionId: responseData.id });
     }
-
-    console.log("payment responseData", responseData);
   };
 
   const totalQty = data.reduce(
