@@ -22,7 +22,7 @@ import { FaPercent } from "react-icons/fa";
 import { FaBox } from "react-icons/fa";
 import { FaAngleDown } from "react-icons/fa";
 import { FaArrowRight } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import CheckoutPage from "../components/CheckoutPage";
 import { loadStripe } from "@stripe/stripe-js";
 
@@ -169,8 +169,11 @@ const Cart = () => {
     }
   };
 
+  const navigate = useNavigate();
+
+  const [showConfirmModal, setShowConfirmModal] = useState(false);
+
   const handlePayment = async () => {
-    // Lọc ra các sản phẩm được chọn
     const selectedItems = data.filter(product => selectedProducts[product._id]);
     
     if (selectedItems.length === 0) {
@@ -178,24 +181,33 @@ const Cart = () => {
       return;
     }
 
-    const stripePromise = await loadStripe(process.env.REACT_APP_STRIPE_PUBLIC_KEY);
-    
-    const response = await fetch(SummaryApi.payment.url, {
-      method: SummaryApi.payment.method,
-      credentials: "include",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        cartItems: selectedItems, // Chỉ gửi những sản phẩm được chọn
-      }),
-    });
-    
-    const responseData = await response.json();
-
-    if (responseData?.id) {
-      stripePromise.redirectToCheckout({ sessionId: responseData.id });
+    if (selectedPayment.text === "PayPal") {
+      const stripePromise = await loadStripe(process.env.REACT_APP_STRIPE_PUBLIC_KEY);
+      
+      const response = await fetch(SummaryApi.payment.url, {
+        method: SummaryApi.payment.method,
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          cartItems: selectedItems,
+        }),
+      });
+      
+      const responseData = await response.json();
+      
+      if (responseData?.id) {
+        stripePromise.redirectToCheckout({ sessionId: responseData.id });
+      }
+    } else if (selectedPayment.text === "Thanh toán khi nhận hàng") {
+      setShowConfirmModal(true);
     }
+  };
+
+  const handleConfirmOrder = () => {
+    setShowConfirmModal(false);
+    navigate("/success");
   };
 
   const totalQty = data.reduce(
@@ -711,6 +723,39 @@ const Cart = () => {
           )
         }
       </div>
+
+      {showConfirmModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-white w-96 rounded-xl shadow-2xl p-6 transform transition-all animate-fade-in">
+            <div className="text-center mb-6">
+              <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                <FaShoppingBag className="text-3xl text-red-500" />
+              </div>
+              <h3 className="text-xl font-bold text-gray-900 mb-2">
+                Xác nhận đặt hàng
+              </h3>
+              <p className="text-gray-600">
+                Bạn có chắc chắn muốn đặt hàng với phương thức thanh toán khi nhận hàng?
+              </p>
+            </div>
+            
+            <div className="flex gap-3">
+              <button
+                onClick={() => setShowConfirmModal(false)}
+                className="flex-1 px-4 py-2 bg-gray-200 text-gray-800 rounded-lg hover:bg-gray-300 transition-colors duration-200"
+              >
+                Hủy bỏ
+              </button>
+              <button
+                onClick={handleConfirmOrder}
+                className="flex-1 px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors duration-200"
+              >
+                Xác nhận
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
