@@ -172,6 +172,9 @@ const Header = () => {
                           <Link to="/profile" className="whitespace-nowrap hover:bg-slate-100 p-2" onClick={()=>setMenuDisplay(prev => !prev)}>
                             Trang cá nhân
                           </Link>
+                          <Link to="/order" className="whitespace-nowrap hover:bg-slate-100 p-2" onClick={()=>setMenuDisplay(prev => !prev)}>
+                            Đơn hàng của bạn
+                          </Link>
                           <Link to="/contact" className="whitespace-nowrap hover:bg-slate-100 p-2" onClick={()=>setMenuDisplay(prev => !prev)}>
                             Liên hệ
                           </Link>
