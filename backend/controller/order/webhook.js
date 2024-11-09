@@ -17,11 +17,11 @@ async function getLineItems(lineItems) {
                 quantity : item.quantity,
                 image : product.images
             }
-            console.log("image",product)
+            //console.log("image",product)
             ProductItems.push(productData)
-
         }
     }
+    return ProductItems
 }
 const webhooks = async (request, response) => {
     const sig = request.headers['stripe-signature']
@@ -38,8 +38,8 @@ const webhooks = async (request, response) => {
     try {
         event = stripe.webhooks.constructEvent(payloadString, header, endpointSecret)
     } catch (err) {
-        response.status(400).send(`Webhook error: ${err.message}`)
-        return
+        response.status(400).send(`Webhook Error: ${err.message}`)
+        return;
     }
     // TODO: Handle the event
     switch (event.type) {
@@ -69,13 +69,16 @@ const webhooks = async (request, response) => {
 
             const order = new orderModel(orderDetails)
             const savedOrder = await order.save()
-
+            if(savedOrder?._id){
+               const deleteCartItem = await addToCartModel.deleteMany({userId : session.metadata.userId})
+               
+            }
             break;
-        default:
-            console.log(`Unhandled event type ${event.type}`)
+            default:
+            console.log(`Unhandled event type ${event.type}`);
     }
 
-    response.status(200).send()
+    response.status(200).send();
 
 }
 module.exports = webhooks
