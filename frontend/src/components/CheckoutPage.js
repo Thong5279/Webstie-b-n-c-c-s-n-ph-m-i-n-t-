@@ -20,19 +20,22 @@ const CheckoutPage = ({
         url: SummaryApi.applyVoucher.url,
         data: { code: voucherCode, totalAmount },
       });
-      console.log(response.data);
-      const totalDiscountAmount = totalAmount - discountAmount;
-      console.log(totalDiscountAmount);
-      onDiscountAmountChange(totalDiscountAmount);
+      console.log(response.data.discountAmount);
 
-      setDiscountAmount(response.data.discountAmount);
-      setIsVoucherValid(true); //Neu user nhap ma hop le
-      onVoucherStatusChange(true); //goi ham onVoucherStatusChange de cap nhat trang thai component cha
-      console.log(response.data);
+      // Cập nhật discountAmount từ phản hồi API
+      const newDiscountAmount = response.data.discountAmount;
+      setDiscountAmount(newDiscountAmount);
+
+      // Tính toán totalDiscountAmount sau khi cập nhật discountAmount
+      const newTotalDiscountAmount = totalAmount - response.data.discountAmount;
+      onDiscountAmountChange(newTotalDiscountAmount, newDiscountAmount); // Gọi hàm với giá trị đã được tính toán
+      // Cập nhật isVoucherValid
+      setIsVoucherValid(true);
+      onVoucherStatusChange(true);
     } catch (error) {
       console.error("Lỗi khi áp dụng mã giảm giá:", error);
       alert("Mã giảm giá không hợp lệ hoặc không thể áp dụng.");
-      setIsVoucherValid(false); //Neu user nhap ma khong hop le
+      setIsVoucherValid(false);
       onVoucherStatusChange(false);
     }
   };

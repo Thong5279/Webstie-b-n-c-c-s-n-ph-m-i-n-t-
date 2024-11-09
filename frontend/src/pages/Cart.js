@@ -49,8 +49,12 @@ const Cart = () => {
 
   const [totalDiscountAmount, setTotalDiscountAmount] = useState(0);
 
-  const handleDiscountAmountChange = (discountAmount) => {
-    setTotalDiscountAmount(discountAmount);
+  //Hàm nhận discountAmount(mã giảm giá khi có voucher) từ API bên component con
+  const [disCountAmountVoucher, setDisCountAmountVoucher] = useState(0);
+
+  const handleDiscountAmountChange = (totalDiscountAmount, disCountAmount) => {
+    setTotalDiscountAmount(totalDiscountAmount);
+    setDisCountAmountVoucher(disCountAmount);
   };
 
   // Ham CallBack de nhan trang thai tu component con
@@ -174,16 +178,20 @@ const Cart = () => {
   const [showConfirmModal, setShowConfirmModal] = useState(false);
 
   const handlePayment = async () => {
-    const selectedItems = data.filter(product => selectedProducts[product._id]);
-    
+    const selectedItems = data.filter(
+      (product) => selectedProducts[product._id]
+    );
+
     if (selectedItems.length === 0) {
-      alert('Vui lòng chọn ít nhất một sản phẩm để thanh toán');
+      alert("Vui lòng chọn ít nhất một sản phẩm để thanh toán");
       return;
     }
 
     if (selectedPayment.text === "PayPal") {
-      const stripePromise = await loadStripe(process.env.REACT_APP_STRIPE_PUBLIC_KEY);
-      
+      const stripePromise = await loadStripe(
+        process.env.REACT_APP_STRIPE_PUBLIC_KEY
+      );
+
       const response = await fetch(SummaryApi.payment.url, {
         method: SummaryApi.payment.method,
         credentials: "include",
@@ -194,9 +202,9 @@ const Cart = () => {
           cartItems: selectedItems,
         }),
       });
-      
+
       const responseData = await response.json();
-      
+
       if (responseData?.id) {
         stripePromise.redirectToCheckout({ sessionId: responseData.id });
       }
@@ -674,7 +682,7 @@ const Cart = () => {
                               Số tiền được giảm:
                             </p>
                             <p className="text-red-500 text-xl font-bold">
-                              -{displayVNDCurrency(totalDiscountAmount)}
+                              -{displayVNDCurrency(disCountAmountVoucher)}
                             </p>
                           </div>
                         ) : (
@@ -699,19 +707,29 @@ const Cart = () => {
                           </p>
                           <p className="text-red-600 font-bold text-2xl">
                             {displayVNDCurrency(
-                              finalPrice +
-                                (finalPrice >= 5000000 ? 0 : shippingFee)
+                              totalDiscountAmount > 0
+                                ? totalDiscountAmount +
+                                    (totalDiscountAmount >= 5000000
+                                      ? 0
+                                      : shippingFee)
+                                : finalPrice +
+                                    (finalPrice >= 5000000 ? 0 : shippingFee)
                             )}
                           </p>
                         </div>
                         <div className="flex justify-center">
                           {/* Đặt hàng */}
                           <button
-                            className={`bg-gradient-to-r from-red-600 to-red-400 w-[95%] text-white p-4 my-4 hover:from-red-400 hover:to-red-600 rounded-lg font-bold text-xl transform hover:scale-105 transition duration-300 shadow-lg hover:shadow-xl flex items-center justify-center gap-3 ${totalQty === 0 ? 'opacity-50 cursor-not-allowed' : ''}`}
+                            className={`bg-gradient-to-r from-red-600 to-red-400 w-[95%] text-white p-4 my-4 hover:from-red-400 hover:to-red-600 rounded-lg font-bold text-xl transform hover:scale-105 transition duration-300 shadow-lg hover:shadow-xl flex items-center justify-center gap-3 ${
+                              totalQty === 0
+                                ? "opacity-50 cursor-not-allowed"
+                                : ""
+                            }`}
                             onClick={handlePayment}
                             disabled={totalQty === 0}
                           >
-                            <FaShoppingCart className="text-2xl" /> Đặt Hàng Ngay
+                            <FaShoppingCart className="text-2xl" /> Đặt Hàng
+                            Ngay
                           </button>
                         </div>
                       </div>
@@ -735,10 +753,11 @@ const Cart = () => {
                 Xác nhận đặt hàng
               </h3>
               <p className="text-gray-600">
-                Bạn có chắc chắn muốn đặt hàng với phương thức thanh toán khi nhận hàng?
+                Bạn có chắc chắn muốn đặt hàng với phương thức thanh toán khi
+                nhận hàng?
               </p>
             </div>
-            
+
             <div className="flex gap-3">
               <button
                 onClick={() => setShowConfirmModal(false)}
