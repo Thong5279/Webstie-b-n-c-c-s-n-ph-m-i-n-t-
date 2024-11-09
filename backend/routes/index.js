@@ -40,6 +40,7 @@ const orderController = require("../controller/order/order.controller");
 const {
   toggleFavoriteProduct,
   getFavoriteProducts,
+  clearFavoriteProducts,
 } = require("../controller/admin/adminFavoritesController");
 
 router.post("/signup", userSignUpController);
@@ -54,6 +55,7 @@ router.post("/update-user", authToken, updateUser);
 // route de them san pham vao danh sach yeu thich
 router.post("/add-favorites", toggleFavoriteProduct);
 router.get("/get-favorites", getFavoriteProducts);
+router.delete("/clear-favorites", clearFavoriteProducts);
 
 //upload san pham
 router.post("/upload-product", authToken, UploadProductController);

@@ -60,4 +60,23 @@ const getFavoriteProducts = async (req, res) => {
   }
 };
 
-module.exports = { toggleFavoriteProduct, getFavoriteProducts };
+const clearFavoriteProducts = async (req, res) => {
+  try {
+    let favorites = await AdminFavorites.findOne();
+    if (favorites) {
+      favorites.favoriteProducts = [];
+      await favorites.save();
+    }
+    res.status(200).json({ message: "Danh sách yêu thích đã được xóa." });
+  } catch (error) {
+    res
+      .status(500)
+      .json({ error: "Có lỗi xảy ra khi xóa danh sách yêu thích." });
+  }
+};
+
+module.exports = {
+  toggleFavoriteProduct,
+  getFavoriteProducts,
+  clearFavoriteProducts,
+};

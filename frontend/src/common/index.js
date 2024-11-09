@@ -150,5 +150,9 @@ const SummaryApi = {
     url: `${backendDomin}/api/get-favorites`,
     method: "GET",
   },
+  clearFavorites: {
+    url: `${backendDomin}/api/clear-favorites`,
+    method: "DELETE",
+  },
 };
 export default SummaryApi; // Xuất đối tượng SummaryApi để có thể sử dụng ở các tệp khác
