@@ -695,11 +695,11 @@ const Cart = () => {
                         <div className="flex justify-center">
                           {/* Đặt hàng */}
                           <button
-                            className="bg-gradient-to-r from-red-600 to-red-400 w-[95%] text-white p-4 my-4 hover:from-red-400 hover:to-red-600 rounded-lg font-bold text-xl transform hover:scale-105 transition duration-300 shadow-lg hover:shadow-xl flex items-center justify-center gap-3"
+                            className={`bg-gradient-to-r from-red-600 to-red-400 w-[95%] text-white p-4 my-4 hover:from-red-400 hover:to-red-600 rounded-lg font-bold text-xl transform hover:scale-105 transition duration-300 shadow-lg hover:shadow-xl flex items-center justify-center gap-3 ${totalQty === 0 ? 'opacity-50 cursor-not-allowed' : ''}`}
                             onClick={handlePayment}
+                            disabled={totalQty === 0}
                           >
-                            <FaShoppingCart className="text-2xl" /> Đặt Hàng
-                            Ngay
+                            <FaShoppingCart className="text-2xl" /> Đặt Hàng Ngay
                           </button>
                         </div>
                       </div>
