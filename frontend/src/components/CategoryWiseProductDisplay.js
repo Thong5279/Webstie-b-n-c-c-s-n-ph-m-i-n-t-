@@ -1,151 +1,199 @@
 // Import các thư viện và component cần thiết
-import React, { useContext, useEffect, useRef, useState } from 'react' // Import React và các hook
-import fetchCategoryWiseProduct from "../helpers/fetchCategoryWiseProduct" // Import hàm để lấy sản phẩm theo danh mục
-import displayVNDCurrency from '../helpers/displayCurrency' // Import hàm hiển thị tiền tệ VND
-import { FaAngleLeft, FaAngleRight } from 'react-icons/fa6' // Import icon mũi tên trái phải
-import { Link } from 'react-router-dom' // Import component Link để tạo liên kết
-import addToCart from '../helpers/addToCart' // Import hàm thêm vào giỏ hàng
-import Context from '../context'
-import scrollTop from '../helpers/scrollTop'
-import { FaHeart,FaRegHeart } from "react-icons/fa";
+import React, { useContext, useEffect, useRef, useState } from "react"; // Import React và các hook
+import fetchCategoryWiseProduct from "../helpers/fetchCategoryWiseProduct"; // Import hàm để lấy sản phẩm theo danh mục
+import displayVNDCurrency from "../helpers/displayCurrency"; // Import hàm hiển thị tiền tệ VND
+import { FaAngleLeft, FaAngleRight } from "react-icons/fa6"; // Import icon mũi tên trái phải
+import { Link } from "react-router-dom"; // Import component Link để tạo liên kết
+import addToCart from "../helpers/addToCart"; // Import hàm thêm vào giỏ hàng
+import Context from "../context";
+import scrollTop from "../helpers/scrollTop";
+import { FaHeart, FaRegHeart } from "react-icons/fa";
+import SummaryApi from "../common";
 
 // Component hiển thị sản phẩm theo danh mục
-const CategoryWiseProductDisplay = ({category, heading}) => {
-    // Các state để quản lý dữ liệu và trạng thái
-    const [data,setData] = useState([]) // Dữ liệu sản phẩm
-    const [loading,setLoading] = useState(true) // Trạng thái loading
-    const loadingList = new Array(13).fill(null) // Mảng để hiển thị skeleton loading
-    const [hoveredProduct, setHoveredProduct] = useState(null) // Sản phẩm đang được hover
-    const [isZoomed, setIsZoomed] = useState(false) // Trạng thái phóng to
+const CategoryWiseProductDisplay = ({ category, heading }) => {
+  // Các state để quản lý dữ liệu và trạng thái
+  const [data, setData] = useState([]); // Dữ liệu sản phẩm
+  const [loading, setLoading] = useState(true); // Trạng thái loading
+  const loadingList = new Array(13).fill(null); // Mảng để hiển thị skeleton loading
+  const [hoveredProduct, setHoveredProduct] = useState(null); // Sản phẩm đang được hover
+  const [isZoomed, setIsZoomed] = useState(false); // Trạng thái phóng to
 
-    const {fetchUserAddToCart}  = useContext(Context)
+  const { fetchUserAddToCart } = useContext(Context);
 
-    // Xử lí trái tim
-    const [likedItems,setLikedItems] = useState({})
-    const handleHeart = (e, productId) => {
-        e.preventDefault()
-        e.stopPropagation()
-        setLikedItems((prev) => ({
-            ...prev,
-            [productId]: !prev[productId]
-        }))
-    }
+  // xử lý khi click vào trái tim
+  const [likedItems, setLikedItems] = useState(() => {
+    const savedLiked = localStorage.getItem("likedItems");
+    return savedLiked ? JSON.parse(savedLiked) : {}; // Nếu có thì parse, nếu không thì trả về {}
+  });
+  const handleHeart = async (e, productId) => {
+    e.preventDefault();
 
-    const handleAddToCart = async(e,id) =>{
-       await addToCart(e,id)
-       fetchUserAddToCart()
-    }
+    // Cập nhật trạng thái yêu thích
+    setLikedItems((prev) => {
+      const newLikedItems = {
+        ...prev,
+        [productId]: !prev[productId],
+      };
 
-    // Hàm fetch dữ liệu sản phẩm
-    const fetchData = async() =>{
-        setLoading(true)
-        const categoryProduct = await fetchCategoryWiseProduct(category)
-        setLoading(false)
-        console.log("horizontal data", categoryProduct.data)
-        setData(categoryProduct?.data)
-    }
-     
-    // Gọi fetchData khi component mount
-    useEffect(()=>{
-        fetchData()
-    },[])
+      // Lưu lại vào localStorage
+      localStorage.setItem("likedItems", JSON.stringify(newLikedItems));
 
-    // Xử lý sự kiện hover vào sản phẩm
-    const handleProductHover = (productId) => {
-        setHoveredProduct(productId)
-    }
+      return newLikedItems;
+    });
 
-    // Xử lý sự kiện rời khỏi sản phẩm
-    const handleProductLeave = () => {
-        setHoveredProduct(null)
-    }
+    // Gửi yêu cầu POST lên API để thêm sản phẩm vào danh sách yêu thích
+    await fetch(SummaryApi.favorites.url, {
+      method: SummaryApi.favorites.method,
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ productId }),
+    });
+  };
 
-    // Xử lý sự kiện phóng to/thu nhỏ
-    const toggleZoom = (e) => {
-        e.preventDefault()
-        e.stopPropagation()
-        setIsZoomed(!isZoomed)
-    }
+  const handleAddToCart = async (e, id) => {
+    await addToCart(e, id);
+    fetchUserAddToCart();
+  };
+
+  // Hàm fetch dữ liệu sản phẩm
+  const fetchData = async () => {
+    setLoading(true);
+    const categoryProduct = await fetchCategoryWiseProduct(category);
+    setLoading(false);
+    console.log("horizontal data", categoryProduct.data);
+    setData(categoryProduct?.data);
+  };
+
+  // Gọi fetchData khi component mount
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  // Xử lý sự kiện hover vào sản phẩm
+  const handleProductHover = (productId) => {
+    setHoveredProduct(productId);
+  };
+
+  // Xử lý sự kiện rời khỏi sản phẩm
+  const handleProductLeave = () => {
+    setHoveredProduct(null);
+  };
+
+  // Xử lý sự kiện phóng to/thu nhỏ
+  const toggleZoom = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsZoomed(!isZoomed);
+  };
 
   // Render component
   return (
-    <div className='container mx-auto px-4 my-6 relative'>
-        <h2 className="text-2xl font-semibold py-4">{heading}</h2>
+    <div className="container mx-auto px-4 my-6 relative">
+      <h2 className="text-2xl font-semibold py-4">{heading}</h2>
 
-          <div className={`grid grid-cols-[repeat(auto-fill,minmax(300px,320px))] justify-between md:gap-6 overflow-scroll scrollbar-none transition-all ${isZoomed ? 'scale-110' : ''}`}>
+      <div
+        className={`grid grid-cols-[repeat(auto-fill,minmax(300px,320px))] justify-between md:gap-6 overflow-scroll scrollbar-none transition-all ${
+          isZoomed ? "scale-110" : ""
+        }`}
+      >
+        {/* Nút phóng to/thu nhỏ */}
+        <button
+          onClick={toggleZoom}
+          className="absolute top-2 right-2 bg-red-600 text-white px-3 py-1 rounded-full hover:bg-red-700 transition-all z-10"
+        >
+          {isZoomed ? "Thu nhỏ" : "Phóng to"}
+        </button>
 
-          {/* Nút phóng to/thu nhỏ */}
-          <button onClick={toggleZoom} className="absolute top-2 right-2 bg-red-600 text-white px-3 py-1 rounded-full hover:bg-red-700 transition-all z-10">
-            {isZoomed ? 'Thu nhỏ' : 'Phóng to'}
-          </button>
-
-          {/* Hiển thị skeleton loading hoặc danh sách sản phẩm */}
-          {
-            loading ? (
-                // Hiển thị skeleton loading
-                loadingList.map((product,index)=>{
-                    return(
-                    <div key={index} className='w-full min-w-[280px] max-w-[320px] bg-white rounded-sm shadow '>
-                        <div className="bg-slate-200 h-48 p-4 min-w-[280px] md:min-w-[145px] flex justify-center items-center animate-pulse">
-                        </div>
-                        <div className='p-4 grid gap-3 '>
-                            <h2 className='font-medium text-base md:text-lg text-ellipsis line-clamp-1 text-black p-1 py-2 animate-pulse rounded-full bg-slate-200' ></h2>
-                            <p className='capitalize text-slate-500 p-1 animate-pulse rounded-full bg-slate-200 py-2'></p>
-                            <div className='flex gap-3'>
-                                <p className='text-red-600 font-medium p-1 animate-pulse rounded-full bg-slate-200 w-full py-2'></p>
-                                {product?.price !== product?.sellingPrice && (<p className='text-slate-500 line-through p-1 animate-pulse rounded-full bg-slate-200 w-full py-2'></p>)}  
-                            </div>
-                            <button className='text-sm text-white px-3 py-0.5 rounded-full bg-slate-200 py-2 animate-pulse '></button>
-                        </div>
+        {/* Hiển thị skeleton loading hoặc danh sách sản phẩm */}
+        {loading
+          ? // Hiển thị skeleton loading
+            loadingList.map((product, index) => {
+              return (
+                <div
+                  key={index}
+                  className="w-full min-w-[280px] max-w-[320px] bg-white rounded-sm shadow "
+                >
+                  <div className="bg-slate-200 h-48 p-4 min-w-[280px] md:min-w-[145px] flex justify-center items-center animate-pulse"></div>
+                  <div className="p-4 grid gap-3 ">
+                    <h2 className="font-medium text-base md:text-lg text-ellipsis line-clamp-1 text-black p-1 py-2 animate-pulse rounded-full bg-slate-200"></h2>
+                    <p className="capitalize text-slate-500 p-1 animate-pulse rounded-full bg-slate-200 py-2"></p>
+                    <div className="flex gap-3">
+                      <p className="text-red-600 font-medium p-1 animate-pulse rounded-full bg-slate-200 w-full py-2"></p>
+                      {product?.price !== product?.sellingPrice && (
+                        <p className="text-slate-500 line-through p-1 animate-pulse rounded-full bg-slate-200 w-full py-2"></p>
+                      )}
                     </div>
-                    )
-                })
-            ) : (
-                // Hiển thị danh sách sản phẩm
-                data.map((product,index)=>{
-                    return(
-                    <Link 
-                        key={product._id}
-                        to={'/product/'+product?._id} 
-                        className={`w-full min-w-[280px] max-w-[320px] bg-white rounded-sm shadow transition-all duration-300 ${hoveredProduct === product._id ? 'transform scale-105' : ''}`}
-                        onMouseEnter={() => handleProductHover(product._id)}
-                        onMouseLeave={handleProductLeave}
-                        onClick={scrollTop}
+                    <button className="text-sm text-white px-3 py-0.5 rounded-full bg-slate-200 py-2 animate-pulse "></button>
+                  </div>
+                </div>
+              );
+            })
+          : // Hiển thị danh sách sản phẩm
+            data.map((product, index) => {
+              return (
+                <Link
+                  key={product._id}
+                  to={"/product/" + product?._id}
+                  className={`w-full min-w-[280px] max-w-[320px] bg-white rounded-sm shadow transition-all duration-300 ${
+                    hoveredProduct === product._id ? "transform scale-105" : ""
+                  }`}
+                  onMouseEnter={() => handleProductHover(product._id)}
+                  onMouseLeave={handleProductLeave}
+                  onClick={scrollTop}
+                >
+                  <div className="bg-slate-200 h-48 p-4 min-w-[280px] md:min-w-[145px] flex justify-center items-center">
+                    <img
+                      src={product.productImage[0]}
+                      className="object-scale-down h-full hover:scale-110 transition-all mix-blend-multiply"
+                    />
+                  </div>
+                  <div className="p-4 grid gap-3 ">
+                    <h2 className="font-medium text-base md:text-lg text-ellipsis line-clamp-1 text-black ">
+                      {product?.productName}
+                    </h2>
+                    <div className="flex items-center justify-between">
+                      <p className="capitalize text-slate-500">
+                        {product?.category}
+                      </p>
+                      <div
+                        className={`cursor-pointer ${
+                          likedItems[product._id]
+                            ? "text-red-500"
+                            : "text-slate-300"
+                        }`}
+                        onClick={(e) => handleHeart(e, product._id)}
+                      >
+                        <FaHeart className="text-xl" />{" "}
+                        {/** Đang xử bỏ attribute của thẻ link cha trong thẻ div con */}
+                      </div>
+                    </div>
+                    <div className="flex gap-3">
+                      <p className="text-red-600 font-medium">
+                        {displayVNDCurrency(product?.sellingPrice)}
+                      </p>
+                      {product?.price !== product?.sellingPrice && (
+                        <p className="text-slate-500 line-through">
+                          {displayVNDCurrency(product?.price)}
+                        </p>
+                      )}
+                    </div>
+                    <button
+                      className="text-sm bg-red-600 hover:bg-red-700 text-white px-3 py-0.5 rounded-full transition-all duration-300 transform hover:scale-105"
+                      onClick={(e) => {
+                        handleAddToCart(e, product?._id);
+                        e.preventDefault();
+                        e.stopPropagation();
+                      }}
                     >
-                        <div className="bg-slate-200 h-48 p-4 min-w-[280px] md:min-w-[145px] flex justify-center items-center">
-                            <img src={product.productImage[0]} className='object-scale-down h-full hover:scale-110 transition-all mix-blend-multiply'/>
-                        </div>
-                        <div className='p-4 grid gap-3 '>
-                            <h2 className='font-medium text-base md:text-lg text-ellipsis line-clamp-1 text-black ' >{product?.productName}</h2>
-                            <div className='flex items-center justify-between'>
-                                <p className='capitalize text-slate-500'>{product?.category}</p>
-                                <div className={`cursor-pointer ${likedItems[product._id] ? 'text-red-500' : 'text-slate-300'}`} onClick={e => handleHeart(e,product._id)} >
-                                    <FaHeart className='text-xl'/>  {/** Đang xử bỏ attribute của thẻ link cha trong thẻ div con */}
-                                </div>
-                            </div>
-                            <div className='flex gap-3'>
-                                <p className='text-red-600 font-medium'>{displayVNDCurrency(product?.sellingPrice)}</p>
-                                {product?.price !== product?.sellingPrice && (<p className='text-slate-500 line-through'>{displayVNDCurrency(product?.price)}</p>)}  
-                            </div>
-                            <button 
-                                className='text-sm bg-red-600 hover:bg-red-700 text-white px-3 py-0.5 rounded-full transition-all duration-300 transform hover:scale-105'
-                                onClick={(e) => {
-                                    handleAddToCart(e,product?._id)
-                                    e.preventDefault()
-                                    e.stopPropagation()
-                                }}
-                            >
-                                Thêm vào giỏ hàng
-                            </button>
-                        </div>
-                    </Link>
-                    )
-                })
-            )
-          }
-          </div>
+                      Thêm vào giỏ hàng
+                    </button>
+                  </div>
+                </Link>
+              );
+            })}
+      </div>
     </div>
-  )
-}
+  );
+};
 
-export default CategoryWiseProductDisplay
+export default CategoryWiseProductDisplay;
