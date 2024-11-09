@@ -1,12 +1,12 @@
+
 const stripe = require("../../config/stripe");
+const VNDtoUSD = require("../../helpers/currencyConverter");
 const userModel = require("../../models/userModel");
+
 
 const paymentController = async (request, response) => {
   try {
     const { cartItems } = request.body;
-
-    console.log("cartItems", cartItems);
-
     const user = await userModel.findOne({ _id: request.userId });
 
     const params = {
@@ -14,16 +14,15 @@ const paymentController = async (request, response) => {
       mode: "payment",
       payment_method_types: ["card"],
       billing_address_collection: "auto",
-      // shipping_options: [
-      //     {
-      //         shipping_rate: ''            phí vận chuyển của stripe
-      //     }
-      // ]
       customer_email: user.email,
       metadata: {
         userId: request.userId,
+        originalCurrency: "VND"
       },
-      line_items: cartItems.map((item, index) => {
+      line_items: cartItems.map((item) => {
+        const priceInVND = item.productId.sellingPrice;
+        const priceInUSD = VNDtoUSD(priceInVND);
+        
         return {
           price_data: {
             currency: "usd",
@@ -32,13 +31,10 @@ const paymentController = async (request, response) => {
               images: item.productId.productImage,
               metadata: {
                 productId: item.productId._id,
+                priceInVND: priceInVND
               },
             },
-            unit_amount: item.productId.sellingPrice * 100,
-          },
-          adjustable_quantity: {
-            enabled: true,
-            minimum: 1,
+            unit_amount: Math.round(priceInUSD * 100), // Stripe yêu cầu số tiền theo cent
           },
           quantity: item.quantityCart,
         };
@@ -48,15 +44,13 @@ const paymentController = async (request, response) => {
     };
 
     const session = await stripe.checkout.sessions.create(params);
-
-    response.status(303).json(session);
+    response.status(200).json(session);
   } catch (error) {
-    response.json({
+    response.status(500).json({
       message: error?.message || error,
-      error: true,
-      success: false,
     });
   }
 };
 
 module.exports = paymentController;
+
