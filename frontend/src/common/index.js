@@ -138,8 +138,16 @@ const SummaryApi = {
     url: `${backendDomin}/api/checkout`,
     method: "POST",
   },
-  getOrder : {
+  getOrder: {
     url: `${backendDomin}/api/order-list`,
+    method: "GET",
+  },
+  favorites: {
+    url: `${backendDomin}/api/add-favorites`,
+    method: "POST",
+  },
+  getFavorites: {
+    url: `${backendDomin}/api/get-favorites`,
     method: "GET",
   },
 };
