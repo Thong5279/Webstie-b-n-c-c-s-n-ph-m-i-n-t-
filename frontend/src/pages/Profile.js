@@ -4,6 +4,8 @@ import SummaryApi from '../common';
 import { FaUser, FaEnvelope, FaPhone, FaMapMarkerAlt, FaTransgender, FaCamera, FaUserCircle, FaPen, FaCalendarAlt, FaStar, FaCoins, FaHeart, FaCrown } from 'react-icons/fa';
 import moment from 'moment';
 import displayVNDCurrency from '../helpers/displayCurrency';
+import { calculatePoints, determineCustomerTier, calculateNextTierProgress } from '../helpers/membershipUtils';
+
 
 const Profile = () => {
     const [isEditing, setIsEditing] = useState(false);
@@ -21,6 +23,9 @@ const Profile = () => {
     const [joinDate, setJoinDate] = useState("");
     const [totalPurchase, setTotalPurchase] = useState(0);
     const [customerGroup] = useState("Khách Hàng VIP Đồng");
+    const [points, setPoints] = useState(0);
+    const [currentTier, setCurrentTier] = useState(null);
+    const [nextTierProgress, setNextTierProgress] = useState(null);
 
     // Fetch user data
     const fetchUserData = async () => {
@@ -34,7 +39,18 @@ const Profile = () => {
             if (data.success) {
                 setUserData(data.data);
                 setJoinDate(data.data.createdAt);
-                setTotalPurchase(data.data.totalPurchase || 0);
+                const totalSpent = data.data.totalPurchase || 0;
+                setTotalPurchase(totalSpent);
+                
+                // Tính điểm và xác định hạng
+                const earnedPoints = calculatePoints(totalSpent);
+                setPoints(earnedPoints);
+                
+                const tier = determineCustomerTier(totalSpent);
+                setCurrentTier(tier);
+                
+                const progress = calculateNextTierProgress(totalSpent);
+                setNextTierProgress(progress);
             }
         } catch (error) {
             console.error("Lỗi khi lấy thông tin:", error);
@@ -120,6 +136,52 @@ const Profile = () => {
         } finally {
             setAvatarLoading(false);
         }
+    };
+
+    const MembershipProgress = ({ currentTier, nextTierProgress, points }) => {
+        return (
+            <div className="space-y-4 mt-6 p-4 bg-gray-50 rounded-lg">
+                <div className="flex items-center justify-between">
+                    <span className="text-gray-600">Điểm tích lũy:</span>
+                    <span className="font-bold text-red-600">{points.toLocaleString()} điểm</span>
+                </div>
+                
+                {nextTierProgress?.nextTier && (
+                    <div className="space-y-2">
+                        <div className="flex justify-between text-sm text-gray-600">
+                            <span>Hạng hiện tại: 
+                                <span className={`font-medium ml-1 ${currentTier?.color}`}>
+                                    {currentTier?.icon} {currentTier?.name}
+                                </span>
+                            </span>
+                            <span>Hạng tiếp theo: 
+                                <span className={`font-medium ml-1 ${nextTierProgress.nextTier.color}`}>
+                                    {nextTierProgress.nextTier.icon} {nextTierProgress.nextTier.name}
+                                </span>
+                            </span>
+                        </div>
+                        
+                        <div className="w-full bg-gray-200 rounded-full h-2.5">
+                            <div 
+                                className="bg-red-600 h-2.5 rounded-full transition-all duration-500"
+                                style={{ width: `${nextTierProgress.progress}%` }}
+                            ></div>
+                        </div>
+                        
+                        <p className="text-sm text-gray-600">
+                            Cần chi tiêu thêm {displayVNDCurrency(nextTierProgress.remainingAmount)} để lên hạng {nextTierProgress.nextTier.name}
+                        </p>
+                    </div>
+                )}
+
+                {!nextTierProgress?.nextTier && (
+                    <div className="text-center text-gray-600">
+                        <p>Chúc mừng! Bạn đã đạt hạng thành viên cao nhất</p>
+                        <p className="text-2xl mt-2">{currentTier?.icon}</p>
+                    </div>
+                )}
+            </div>
+        );
     };
 
     if (!userData) {
@@ -305,8 +367,8 @@ const Profile = () => {
                     {/* Thông tin thành viên */}
                     <div className="bg-white rounded-xl shadow-lg p-6">
                         <h2 className="text-xl font-semibold mb-6 flex items-center gap-2">
-                            <FaCrown className="text-amber-500" />
-                            Thông tin thành viên
+                            <FaCrown className={currentTier?.color || "text-amber-500"} />
+                            Thông tin thành viên {currentTier?.icon}
                         </h2>
                         
                         <div className="space-y-4">
@@ -322,10 +384,12 @@ const Profile = () => {
 
                             <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
                                 <span className="flex items-center gap-2 text-gray-600">
-                                    <FaStar className="text-amber-500" />
-                                    Nhóm khách hàng:
+                                    <FaStar className={currentTier?.color || "text-amber-500"} />
+                                    Hạng thành viên:
                                 </span>
-                                <span className="font-medium text-amber-600">{customerGroup}</span>
+                                <span className={`font-medium ${currentTier?.color}`}>
+                                    {currentTier?.icon} {currentTier?.name}
+                                </span>
                             </div>
 
                             <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
@@ -338,6 +402,12 @@ const Profile = () => {
                                 </span>
                             </div>
                         </div>
+
+                        <MembershipProgress 
+                            currentTier={currentTier}
+                            nextTierProgress={nextTierProgress}
+                            points={points}
+                        />
 
                         <div className="mt-6 p-4 bg-red-50 rounded-lg border border-red-100">
                             <div className="flex items-center gap-2 text-red-500 mb-2">
