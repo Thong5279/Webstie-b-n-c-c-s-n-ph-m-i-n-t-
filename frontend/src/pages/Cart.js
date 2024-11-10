@@ -73,16 +73,17 @@ const Cart = () => {
       text: "Thanh toán khi nhận hàng",
     },
     {
-      icon: <FaPaypal className="text-blue-500" />,
-      text: "PayPal",
+      icon: <FaCreditCard className="text-purple-500" />,
+      text: "Thẻ tín dụng/ghi nợ",
+      
     },
     {
       icon: <ImQrcode className="text-green-500" />,
       text: "QR Pay",
     },
     {
-      icon: <FaCreditCard className="text-purple-500" />,
-      text: "Thẻ tín dụng/ghi nợ",
+      icon: <FaPaypal className="text-blue-500" />,
+      text: "PayPal",
     },
   ];
 
@@ -196,7 +197,7 @@ const Cart = () => {
       return;
     }
 
-    if (selectedPayment.text === "PayPal") {
+    if (selectedPayment.text === "PayPal" || selectedPayment.text === "Thẻ tín dụng/ghi nợ") {
       const stripePromise = await loadStripe(
         process.env.REACT_APP_STRIPE_PUBLIC_KEY
       );
