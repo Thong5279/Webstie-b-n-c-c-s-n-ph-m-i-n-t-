@@ -30,6 +30,7 @@ import Succes from "../pages/Success";
 import Cancel from "../pages/Cancel";
 import OderPage from "../pages/OderPage";
 import AdminFavoritesPage from "../pages/AdminFavoritesPage";
+import AllOrder from "../pages/AllOrder";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -151,6 +152,10 @@ const router = createBrowserRouter([
           {
             path: "all-favorites",
             element: <AdminFavoritesPage />,
+          },
+          {
+            path: "all-order",
+            element: <AllOrder />,
           },
         ],
       },
