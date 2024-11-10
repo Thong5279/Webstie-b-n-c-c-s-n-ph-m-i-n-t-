@@ -207,6 +207,7 @@ const Cart = () => {
         },
         body: JSON.stringify({
           cartItems: selectedItems,
+          totalAmount: finalTotalAmount,
         }),
       });
 
@@ -355,6 +356,25 @@ const Cart = () => {
   };
 
   const [isShippingSelected, setIsShippingSelected] = useState(false);
+
+  const [finalTotalAmount, setFinalTotalAmount] = useState(0);
+
+  const calculateFinalTotal = () => {
+    let total = 0;
+    
+    if (totalDiscountAmount > 0) {
+      total = totalDiscountAmount + (totalDiscountAmount >= 5000000 ? 0 : shippingFee);
+    } else {
+      total = finalPrice + (finalPrice >= 5000000 ? 0 : shippingFee);
+    }
+    
+    setFinalTotalAmount(total);
+    return total;
+  };
+
+  useEffect(() => {
+    calculateFinalTotal();
+  }, [totalDiscountAmount, finalPrice, shippingFee]);
 
   return (
     <div className="container mx-auto">

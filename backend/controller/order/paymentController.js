@@ -1,4 +1,3 @@
-
 const stripe = require("../../config/stripe");
 const VNDtoUSD = require("../../helpers/currencyConverter");
 const userModel = require("../../models/userModel");
@@ -6,8 +5,10 @@ const userModel = require("../../models/userModel");
 
 const paymentController = async (request, response) => {
   try {
-    const { cartItems } = request.body;
+    const { cartItems, totalAmount } = request.body;
     const user = await userModel.findOne({ _id: request.userId });
+
+    const totalAmountUSD = VNDtoUSD(totalAmount);
 
     const params = {
       submit_type: "pay",
@@ -17,12 +18,10 @@ const paymentController = async (request, response) => {
       customer_email: user.email,
       metadata: {
         userId: request.userId,
-        originalCurrency: "VND"
+        originalCurrency: "VND",
+        totalAmountVND: totalAmount
       },
       line_items: cartItems.map((item) => {
-        const priceInVND = item.productId.sellingPrice;
-        const priceInUSD = VNDtoUSD(priceInVND);
-        
         return {
           price_data: {
             currency: "usd",
@@ -31,12 +30,12 @@ const paymentController = async (request, response) => {
               images: item.productId.productImage,
               metadata: {
                 productId: item.productId._id,
-                priceInVND: priceInVND
+                priceInVND: totalAmount
               },
             },
-            unit_amount: Math.round(priceInUSD * 100), // Stripe yêu cầu số tiền theo cent
+            unit_amount: Math.round(totalAmountUSD * 100),
           },
-          quantity: item.quantityCart,
+          quantity: 1,
         };
       }),
       success_url: `${process.env.FRONTEND_URL}/success`,
