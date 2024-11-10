@@ -42,6 +42,7 @@ const {
   getFavoriteProducts,
   clearFavoriteProducts,
 } = require("../controller/admin/adminFavoritesController");
+const getAllOrders = require("../controller/order/getAllOrders");
 
 router.post("/signup", userSignUpController);
 router.post("/signin", userSignInController);
@@ -108,5 +109,8 @@ router.post("/webhook", webhooks); // api để xử lý các sự kiện từ s
 
 //order
 router.get("/order-list", authToken, orderController);
+
+//all orders
+router.get("/all-orders", authToken, getAllOrders);
 
 module.exports = router;
