@@ -8,6 +8,7 @@ const CheckoutPage = ({
   finalPrice,
   onVoucherStatusChange,
   onDiscountAmountChange,
+  disabledInputVoucher,
 }) => {
   const [voucherCode, setVoucherCode] = useState("");
   const [discountAmount, setDiscountAmount] = useState(0);
@@ -53,6 +54,7 @@ const CheckoutPage = ({
         <button
           className="w-1/4 p-3 bg-red-500 text-white font-semibold rounded-lg hover:bg-red-400 "
           onClick={handleApplyVoucher}
+          disabled={disabledInputVoucher}
         >
           Áp dụng
         </button>

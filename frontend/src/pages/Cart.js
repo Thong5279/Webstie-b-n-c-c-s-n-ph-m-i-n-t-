@@ -27,7 +27,6 @@ import CheckoutPage from "../components/CheckoutPage";
 import { loadStripe } from "@stripe/stripe-js";
 import { toast } from "react-toastify";
 
-
 const Cart = () => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -50,6 +49,7 @@ const Cart = () => {
   const [isShopVoucherDisabled, setIsShopVoucherDisabled] = useState(false);
 
   const [totalDiscountAmount, setTotalDiscountAmount] = useState(0);
+  const [disabledInputVoucher, setDisabledVoucherInput] = useState(false); //Vo hieu hoa o nhap voucher khi chon voucher shop
 
   //Hàm nhận discountAmount(mã giảm giá khi có voucher) từ API bên component con
   const [disCountAmountVoucher, setDisCountAmountVoucher] = useState(0);
@@ -283,22 +283,26 @@ const Cart = () => {
     switch (value) {
       case "Giảm tối đa 5%":
         setSelectedVoucher(0.05);
+        setDisabledVoucherInput(true);
         break;
       case "Giảm tối đa 10%":
         setSelectedVoucher(0.1);
+        setDisabledVoucherInput(true);
         break;
       case "Giảm tối đa 15%":
         setSelectedVoucher(0.15);
+        setDisabledVoucherInput(true);
         break;
       default:
         setSelectedVoucher(0);
+        setDisabledVoucherInput(false);
     }
   };
 
   const handleShippingChange = (e) => {
     const value = e.target.value;
     setShowShippingFee(true);
-    
+
     if (value === "Chọn đơn vị vận chuyển") {
       setIsShippingSelected(false);
       setShippingFee(30000);
@@ -361,13 +365,15 @@ const Cart = () => {
 
   const calculateFinalTotal = () => {
     let total = 0;
-    
+
     if (totalDiscountAmount > 0) {
-      total = totalDiscountAmount + (totalDiscountAmount >= 5000000 ? 0 : shippingFee);
+      total =
+        totalDiscountAmount +
+        (totalDiscountAmount >= 5000000 ? 0 : shippingFee);
     } else {
       total = finalPrice + (finalPrice >= 5000000 ? 0 : shippingFee);
     }
-    
+
     setFinalTotalAmount(total);
     return total;
   };
@@ -586,6 +592,7 @@ const Cart = () => {
                             totalAmount={finalPrice}
                             onVoucherStatusChange={handleVoucherStatusChange}
                             onDiscountAmountChange={handleDiscountAmountChange}
+                            disabledInputVoucher={disabledInputVoucher}
                             className="w-full"
                           />
                         </div>
@@ -616,11 +623,14 @@ const Cart = () => {
                         <div className="px-6 flex items-center justify-between border-b py-4">
                           <label className="text-slate-600 font-medium text-lg flex items-center gap-2">
                             <FaShippingFast className="text-red-500 text-xl" />{" "}
-                            Đơn vị vận chuyển: <span className="text-red-500">*</span>
+                            Đơn vị vận chuyển:{" "}
+                            <span className="text-red-500">*</span>
                           </label>
                           <select
                             className={`ml-3 border border-solid outline-none p-3 cursor-pointer w-[270px] transition duration-300 rounded-lg ${
-                              !isShippingSelected ? 'border-red-500' : 'hover:border-red-500'
+                              !isShippingSelected
+                                ? "border-red-500"
+                                : "hover:border-red-500"
                             }`}
                             onChange={handleShippingChange}
                           >
