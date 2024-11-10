@@ -13,7 +13,8 @@ import { FaTicketAlt } from "react-icons/fa";
 import { FaRegNewspaper } from "react-icons/fa";
 import { FaRegMoneyBill } from "react-icons/fa";
 import { FaHeartCircleCheck } from "react-icons/fa6";
-
+import { FaUserFriends } from "react-icons/fa";
+import { FaCalculator } from "react-icons/fa";
 const AdminPanel = () => {
   const user = useSelector((state) => state?.user?.user);
   const navigate = useNavigate();
@@ -109,6 +110,20 @@ const AdminPanel = () => {
             >
               <FaRegNewspaper className="mr-2 text-2xl text-blue-600" />
               Bài viết trên hệ thống
+            </Link>
+            <Link
+              to={"all-promotion"}
+              className="px-2 py-1 flex items-center mt-2 transition hover:bg-red-400 hover:text-white"
+            >
+              <FaUserFriends className="mr-2 text-2xl text-green-600" />
+              Khách hàng thân thiết
+            </Link>
+            <Link
+              to={"all-promotion"}
+              className="px-2 py-1 flex items-center mt-2 transition hover:bg-red-400 hover:text-white"
+            >
+              <FaCalculator className="mr-2 text-2xl text-green-600" />
+              Thống kê doanh thu
             </Link>
           </nav>
         </div>

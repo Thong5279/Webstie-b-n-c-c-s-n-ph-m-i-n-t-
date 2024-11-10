@@ -2,6 +2,8 @@ import React, { useState, useEffect, useRef } from 'react';
 import { toast } from 'react-toastify';
 import SummaryApi from '../common';
 import { FaUser, FaEnvelope, FaPhone, FaMapMarkerAlt, FaTransgender, FaCamera } from 'react-icons/fa';
+import moment from 'moment';
+import displayVNDCurrency from '../helpers/displayCurrency';
 
 const Profile = () => {
     const [isEditing, setIsEditing] = useState(false);
@@ -16,30 +18,26 @@ const Profile = () => {
     });
     const [avatarLoading, setAvatarLoading] = useState(false);
     const fileInputRef = useRef(null);
+    const [joinDate, setJoinDate] = useState("");
+    const [totalPurchase, setTotalPurchase] = useState(0);
+    const [customerGroup] = useState("Khách Hàng VIP Đồng");
 
     // Fetch user data
     const fetchUserData = async () => {
         try {
-            const response = await fetch(SummaryApi.getUserDetails.url, {
-                method: SummaryApi.getUserDetails.method,
-                credentials: 'include'
+            const response = await fetch(SummaryApi.current_user.url, {
+                method: "GET",
+                credentials: "include",
             });
             const data = await response.json();
-
+            
             if (data.success) {
                 setUserData(data.data);
-                setFormData({
-                    name: data.data.name || '',
-                    email: data.data.email || '',
-                    phone: data.data.phone || '',
-                    address: data.data.address || '',
-                    sex: data.data.sex || 'Khác'
-                });
-            } else {
-                toast.error("Không thể tải thông tin người dùng");
+                setJoinDate(data.data.createdAt);
+                setTotalPurchase(data.data.totalPurchase || 0);
             }
         } catch (error) {
-            toast.error("Lỗi khi tải thông tin người dùng");
+            console.error("Lỗi khi lấy thông tin:", error);
         }
     };
 
@@ -91,18 +89,12 @@ const Profile = () => {
         const file = e.target.files[0];
         if (!file) return;
 
-        // Kiểm tra kích thước file (ví dụ: giới hạn 2MB)
-        if (file.size > 2 * 1024 * 1024) {
-            toast.error('Kích thước ảnh không được vượt quá 2MB');
+        if (file.size > 5 * 1024 * 1024) {
+            toast.error('Kích thước ảnh không được vượt quá 5MB');
             return;
         }
 
-        // Kiểm tra định dạng file
-        const validTypes = ['image/jpeg', 'image/png', 'image/jpg'];
-        if (!validTypes.includes(file.type)) {
-            toast.error('Chỉ chấp nhận file ảnh định dạng JPG, JPEG hoặc PNG');
-            return;
-        }
+        toast.info('Vui lòng chọn ảnh phù hợp, không phản cảm');
 
         setAvatarLoading(true);
         const formData = new FormData();
@@ -304,6 +296,39 @@ const Profile = () => {
                         </div>
                     )}
                 </form>
+            </div>
+
+            <div className="bg-white rounded-lg shadow-md p-6 mt-6">
+                <h3 className="text-xl font-semibold text-gray-800 mb-4">Thông tin thành viên</h3>
+                
+                <div className="space-y-4">
+                    <div className="flex items-center justify-between">
+                        <span className="text-gray-600">Ngày tham gia:</span>
+                        <span className="font-medium">
+                            {moment(joinDate).format("DD/MM/YYYY HH:mm:ss")}
+                        </span>
+                    </div>
+
+                    <div className="flex items-center justify-between">
+                        <span className="text-gray-600">Nhóm khách hàng:</span>
+                        <span className="font-medium text-amber-600">{customerGroup}</span>
+                    </div>
+
+                    <div className="flex items-center justify-between">
+                        <span className="text-gray-600">Đã tích luỹ:</span>
+                        <span className="font-medium text-red-600">
+                            {displayVNDCurrency(totalPurchase)}
+                        </span>
+                    </div>
+                </div>
+
+                <div className="mt-6 p-4 bg-red-50 rounded-lg">
+                    <p className="text-center text-gray-700 italic">
+                        Cảm ơn quý khách đã tin tưởng và ủng hộ Mobile Store. 
+                        Chúng tôi sẽ không ngừng nỗ lực để mang đến những sản phẩm 
+                        và dịch vụ tốt nhất.
+                    </p>
+                </div>
             </div>
         </div>
     );

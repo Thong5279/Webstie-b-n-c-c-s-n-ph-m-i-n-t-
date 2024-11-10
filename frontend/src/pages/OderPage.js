@@ -61,7 +61,7 @@ const OrderPage = () => {
           >
             <div className="flex flex-col lg:flex-row justify-between items-start mb-5">
               <p className="font-semibold text-lg text-gray-700">
-                {moment(item.createdAt).format("DD/MM/YYYY")}
+                {moment(item.createdAt).format("dddd, [ngày] DD [tháng] MM [năm] YYYY, HH:mm")}
               </p>
               <p className="text-gray-600">
                 Mã đơn hàng:{" "}
