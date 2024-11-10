@@ -25,6 +25,8 @@ import { FaArrowRight } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
 import CheckoutPage from "../components/CheckoutPage";
 import { loadStripe } from "@stripe/stripe-js";
+import { toast } from "react-toastify";
+
 
 const Cart = () => {
   const [data, setData] = useState([]);
@@ -183,7 +185,12 @@ const Cart = () => {
     );
 
     if (selectedItems.length === 0) {
-      alert("Vui lòng chọn ít nhất một sản phẩm để thanh toán");
+      toast.error("Vui lòng chọn ít nhất một sản phẩm để thanh toán");
+      return;
+    }
+
+    if (!isShippingSelected) {
+      toast.error("Vui lòng chọn đơn vị vận chuyển trước khi đặt hàng");
       return;
     }
 
@@ -290,6 +297,15 @@ const Cart = () => {
   const handleShippingChange = (e) => {
     const value = e.target.value;
     setShowShippingFee(true);
+    
+    if (value === "Chọn đơn vị vận chuyển") {
+      setIsShippingSelected(false);
+      setShippingFee(30000);
+      setShowShippingFee(false);
+      return;
+    }
+
+    setIsShippingSelected(true);
 
     if (finalPrice >= 5000000) {
       setShippingFee(0);
@@ -337,6 +353,8 @@ const Cart = () => {
     });
     setSelectedProducts(updatedSelectedProducts);
   };
+
+  const [isShippingSelected, setIsShippingSelected] = useState(false);
 
   return (
     <div className="container mx-auto">
@@ -578,10 +596,12 @@ const Cart = () => {
                         <div className="px-6 flex items-center justify-between border-b py-4">
                           <label className="text-slate-600 font-medium text-lg flex items-center gap-2">
                             <FaShippingFast className="text-red-500 text-xl" />{" "}
-                            Đơn vị vận chuyển:
+                            Đơn vị vận chuyển: <span className="text-red-500">*</span>
                           </label>
                           <select
-                            className="ml-3 border border-solid hover:border-red-500 outline-none p-3 cursor-pointer w-[270px] transition duration-300 rounded-lg"
+                            className={`ml-3 border border-solid outline-none p-3 cursor-pointer w-[270px] transition duration-300 rounded-lg ${
+                              !isShippingSelected ? 'border-red-500' : 'hover:border-red-500'
+                            }`}
                             onChange={handleShippingChange}
                           >
                             <option>Chọn đơn vị vận chuyển</option>
