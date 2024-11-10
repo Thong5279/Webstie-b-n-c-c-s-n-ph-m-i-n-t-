@@ -49,7 +49,6 @@ function App() {
   const location = useLocation();
   const hideFooterPath = [
     "/login",
-    "/contact",
     "/profile",
     "/cart",
     "/admin-panel/all-product",
