@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { toast } from 'react-toastify';
 import SummaryApi from '../common';
-import { FaUser, FaEnvelope, FaPhone, FaMapMarkerAlt, FaTransgender, FaCamera } from 'react-icons/fa';
+import { FaUser, FaEnvelope, FaPhone, FaMapMarkerAlt, FaTransgender, FaCamera, FaUserCircle, FaPen, FaCalendarAlt, FaStar, FaCoins, FaHeart, FaCrown } from 'react-icons/fa';
 import moment from 'moment';
 import displayVNDCurrency from '../helpers/displayCurrency';
 
@@ -127,207 +127,230 @@ const Profile = () => {
     }
 
     return (
-        <div className="container mx-auto px-4 py-8">
-            <div className="max-w-2xl mx-auto bg-white rounded-lg shadow-md p-6">
-                <div className="flex flex-col items-center mb-8">
-                    <div className="relative">
-                        <div className="w-32 h-32 rounded-full overflow-hidden border-4 border-red-600">
-                            {userData?.profilePic ? (
-                                <img 
-                                    src={userData.profilePic.startsWith('data:') 
-                                        ? userData.profilePic 
-                                        : `${SummaryApi.baseURL}/${userData.profilePic}`
-                                    }
-                                    alt="Avatar" 
-                                    className="w-full h-full object-cover"
-                                />
-                            ) : (
-                                <div className="w-full h-full bg-gray-200 flex items-center justify-center">
-                                    <FaUser className="text-4xl text-gray-400" />
-                                </div>
-                            )}
-                            {avatarLoading && (
-                                <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center rounded-full">
-                                    <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-white"></div>
-                                </div>
-                            )}
-                        </div>
-                        <button 
-                            onClick={handleAvatarClick}
-                            className="absolute bottom-0 right-0 bg-red-600 text-white p-2 rounded-full hover:bg-red-700 transition-colors"
-                        >
-                            <FaCamera />
-                        </button>
-                        <input
-                            type="file"
-                            ref={fileInputRef}
-                            onChange={handleAvatarChange}
-                            accept="image/jpeg,image/png,image/jpg"
-                            className="hidden"
-                        />
-                    </div>
-                    <h3 className="mt-4 text-xl font-semibold">{userData?.name}</h3>
-                    <p className="text-gray-500">{userData?.role}</p>
-                </div>
-
-                <div className="flex justify-between items-center mb-6">
-                    <h2 className="text-2xl font-bold uppercase">Thông tin cá nhân</h2>
-                    <button
-                        onClick={() => {
-                            if (isEditing) {
-                                // Reset form data khi hủy chỉnh sửa
-                                setFormData({
-                                    name: userData.name || '',
-                                    email: userData.email || '',
-                                    phone: userData.phone || '',
-                                    address: userData.address || '',
-                                    sex: userData.sex || 'Khác'
-                                });
-                            }
-                            setIsEditing(!isEditing);
-                        }}
-                        className="text-red-600 hover:text-red-700"
-                    >
-                        {isEditing ? 'Hủy' : 'Chỉnh sửa'}
-                    </button>
-                </div>
-
-                <form onSubmit={handleSubmit} className="space-y-4">
-                    {/* Họ tên */}
-                    <div className="flex space-x-4 border-b-[1px] pb-3">
-                        <FaUser className="text-red-600 text-xl" />
-                        <div className="flex-1">
-                            <label className="block text-slate-700 mb-1 text-lg uppercase font-semibold">Họ tên</label>
-                            {isEditing ? (
-                                <input
-                                    type="text"
-                                    name="name"
-                                    value={formData.name}
-                                    onChange={handleChange}
-                                    className="w-full p-2 border rounded focus:outline-none focus:border-red-500"
-                                    required
-                                />
-                            ) : (
-                                <p className="">{userData.name}</p>
-                            )}
-                        </div>
-                    </div>
-
-                    {/* Email */}
-                    <div className="flex space-x-4 border-b-[1px] pb-3">
-                        <FaEnvelope className="text-red-600 text-xl" />
-                        <div className="flex-1">
-                            <label className="block mb-1 text-slate-700 text-lg uppercase font-semibold">Email</label>
-                            <p className="">{userData.email}</p>
-                        </div>
-                    </div>
-
-                    {/* Số điện thoại */}
-                    <div className="flex space-x-4 border-b-[1px] pb-3">
-                        <FaPhone className="text-red-600 text-xl" />
-                        <div className="flex-1">
-                            <label className="block mb-1 text-slate-700 text-lg uppercase font-semibold">Số điện thoại</label>
-                            {isEditing ? (
-                                <input
-                                    type="tel"
-                                    name="phone"
-                                    value={formData.phone}
-                                    onChange={handleChange}
-                                    className="w-full p-2 border rounded focus:outline-none focus:border-red-500"
-                                    required
-                                />
-                            ) : (
-                                <p className="">{userData.phone}</p>
-                            )}
-                        </div>
-                    </div>
-
-                    {/* Địa chỉ */}
-                    <div className="flex space-x-4 border-b-[1px] pb-3">
-                        <FaMapMarkerAlt className="text-red-600 text-xl" />
-                        <div className="flex-1">
-                            <label className="block mb-1 text-slate-700 text-lg uppercase font-semibold">Địa chỉ</label>
-                            {isEditing ? (
-                                <input
-                                    type="text"
-                                    name="address"
-                                    value={formData.address}
-                                    onChange={handleChange}
-                                    className="w-full p-2 border rounded focus:outline-none focus:border-red-500"
-                                    required
-                                />
-                            ) : (
-                                <p className="">{userData.address}</p>
-                            )}
-                        </div>
-                    </div>
-
-                    {/* Giới tính */}
-                    <div className="flex space-x-4">
-                        <FaTransgender className="text-red-600 text-xl" />
-                        <div className="flex-1">
-                            <label className="block mb-1 text-slate-700 text-lg uppercase font-semibold">Giới tính</label>
-                            {isEditing ? (
-                                <select
-                                    name="sex"
-                                    value={formData.sex}
-                                    onChange={handleChange}
-                                    className="w-full p-2 border rounded focus:outline-none focus:border-red-500"
-                                >
-                                    <option value="Nam">Nam</option>
-                                    <option value="Nữ">Nữ</option>
-                                    <option value="Khác">Khác</option>
-                                </select>
-                            ) : (
-                                <p className="">{userData.sex}</p>
-                            )}
-                        </div>
-                    </div>
-
-                    {isEditing && (
-                        <div className="flex justify-end">
-                            <button
-                                type="submit"
-                                disabled={loading}
-                                className={`bg-red-600 text-white py-2 px-4 rounded hover:bg-red-700 transition-colors ${loading ? 'opacity-50 cursor-not-allowed' : ''}`}
+        <div className="container mx-auto p-4 min-h-screen bg-gray-50">
+            <div className="max-w-4xl mx-auto space-y-6">
+                {/* Header Section */}
+                <div className="bg-gradient-to-r from-red-600 to-red-400 rounded-xl p-8 text-white shadow-lg">
+                    <div className="flex flex-col md:flex-row items-center gap-6">
+                        <div className="relative group">
+                            <div className="w-32 h-32 rounded-full overflow-hidden border-4 border-white shadow-inner transition-transform group-hover:scale-105">
+                                {userData?.profilePic ? (
+                                    <img 
+                                        src={userData.profilePic.startsWith('data:') 
+                                            ? userData.profilePic 
+                                            : `${SummaryApi.baseURL}/${userData.profilePic}`
+                                        }
+                                        alt="Avatar" 
+                                        className="w-full h-full object-cover"
+                                    />
+                                ) : (
+                                    <div className="w-full h-full bg-white/20 flex items-center justify-center">
+                                        <FaUser className="text-4xl text-white/70" />
+                                    </div>
+                                )}
+                            </div>
+                            <button 
+                                onClick={handleAvatarClick}
+                                className="absolute bottom-0 right-0 bg-white text-red-500 p-2 rounded-full shadow-lg hover:bg-red-50 transition-all duration-300"
                             >
-                                {loading ? 'Đang cập nhật...' : 'Lưu thay đổi'}
+                                <FaCamera className="text-xl" />
+                            </button>
+                            <input
+                                type="file"
+                                ref={fileInputRef}
+                                onChange={handleAvatarChange}
+                                accept="image/jpeg,image/png,image/jpg"
+                                className="hidden"
+                            />
+                        </div>
+                        
+                        <div className="text-center md:text-left">
+                            <h1 className="text-3xl font-bold mb-2">{userData?.name}</h1>
+                            <div className="flex items-center gap-3 justify-center md:justify-start">
+                                <span className="flex items-center gap-1">
+                                    <FaEnvelope /> {userData?.email}
+                                </span>
+                                <span className="flex items-center gap-1">
+                                    <FaPhone /> {userData?.phone}
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                {/* Thông tin chi tiết */}
+                <div className="grid md:grid-cols-2 gap-6">
+                    {/* Thông tin cá nhân */}
+                    <div className="bg-white rounded-xl shadow-lg p-6">
+                        <div className="flex justify-between items-center mb-6">
+                            <h2 className="text-xl font-semibold flex items-center gap-2">
+                                <FaUserCircle className="text-red-500" />
+                                Thông tin cá nhân
+                            </h2>
+                            <button
+                                onClick={() => setIsEditing(!isEditing)}
+                                className="text-red-500 hover:text-red-600 flex items-center gap-1"
+                            >
+                                <FaPen className="text-sm" />
+                                {isEditing ? 'Hủy' : 'Chỉnh sửa'}
                             </button>
                         </div>
-                    )}
-                </form>
-            </div>
 
-            <div className="bg-white rounded-lg shadow-md p-6 mt-6">
-                <h3 className="text-xl font-semibold text-gray-800 mb-4">Thông tin thành viên</h3>
-                
-                <div className="space-y-4">
-                    <div className="flex items-center justify-between">
-                        <span className="text-gray-600">Ngày tham gia:</span>
-                        <span className="font-medium">
-                            {moment(joinDate).format("DD/MM/YYYY HH:mm:ss")}
-                        </span>
+                        <form onSubmit={handleSubmit} className="space-y-4">
+                            {/* Họ tên */}
+                            <div className="flex space-x-4 border-b-[1px] pb-3">
+                                <FaUser className="text-red-600 text-xl" />
+                                <div className="flex-1">
+                                    <label className="block text-slate-700 mb-1 text-lg uppercase font-semibold">Họ tên</label>
+                                    {isEditing ? (
+                                        <input
+                                            type="text"
+                                            name="name"
+                                            value={formData.name}
+                                            onChange={handleChange}
+                                            className="w-full p-2 border rounded focus:outline-none focus:border-red-500"
+                                            required
+                                        />
+                                    ) : (
+                                        <p className="">{userData.name}</p>
+                                    )}
+                                </div>
+                            </div>
+
+                            {/* Email */}
+                            <div className="flex space-x-4 border-b-[1px] pb-3">
+                                <FaEnvelope className="text-red-600 text-xl" />
+                                <div className="flex-1">
+                                    <label className="block mb-1 text-slate-700 text-lg uppercase font-semibold">Email</label>
+                                    <p className="">{userData.email}</p>
+                                </div>
+                            </div>
+
+                            {/* Số điện thoại */}
+                            <div className="flex space-x-4 border-b-[1px] pb-3">
+                                <FaPhone className="text-red-600 text-xl" />
+                                <div className="flex-1">
+                                    <label className="block mb-1 text-slate-700 text-lg uppercase font-semibold">Số điện thoại</label>
+                                    {isEditing ? (
+                                        <input
+                                            type="tel"
+                                            name="phone"
+                                            value={formData.phone}
+                                            onChange={handleChange}
+                                            className="w-full p-2 border rounded focus:outline-none focus:border-red-500"
+                                            required
+                                        />
+                                    ) : (
+                                        <p className="">{userData.phone}</p>
+                                    )}
+                                </div>
+                            </div>
+
+                            {/* Địa chỉ */}
+                            <div className="flex space-x-4 border-b-[1px] pb-3">
+                                <FaMapMarkerAlt className="text-red-600 text-xl" />
+                                <div className="flex-1">
+                                    <label className="block mb-1 text-slate-700 text-lg uppercase font-semibold">Địa chỉ</label>
+                                    {isEditing ? (
+                                        <input
+                                            type="text"
+                                            name="address"
+                                            value={formData.address}
+                                            onChange={handleChange}
+                                            className="w-full p-2 border rounded focus:outline-none focus:border-red-500"
+                                            required
+                                        />
+                                    ) : (
+                                        <p className="">{userData.address}</p>
+                                    )}
+                                </div>
+                            </div>
+
+                            {/* Giới tính */}
+                            <div className="flex space-x-4">
+                                <FaTransgender className="text-red-600 text-xl" />
+                                <div className="flex-1">
+                                    <label className="block mb-1 text-slate-700 text-lg uppercase font-semibold">Giới tính</label>
+                                    {isEditing ? (
+                                        <select
+                                            name="sex"
+                                            value={formData.sex}
+                                            onChange={handleChange}
+                                            className="w-full p-2 border rounded focus:outline-none focus:border-red-500"
+                                        >
+                                            <option value="Nam">Nam</option>
+                                            <option value="Nữ">Nữ</option>
+                                            <option value="Khác">Khác</option>
+                                        </select>
+                                    ) : (
+                                        <p className="">{userData.sex}</p>
+                                    )}
+                                </div>
+                            </div>
+
+                            {isEditing && (
+                                <div className="flex justify-end">
+                                    <button
+                                        type="submit"
+                                        disabled={loading}
+                                        className={`bg-red-600 text-white py-2 px-4 rounded hover:bg-red-700 transition-colors ${loading ? 'opacity-50 cursor-not-allowed' : ''}`}
+                                    >
+                                        {loading ? 'Đang cập nhật...' : 'Lưu thay đổi'}
+                                    </button>
+                                </div>
+                            )}
+                        </form>
                     </div>
 
-                    <div className="flex items-center justify-between">
-                        <span className="text-gray-600">Nhóm khách hàng:</span>
-                        <span className="font-medium text-amber-600">{customerGroup}</span>
-                    </div>
+                    {/* Thông tin thành viên */}
+                    <div className="bg-white rounded-xl shadow-lg p-6">
+                        <h2 className="text-xl font-semibold mb-6 flex items-center gap-2">
+                            <FaCrown className="text-amber-500" />
+                            Thông tin thành viên
+                        </h2>
+                        
+                        <div className="space-y-4">
+                            <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
+                                <span className="flex items-center gap-2 text-gray-600">
+                                    <FaCalendarAlt className="text-red-500" />
+                                    Ngày tham gia:
+                                </span>
+                                <span className="font-medium">
+                                    {moment(joinDate).format("DD/MM/YYYY HH:mm:ss")}
+                                </span>
+                            </div>
 
-                    <div className="flex items-center justify-between">
-                        <span className="text-gray-600">Đã tích luỹ:</span>
-                        <span className="font-medium text-red-600">
-                            {displayVNDCurrency(totalPurchase)}
-                        </span>
-                    </div>
-                </div>
+                            <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
+                                <span className="flex items-center gap-2 text-gray-600">
+                                    <FaStar className="text-amber-500" />
+                                    Nhóm khách hàng:
+                                </span>
+                                <span className="font-medium text-amber-600">{customerGroup}</span>
+                            </div>
 
-                <div className="mt-6 p-4 bg-red-50 rounded-lg">
-                    <p className="text-center text-gray-700 italic">
-                        Cảm ơn quý khách đã tin tưởng và ủng hộ Mobile Store. 
-                        Chúng tôi sẽ không ngừng nỗ lực để mang đến những sản phẩm 
-                        và dịch vụ tốt nhất.
-                    </p>
+                            <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
+                                <span className="flex items-center gap-2 text-gray-600">
+                                    <FaCoins className="text-red-500" />
+                                    Đã tích luỹ:
+                                </span>
+                                <span className="font-medium text-red-600">
+                                    {displayVNDCurrency(totalPurchase)}
+                                </span>
+                            </div>
+                        </div>
+
+                        <div className="mt-6 p-4 bg-red-50 rounded-lg border border-red-100">
+                            <div className="flex items-center gap-2 text-red-500 mb-2">
+                                <FaHeart className="text-xl" />
+                                <p className="font-semibold">Cảm ơn quý khách!</p>
+                            </div>
+                            <p className="text-gray-700 italic">
+                                Cảm ơn quý khách đã tin tưởng và ủng hộ Mobile Store. 
+                                Chúng tôi sẽ không ngừng nỗ lực để mang đến những sản phẩm 
+                                và dịch vụ tốt nhất.
+                            </p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
