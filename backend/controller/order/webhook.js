@@ -1,5 +1,6 @@
 const stripe = require('../../config/stripe')
 const orderModel = require('../../models/orderProductModel')
+const productModel = require("../../models/productModel");
 
 const endpointSecret = process.env.STRIPE_ENDPOINT_SECRET_KEY
 
@@ -23,6 +24,22 @@ async function getLineItems(lineItems) {
     }
     return ProductItems
 }
+
+const updateProductQuantity = async (productDetails) => {
+  try {
+    for (const item of productDetails) {
+      // Tìm sản phẩm theo ID và cập nhật số lượng
+      await productModel.findOneAndUpdate(
+        { _id: item.productId },
+        { $inc: { quantity: -item.quantity } } // Giảm số lượng theo số lượng đã mua
+      );
+    }
+  } catch (error) {
+    console.error("Lỗi khi cập nhật số lượng sản phẩm:", error);
+    throw error;
+  }
+};
+
 const webhooks = async (request, response) => {
     try {
         const sig = request.headers['stripe-signature']
@@ -82,11 +99,17 @@ const webhooks = async (request, response) => {
                     totalAmount: totalAmountVND
                 };
 
+                // Thêm log để debug
+                console.log("Đang xóa giỏ hàng cho userId:", session.metadata.userId);
+
                 // Lưu đơn hàng
                 const order = new orderModel(orderDetails);
                 const savedOrder = await order.save();
                 
                 if(savedOrder?._id) {
+                    // Cập nhật số lượng sản phẩm
+                    await updateProductQuantity(productDetails);
+                    // Xóa giỏ hàng
                     await addToCartModel.deleteMany({userId: session.metadata.userId});
                 }
                 break;
