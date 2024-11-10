@@ -2,11 +2,11 @@ import React, { useEffect, useState } from 'react';
 import SummaryApi from '../common';
 import { FaChartLine, FaMoneyBillWave, FaShoppingCart, FaUsers } from 'react-icons/fa';
 import displayVNDCurrency from '../helpers/displayCurrency';
-import { Chart as ChartJS, ArcElement, Tooltip, Legend, CategoryScale, LinearScale, PointElement, LineElement, Title } from 'chart.js';
-import { Line, Pie } from 'react-chartjs-2';
+import { Chart as ChartJS, ArcElement, Tooltip, Legend, CategoryScale, LinearScale, PointElement, LineElement, Title, BarElement } from 'chart.js';
+import { Bar, Line, Pie } from 'react-chartjs-2';
 import moment from 'moment';
 
-ChartJS.register(ArcElement, Tooltip, Legend, CategoryScale, LinearScale, PointElement, LineElement, Title);
+ChartJS.register(ArcElement, Tooltip, Legend, CategoryScale, LinearScale, PointElement, LineElement, Title, BarElement);
 
 const AllPromotion = () => {
   const [orderStats, setOrderStats] = useState({
@@ -15,6 +15,7 @@ const AllPromotion = () => {
     averageOrderValue: 0,
     totalCustomers: 0,
     revenueByMonth: [],
+    revenueByYear: [],
     paymentMethodStats: []
   });
 
@@ -34,8 +35,7 @@ const AllPromotion = () => {
         
         // Thống kê theo tháng
         const revenueByMonth = processRevenueByMonth(orders);
-        
-        // Thống kê phương thức thanh toán
+        const revenueByYear = processRevenueByYear(orders);
         const paymentStats = processPaymentMethods(orders);
 
         setOrderStats({
@@ -44,6 +44,7 @@ const AllPromotion = () => {
           averageOrderValue: totalRevenue / orders.length,
           totalCustomers: uniqueCustomers,
           revenueByMonth,
+          revenueByYear,
           paymentMethodStats: paymentStats
         });
       }
@@ -60,6 +61,18 @@ const AllPromotion = () => {
     });
     return Object.entries(monthlyRevenue).map(([month, revenue]) => ({
       month,
+      revenue
+    }));
+  };
+
+  const processRevenueByYear = (orders) => {
+    const yearlyRevenue = {};
+    orders.forEach(order => {
+      const year = moment(order.createdAt).format('YYYY');
+      yearlyRevenue[year] = (yearlyRevenue[year] || 0) + order.totalAmount;
+    });
+    return Object.entries(yearlyRevenue).map(([year, revenue]) => ({
+      year,
       revenue
     }));
   };
@@ -101,6 +114,18 @@ const AllPromotion = () => {
         'rgb(59, 130, 246)',
         'rgb(34, 197, 94)'
       ]
+    }]
+  };
+
+  // Cấu hình biểu đồ doanh thu theo năm
+  const yearlyRevenueChartData = {
+    labels: orderStats.revenueByYear.map(item => item.year),
+    datasets: [{
+      label: 'Doanh thu theo năm',
+      data: orderStats.revenueByYear.map(item => item.revenue),
+      backgroundColor: 'rgba(220, 38, 38, 0.5)',
+      borderColor: 'rgb(220, 38, 38)',
+      borderWidth: 1
     }]
   };
 
@@ -146,6 +171,34 @@ const AllPromotion = () => {
         <div className="bg-white p-6 rounded-lg shadow-lg">
           <h2 className="text-xl font-semibold mb-4">Phương Thức Thanh Toán</h2>
           <Pie data={paymentChartData} />
+        </div>
+      </div>
+
+      {/* Biểu đồ theo năm */}
+      <div className="grid grid-cols-1 gap-8 mb-8">
+        <div className="bg-white p-6 rounded-lg shadow-lg">
+          <h2 className="text-xl font-semibold mb-4">Doanh Thu Theo Năm</h2>
+          <Bar data={yearlyRevenueChartData} options={{
+            scales: {
+              y: {
+                beginAtZero: true,
+                ticks: {
+                  callback: function(value) {
+                    return displayVNDCurrency(value);
+                  }
+                }
+              }
+            },
+            plugins: {
+              tooltip: {
+                callbacks: {
+                  label: function(context) {
+                    return displayVNDCurrency(context.raw);
+                  }
+                }
+              }
+            }
+          }} />
         </div>
       </div>
     </div>
