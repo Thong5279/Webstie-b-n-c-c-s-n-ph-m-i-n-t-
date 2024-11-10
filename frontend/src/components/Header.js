@@ -29,15 +29,18 @@ const Header = () => {
 
   // Khi click ra ngoài thì ẩn gợi ý tìm kiếm
   const suggestionRef = useRef(null);
+  const menuRef = useRef(null);
+
   useEffect(() => {
     const handleClickOutside = (event) => {
-      if (
-        suggestionRef.current &&
-        !suggestionRef.current.contains(event.target)
-      ) {
-        setSuggestions([]); // Ẩn danh sách gợi ý
+      if (menuRef.current && !menuRef.current.contains(event.target)) {
+        setMenuDisplay(false);
+      }
+      if (suggestionRef.current && !suggestionRef.current.contains(event.target)) {
+        setSuggestions([]);
       }
     };
+    
     document.addEventListener("click", handleClickOutside);
     return () => {
       document.removeEventListener("click", handleClickOutside);
@@ -133,7 +136,7 @@ const Header = () => {
         </div>
 
         <div className="flex items-center gap-7">
-          <div className="relative flex justify-center">
+          <div className="relative flex justify-center" ref={menuRef}>
             {user?._id && (
               <div
                 className="text-3xl cursor-pointer relative flex justify-center"
