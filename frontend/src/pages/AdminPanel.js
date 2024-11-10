@@ -112,7 +112,7 @@ const AdminPanel = () => {
               Bài viết trên hệ thống
             </Link>
             <Link
-              to={"all-promotion"}
+              to={"all-member"}
               className="px-2 py-1 flex items-center mt-2 transition hover:bg-red-400 hover:text-white"
             >
               <FaUserFriends className="mr-2 text-2xl text-green-600" />

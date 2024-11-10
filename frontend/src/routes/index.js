@@ -31,6 +31,10 @@ import Cancel from "../pages/Cancel";
 import OderPage from "../pages/OderPage";
 import AdminFavoritesPage from "../pages/AdminFavoritesPage";
 import AllOrder from "../pages/AllOrder";
+import Allmember from "../pages/Allmember";
+import Allblog from "../pages/Allblog";
+import AllReview from "../pages/AllReview";
+import AllPromotion from "../pages/AllPromotion";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -157,6 +161,23 @@ const router = createBrowserRouter([
             path: "all-order",
             element: <AllOrder />,
           },
+          {
+            path: "all-member",
+            element: <Allmember />,
+          },
+          {
+            path: "all-blog",
+            element: <Allblog />,
+          },
+          {
+            path: "all-review",
+            element: <AllReview />,
+          },
+          {
+            path: "all-promotion",
+            element: <AllPromotion/>,
+          },
+
         ],
       },
     ],
