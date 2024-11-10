@@ -9,10 +9,12 @@ const CheckoutPage = ({
   onVoucherStatusChange,
   onDiscountAmountChange,
   disabledInputVoucher,
+  setIsVoucherValid,
+  isVoucherValid,
 }) => {
   const [voucherCode, setVoucherCode] = useState("");
   const [discountAmount, setDiscountAmount] = useState(0);
-  const [isVoucherValid, setIsVoucherValid] = useState(false);
+  // const [isVoucherValid, setIsVoucherValid] = useState(false);
 
   const handleApplyVoucher = async () => {
     try {
@@ -29,7 +31,11 @@ const CheckoutPage = ({
 
       // Tính toán totalDiscountAmount sau khi cập nhật discountAmount
       const newTotalDiscountAmount = totalAmount - response.data.discountAmount;
-      onDiscountAmountChange(newTotalDiscountAmount, newDiscountAmount); // Gọi hàm với giá trị đã được tính toán
+      onDiscountAmountChange(
+        newTotalDiscountAmount,
+        newDiscountAmount,
+        isVoucherValid
+      ); // Gọi hàm với giá trị đã được tính toán
       // Cập nhật isVoucherValid
       setIsVoucherValid(true);
       onVoucherStatusChange(true);
@@ -39,6 +45,12 @@ const CheckoutPage = ({
       setIsVoucherValid(false);
       onVoucherStatusChange(false);
     }
+  };
+  const handleClearVoucher = () => {
+    setVoucherCode(""); // Xóa mã voucher đã nhập
+    setDiscountAmount(0); // Xóa số tiền giảm giá
+    setIsVoucherValid(false); // Đặt trạng thái không hợp lệ
+    onVoucherStatusChange(false); // Cập nhật trạng thái voucher với component cha
   };
 
   return (
@@ -57,6 +69,14 @@ const CheckoutPage = ({
           disabled={disabledInputVoucher}
         >
           Áp dụng
+        </button>
+      </div>
+      <div className="flex justify-end">
+        <button
+          className="text-sm text-red-500 underline"
+          onClick={handleClearVoucher} // Gọi hàm xóa mã voucher khi nhấn
+        >
+          Xóa mã giảm giá
         </button>
       </div>
 

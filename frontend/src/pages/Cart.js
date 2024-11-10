@@ -48,6 +48,8 @@ const Cart = () => {
   const [selectedProducts, setSelectedProducts] = useState({});
   const [isShopVoucherDisabled, setIsShopVoucherDisabled] = useState(false);
 
+  const [isVoucherValid, setIsVoucherValid] = useState(false);
+
   const [totalDiscountAmount, setTotalDiscountAmount] = useState(0);
   const [disabledInputVoucher, setDisabledVoucherInput] = useState(false); //Vo hieu hoa o nhap voucher khi chon voucher shop
 
@@ -593,6 +595,8 @@ const Cart = () => {
                             onVoucherStatusChange={handleVoucherStatusChange}
                             onDiscountAmountChange={handleDiscountAmountChange}
                             disabledInputVoucher={disabledInputVoucher}
+                            setIsVoucherValid={setIsVoucherValid}
+                            isVoucherValid={isVoucherValid}
                             className="w-full"
                           />
                         </div>
@@ -731,9 +735,11 @@ const Cart = () => {
                               <FaTicketAlt className="text-red-500 text-xl" />
                               Số tiền được giảm:
                             </p>
-                            <p className="text-red-500 text-xl font-bold">
-                              -{displayVNDCurrency(disCountAmountVoucher)}
-                            </p>
+                            {isVoucherValid && disCountAmountVoucher > 0 && (
+                              <p className="text-red-500 text-xl font-bold">
+                                -{displayVNDCurrency(disCountAmountVoucher)}
+                              </p>
+                            )}
                           </div>
                         ) : (
                           selectedVoucher > 0 &&
