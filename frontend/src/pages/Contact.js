@@ -20,25 +20,6 @@ const Contact = () => {
     });
   };
 
-  // Xu ly phone chi nhap so khong nhap duoc ki tu
-  const handlePhone = (e) => {
-    const { value } = e.target;
-    if (/^\d*$/.test(value)) {
-      setFormData({ ...formData, phone: value });
-    }
-  };
-  // ClearInput
-  const clearName = () => {
-    setFormData({ ...formData, name: "" });
-  };
-
-  const clearEmail = () => {
-    setFormData({ ...formData, email: "" });
-  };
-  const clearPhone = () => {
-    setFormData({ ...formData, phone: "" });
-  };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
@@ -73,123 +54,64 @@ const Contact = () => {
 
   return (
     <div className="container mx-auto px-4 py-40 min-h-screen">
+      <h2 className="text-3xl font-bold mb-6 text-center">Liên hệ với chúng tôi</h2>
+      <p className="text-center mb-8">Chúng tôi luôn sẵn sàng hỗ trợ bạn. Hãy để lại thông tin và chúng tôi sẽ liên hệ lại ngay.</p>
       <div className="grid md:grid-cols-2 gap-8">
-        {/* Thông tin liên hệ */}
         <div className="bg-white p-6 rounded-lg shadow-md">
-          <h2 className="text-2xl font-bold mb-6 uppercase">
-            Thông tin liên hệ
-          </h2>
-
-          <div className="space-y-4">
-            <div className="flex items-center space-x-3">
-              <BiPhone className="text-2xl text-red-600" />
-              <div>
-                <h3 className="font-semibold">Điện thoại</h3>
-                <p>0337 61 52 79</p>
-              </div>
-            </div>
-
-            <div className="flex items-center space-x-3">
-              <BiEnvelope className="text-2xl text-red-600" />
-              <div>
-                <h3 className="font-semibold">Email</h3>
-                <p>Thongdc2096n525@gmail.com</p>
-              </div>
-            </div>
-
-            <div className="flex items-center space-x-3">
-              <BiMap className="text-2xl text-red-600" />
-              <div>
-                <h3 className="font-semibold">Địa chỉ</h3>
-                <p>123 Đường ABC, Quận XYZ, TP.Cần Thơ</p>
-              </div>
-            </div>
+          <h3 className="text-2xl font-bold mb-4">Thông tin liên hệ</h3>
+          <p className="mb-2"><strong>Điện thoại:</strong> 0337 61 52 79</p>
+          <p className="mb-2"><strong>Email:</strong> Thongdc2096n525@gmail.com</p>
+          <p className="mb-2"><strong>Địa chỉ:</strong> 123 Đường ABC, Quận XYZ, TP.Cần Thơ</p>
+          <h4 className="text-lg font-semibold mt-4">Theo dõi chúng tôi trên mạng xã hội:</h4>
+          <div className="flex space-x-4 mt-2">
+            <a href="https://www.facebook.com/profile.php?id=100079572182885" className="text-blue-600">Facebook</a>
+            <a href="https://www.instagram.com/thongpham.huynh/" className="text-blue-600">Instagram</a>
+            <a href="#" className="text-blue-600">Twitter</a>
           </div>
         </div>
-
-        {/* Form liên hệ */}
         <div className="bg-white p-6 rounded-lg shadow-md">
-          <h2 className="text-2xl font-bold mb-6 uppercase">Gửi liên hệ</h2>
-
+          <h3 className="text-2xl font-bold mb-4">Gửi liên hệ</h3>
           <form onSubmit={handleSubmit} className="space-y-4">
-            <div className="relative">
-              <label className="block text-gray-700 mb-2">Họ tên</label>
-              <input
-                type="text"
-                name="name"
-                value={formData.name}
-                onChange={handleChange}
-                className="w-full p-2 border rounded focus:outline-none focus:border-red-500"
-                required
-              />
-              {formData.name && (
-                <div
-                  className="absolute right-3 top-[70%] transform -translate-y-1/2 cursor-pointer text-gray-300 text-sm"
-                  onClick={clearName}
-                >
-                  <ImCross />
-                </div>
-              )}
-            </div>
-
-            <div className="relative">
-              <label className="block text-gray-700 mb-2">Email</label>
-              <input
-                type="email"
-                name="email"
-                value={formData.email}
-                onChange={handleChange}
-                className="w-full p-2 border rounded focus:outline-none focus:border-red-500"
-                required
-              />
-              {formData.email && (
-                <div
-                  className="absolute right-3 top-[70%] transform -translate-y-1/2 cursor-pointer text-gray-300 text-sm"
-                  onClick={clearEmail}
-                >
-                  <ImCross />
-                </div>
-              )}
-            </div>
-
-            <div className="relative">
-              <label className="block text-gray-700 mb-2">Số điện thoại</label>
-              <input
-                type="tel"
-                name="phone"
-                value={formData.phone}
-                onChange={handlePhone}
-                className="w-full p-2 border rounded focus:outline-none focus:border-red-500"
-                required
-              />
-              {formData.phone && (
-                <div
-                  className="absolute right-3 top-[70%] transform -translate-y-1/2 cursor-pointer text-gray-300 text-sm"
-                  onClick={clearPhone}
-                >
-                  <ImCross />
-                </div>
-              )}
-            </div>
-
-            <div>
-              <label className="block text-gray-700 mb-2">Nội dung</label>
-              <textarea
-                name="message"
-                value={formData.message}
-                onChange={handleChange}
-                className="w-full p-2 border rounded focus:outline-none focus:border-red-500"
-                rows="4"
-                required
-              ></textarea>
-            </div>
-
+            <input
+              type="text"
+              name="name"
+              value={formData.name}
+              onChange={handleChange}
+              className="w-full p-2 border rounded focus:outline-none focus:border-red-500"
+              placeholder="Họ tên"
+              required
+            />
+            <input
+              type="email"
+              name="email"
+              value={formData.email}
+              onChange={handleChange}
+              className="w-full p-2 border rounded focus:outline-none focus:border-red-500"
+              placeholder="Email"
+              required
+            />
+            <input
+              type="tel"
+              name="phone"
+              value={formData.phone}
+              onChange={handleChange}
+              className="w-full p-2 border rounded focus:outline-none focus:border-red-500"
+              placeholder="Số điện thoại"
+              required
+            />
+            <textarea
+              name="message"
+              value={formData.message}
+              onChange={handleChange}
+              className="w-full p-2 border rounded focus:outline-none focus:border-red-500"
+              rows="4"
+              placeholder="Nội dung"
+              required
+            ></textarea>
             <button
               type="submit"
               disabled={loading}
-              className={`w-full bg-red-600 text-white py-2 px-4 rounded hover:bg-red-700 transition-colors ${
-                loading ? "opacity-50 cursor-not-allowed" : ""
-              }`}
+              className={`w-full bg-red-600 text-white py-2 px-4 rounded hover:bg-red-700 transition-colors ${loading ? "opacity-50 cursor-not-allowed" : ""}`}
             >
               {loading ? "Đang gửi..." : "Gửi liên hệ"}
             </button>
