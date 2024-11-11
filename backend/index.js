@@ -5,24 +5,26 @@ require('dotenv').config()
 const connectDB = require('./config/db')
 const router = require("./routes")
 
-const app = express()// Tạo ứng dụng Express
+const app = express()
+
 app.use(cors({
-    origin: process.env.FRONTEND_URL,
-    credentials : true
+    origin: [
+        process.env.FRONTEND_URL,
+        'https://webstie-b-n-c-c-s-n-ph-m-i-n-t-ep8t.vercel.app'
+    ],
+    credentials: true
 }))
 
-app.use(express.json())// Cấu hình middleware để phân tích các yêu cầu có định dạng JSON
+app.use(express.json())
 app.use(cookieParser())
+app.use("/api", router)
 
-app.use("/api",router)// Sử dụng router cho tất cả các yêu cầu có tiền tố "/api"
+const PORT = 8080 || process.env.PORT
 
-const PORT = 8080 || process.env.PORT// Xác định cổng để chạy server (sử dụng giá trị từ biến môi trường nếu có)
-
-// Kết nối đến cơ sở dữ liệu và sau đó khởi động server
-connectDB().then(()=>{
-    app.listen(PORT,()=>{
-        console.log("connnect to DB")
-        console.log("Server is running ")
+connectDB().then(() => {
+    app.listen(PORT, () => {
+        console.log("connect to DB")
+        console.log("Server is running")
     })
 })
 
