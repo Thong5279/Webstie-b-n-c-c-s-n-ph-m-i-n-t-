@@ -36,11 +36,14 @@ const Header = () => {
       if (menuRef.current && !menuRef.current.contains(event.target)) {
         setMenuDisplay(false);
       }
-      if (suggestionRef.current && !suggestionRef.current.contains(event.target)) {
+      if (
+        suggestionRef.current &&
+        !suggestionRef.current.contains(event.target)
+      ) {
         setSuggestions([]);
       }
     };
-    
+
     document.addEventListener("click", handleClickOutside);
     return () => {
       document.removeEventListener("click", handleClickOutside);
@@ -152,11 +155,7 @@ const Header = () => {
                   <FaRegCircleUser />
                 )}
               </div>
-              )
-            }
-            
-              
-              
+            )}
 
             {menuDisplay && (
               <div className="absolute bg-white bottom-0 left-0 top-11 h-fit p-2 shadow-lg rounded">
@@ -181,7 +180,7 @@ const Header = () => {
                       >
                         Trang cá nhân
                       </Link>
-                      
+
                       <Link
                         to="/order"
                         className="whitespace-nowrap hover:bg-slate-100 p-2"
@@ -195,6 +194,13 @@ const Header = () => {
                         onClick={() => setMenuDisplay((prev) => !prev)}
                       >
                         Liên hệ
+                      </Link>
+                      <Link
+                        to="/favourite"
+                        className="whitespace-nowrap hover:bg-slate-100 p-2"
+                        onClick={() => setMenuDisplay((prev) => !prev)}
+                      >
+                        Sản phẩm yêu thích
                       </Link>
                     </div>
                   )}

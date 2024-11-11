@@ -35,6 +35,7 @@ import Allmember from "../pages/Allmember";
 import Allblog from "../pages/Allblog";
 import AllReview from "../pages/AllReview";
 import AllPromotion from "../pages/AllPromotion";
+import FavoritesUser from "../pages/FavoritesUser";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -80,6 +81,10 @@ const router = createBrowserRouter([
       {
         path: "contact",
         element: <Contact />,
+      },
+      {
+        path: "favourite",
+        element: <FavoritesUser />,
       },
       {
         path: "profile",
@@ -175,9 +180,8 @@ const router = createBrowserRouter([
           },
           {
             path: "all-promotion",
-            element: <AllPromotion/>,
+            element: <AllPromotion />,
           },
-
         ],
       },
     ],

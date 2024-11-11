@@ -80,6 +80,18 @@ const HorizontalCardProduct = ({ category, heading }) => {
         className="flex items-center gap-4 md:gap-6 overflow-scroll scrollbar-none transition-all animate-slide-in-right"
         ref={scrollElement}
       >
+        <button
+          className="bg-white shadow-md rounded-full p-1 absolute left-0 text-lg hidden md:block hover:bg-red-400 hover:text-white z-20"
+          onClick={scrollLeft}
+        >
+          <FaAngleLeft />
+        </button>
+        <button
+          className="bg-white shadow-md rounded-full p-1 absolute right-0 text-lg hidden md:block hover:bg-red-400 hover:text-white z-20"
+          onClick={scrollRight}
+        >
+          <FaAngleRight />
+        </button>
         {loading
           ? loadingList.map((product, index) => (
               <div
