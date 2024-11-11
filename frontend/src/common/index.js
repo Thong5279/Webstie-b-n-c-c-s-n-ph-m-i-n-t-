@@ -1,4 +1,4 @@
-const backendDomin = "http://localhost:8080"; // Định nghĩa URL của backend, thường là địa chỉ của server backend
+const backendDomin = process.env.REACT_APP_BACKEND_URL //"http://localhost:8080"; // Định nghĩa URL của backend, thường là địa chỉ của server backend
 
 const SummaryApi = {
   // Định nghĩa các API endpoints cho ứng dụng
