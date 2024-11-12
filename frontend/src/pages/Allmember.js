@@ -20,53 +20,6 @@ const Allmember = () => {
     fetchUsers();
   }, []);
   return (
-    // <div className="container mx-auto p-6 bg-gray-50 rounded-lg shadow-lg">
-    //   <h2 className="text-3xl font-bold text-center text-gray-800 py-6">
-    //     Danh Sách Người Dùng
-    //   </h2>
-    //   <table className="min-w-full bg-white rounded-lg overflow-hidden shadow-lg">
-    //     <thead className="bg-red-500 text-white uppercase text-sm leading-normal">
-    //       <tr>
-    //         <th className="py-4 px-6 text-left">Tên</th>
-    //         <th className="py-4 px-6 text-left">Email</th>
-    //         <th className="py-4 px-6 text-left">Hạng</th>
-    //         <th className="py-4 px-6 text-center">Điểm</th>
-    //         <th className="py-4 px-6 text-center">Tiến Trình Lên Hạng</th>
-    //       </tr>
-    //     </thead>
-    //     <tbody className="text-gray-600 text-sm font-light">
-    //       {users.map((user) => (
-    //         <tr
-    //           key={user._id}
-    //           className="border-b border-gray-200 hover:bg-red-100"
-    //         >
-    //           <td className="py-4 px-6 text-left whitespace-nowrap">
-    //             {user.name}
-    //           </td>
-    //           <td className="py-4 px-6 text-left whitespace-nowrap">
-    //             {user.email}
-    //           </td>
-    //           <td
-    //             className={`py-4 px-6 text-left font-semibold ${user.tierColor}`}
-    //           >
-    //             <span className="inline-block">{user.tierIcon}</span>{" "}
-    //             {user.tier}
-    //           </td>
-    //           <td className="py-4 px-6 text-center font-semibold">
-    //             {user.points}
-    //           </td>
-    //           <td className="py-4 px-6 text-center">
-    //             {user.nextTierProgress.nextTier
-    //               ? `${user.nextTierProgress.progress.toFixed(1)}% đến ${
-    //                   user.nextTierProgress.nextTier.name
-    //                 }`
-    //               : "Đã đạt hạng cao nhất"}
-    //           </td>
-    //         </tr>
-    //       ))}
-    //     </tbody>
-    //   </table>
-    // </div>
     <div className="container mx-auto p-6 bg-gray-50 rounded-lg shadow-lg">
       <h2 className="text-3xl font-bold text-center text-gray-800 py-6">
         Danh Sách Người Dùng
