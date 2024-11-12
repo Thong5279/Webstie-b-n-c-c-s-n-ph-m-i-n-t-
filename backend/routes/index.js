@@ -43,6 +43,7 @@ const {
   clearFavoriteProducts,
 } = require("../controller/admin/adminFavoritesController");
 const getAllOrders = require("../controller/order/getAllOrders");
+const { getAllUsersWithTiers } = require("../controller/admin/adminController");
 
 router.post("/signup", userSignUpController);
 router.post("/signin", userSignInController);
@@ -91,6 +92,9 @@ router.post("/update-cart-product", authToken, updateAddToCartProduct);
 router.post("/delete-cart-product", authToken, deleteAddToCartProduct);
 
 router.get("/suggest", suggestProduct);
+
+//Lay danh sach nguoi dung voi cac thu hang
+router.get("/user-tier", getAllUsersWithTiers);
 
 router.get("/all-contact", authToken, getAllContacts); // lấy danh sách liên hệ
 router.post("/update-contact-status", authToken, updateContactStatus);

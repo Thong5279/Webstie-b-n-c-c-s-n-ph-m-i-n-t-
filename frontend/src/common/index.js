@@ -1,4 +1,4 @@
-const backendDomin = process.env.REACT_APP_BACKEND_URL //"http://localhost:8080"; // Định nghĩa URL của backend, thường là địa chỉ của server backend
+const backendDomin = process.env.REACT_APP_BACKEND_URL; //"http://localhost:8080"; // Định nghĩa URL của backend, thường là địa chỉ của server backend
 
 const SummaryApi = {
   // Định nghĩa các API endpoints cho ứng dụng
@@ -156,7 +156,11 @@ const SummaryApi = {
   },
   getAllOrders: {
     url: `${backendDomin}/api/all-orders`,
-    method: "get"
-  }
+    method: "get",
+  },
+  getUserTier: {
+    url: `${backendDomin}/api/user-tier`,
+    method: "get",
+  },
 };
 export default SummaryApi; // Xuất đối tượng SummaryApi để có thể sử dụng ở các tệp khác
