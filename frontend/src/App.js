@@ -12,6 +12,7 @@ import { UseDispatch, useDispatch } from "react-redux";
 import { setUserDetails } from "./store/userSlice";
 import AllContact from "./pages/AllContact";
 import Contact from "./pages/Contact";
+import './styles/chat.css';
 
 function App() {
   const dispatch = useDispatch();

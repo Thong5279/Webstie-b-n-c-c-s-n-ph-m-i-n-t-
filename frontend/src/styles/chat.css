@@ -1,0 +1,65 @@
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.animate-slideIn {
+    animation: slideIn 0.3s ease-out;
+}
+
+.message-bubble {
+    animation: fadeIn 0.3s ease-out;
+}
+
+.typing-indicator {
+    display: flex;
+    gap: 2px;
+}
+
+.typing-dot {
+    width: 6px;
+    height: 6px;
+    background: #90cdf4;
+    border-radius: 50%;
+    animation: typingBounce 0.5s infinite;
+}
+
+.user-list-item {
+    transition: all 0.2s ease-in-out;
+}
+
+.user-list-item:hover {
+    background-color: rgba(59, 130, 246, 0.05);
+}
+
+.user-list-item.selected {
+    background-color: rgba(59, 130, 246, 0.1);
+    border-left: 4px solid #3b82f6;
+}
+
+.unread-badge {
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.1);
+    }
+    100% {
+        transform: scale(1);
+    }
+}

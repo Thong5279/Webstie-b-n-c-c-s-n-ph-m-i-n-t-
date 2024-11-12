@@ -14,6 +14,8 @@ const ChatBox = () => {
     const user = useSelector((state) => state.user?.user);
     const [unreadCount, setUnreadCount] = useState(0);
     const [isTabActive, setIsTabActive] = useState(true);
+    const [isTyping, setIsTyping] = useState(false);
+    const typingTimeoutRef = useRef(null);
 
     useEffect(() => {
         if (user) {
@@ -113,13 +115,28 @@ const ChatBox = () => {
         }
     };
 
+    const handleTyping = (e) => {
+        socket.emit('typing', { userId: user?._id });
+        
+        if (typingTimeoutRef.current) {
+            clearTimeout(typingTimeoutRef.current);
+        }
+        
+        typingTimeoutRef.current = setTimeout(() => {
+            socket.emit('stopTyping', { userId: user?._id });
+        }, 1000);
+    };
+
     return (
         <div className="fixed bottom-4 right-4 z-50">
-            <button onClick={() => setIsOpen(!isOpen)} className="bg-red-600 hover:bg-red-700 text-white rounded-full p-4 shadow-lg transition-all duration-300 transform hover:scale-110">
+            <button 
+                onClick={() => setIsOpen(!isOpen)} 
+                className="bg-red-600 hover:bg-red-700 text-white rounded-full p-4 shadow-lg transition-all duration-300 transform hover:scale-110 animate-bounce"
+            >
                 {isOpen ? <FaTimes size={24} /> : <FaComments size={24} />}
             </button>
             {isOpen && (
-                <div className="absolute bottom-16 right-0 w-80 bg-white rounded-lg shadow-xl">
+                <div className="absolute bottom-16 right-0 w-80 bg-white rounded-lg shadow-xl animate-slideIn">
                     <div className="bg-red-600 text-white p-4 rounded-t-lg">
                         <h3 className="font-bold">Tư vấn trực tuyến</h3>
                         <p className="text-sm">Hãy để chúng tôi giúp bạn</p>
@@ -151,6 +168,7 @@ const ChatBox = () => {
                                 onChange={(e) => setNewMessage(e.target.value)}
                                 className="flex-1 p-2 border rounded"
                                 placeholder="Nhập tin nhắn..."
+                                onInput={handleTyping}
                             />
                             <button type="submit" className="bg-red-600 text-white rounded p-2">
                                 <FaPaperPlane />
