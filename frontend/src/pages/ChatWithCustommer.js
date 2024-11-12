@@ -29,11 +29,13 @@ const ChatWithCustomer = () => {
         });
 
         socket.on('receiveMessage', (message) => {
-            const roomId = message.userId === 'admin' ? message.recipientId : message.userId;
-            setChatRooms(prev => ({
-                ...prev,
-                [roomId]: [...(prev[roomId] || []), message]
-            }));
+            if (message.recipientId === 'admin' || message.userId === 'admin') {
+                const roomId = message.userId === 'admin' ? message.recipientId : message.userId;
+                setChatRooms(prev => ({
+                    ...prev,
+                    [roomId]: [...(prev[roomId] || []), message]
+                }));
+            }
         });
 
         socket.on('userList', (userList) => {
@@ -80,13 +82,6 @@ const ChatWithCustomer = () => {
                 timestamp: new Date()
             };
             socket.emit('sendMessage', message);
-            
-            // Thêm tin nhắn vào chatRooms
-            setChatRooms(prev => ({
-                ...prev,
-                [selectedUser.userId]: [...(prev[selectedUser.userId] || []), message]
-            }));
-            
             setNewMessage('');
         }
     };
