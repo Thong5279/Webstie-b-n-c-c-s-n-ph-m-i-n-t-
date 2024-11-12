@@ -13,14 +13,30 @@ const ChatBox = () => {
     const user = useSelector((state) => state.user?.user);
 
     useEffect(() => {
+        if (user) {
+            socket.emit('userConnected', {
+                userId: user._id,
+                name: user.name,
+                email: user.email
+            });
+        }
+
+        socket.on('previousMessages', (previousMessages) => {
+            setMessages(previousMessages);
+        });
+
         socket.on('receiveMessage', (message) => {
-            setMessages((prevMessages) => [...prevMessages, message]);
+            if (message.recipientId === (user?._id || 'guest') || 
+                message.userId === (user?._id || 'guest')) {
+                setMessages(prev => [...prev, message]);
+            }
         });
 
         return () => {
+            socket.off('previousMessages');
             socket.off('receiveMessage');
         };
-    }, []);
+    }, [user]);
 
     useEffect(() => {
         messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -29,7 +45,13 @@ const ChatBox = () => {
     const handleSendMessage = (e) => {
         e.preventDefault();
         if (newMessage.trim()) {
-            const message = { text: newMessage, sender: user?.name || 'Khách', userId: user?._id || 'guest' };
+            const message = {
+                text: newMessage,
+                sender: user?.name || 'Khách',
+                userId: user?._id || 'guest',
+                recipientId: 'admin',
+                timestamp: new Date()
+            };
             socket.emit('sendMessage', message);
             setNewMessage('');
         }
