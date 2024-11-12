@@ -125,6 +125,13 @@ const AdminPanel = () => {
               <FaCalculator className="mr-2 text-2xl text-green-600" />
               Thống kê doanh thu
             </Link>
+            <Link
+              to={"chat"}
+              className="px-2 py-1 flex items-center mt-2 transition hover:bg-red-400 hover:text-white"
+            >
+              <FaRegComment className="mr-2 text-2xl text-red-600" />
+              Trò chuyện với khách hàng
+            </Link>
           </nav>
         </div>
       </aside>

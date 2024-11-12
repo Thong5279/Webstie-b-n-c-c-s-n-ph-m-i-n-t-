@@ -36,6 +36,7 @@ import Allblog from "../pages/Allblog";
 import AllReview from "../pages/AllReview";
 import AllPromotion from "../pages/AllPromotion";
 import FavoritesUser from "../pages/FavoritesUser";
+import ChatWithCustommer from "../pages/ChatWithCustommer";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -181,6 +182,10 @@ const router = createBrowserRouter([
           {
             path: "all-promotion",
             element: <AllPromotion />,
+          },
+          {
+            path: "chat",
+            element: <ChatWithCustommer />,
           },
         ],
       },
