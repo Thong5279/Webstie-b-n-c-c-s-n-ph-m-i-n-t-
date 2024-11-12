@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { FaComments, FaTimes, FaPaperPlane } from 'react-icons/fa';
 import io from 'socket.io-client';
 import { useSelector } from 'react-redux';
+import moment from 'moment';
 
 const socket = io(process.env.REACT_APP_BACKEND_URL);
 
@@ -11,6 +12,8 @@ const ChatBox = () => {
     const [newMessage, setNewMessage] = useState('');
     const messagesEndRef = useRef(null);
     const user = useSelector((state) => state.user?.user);
+    const [unreadCount, setUnreadCount] = useState(0);
+    const [isTabActive, setIsTabActive] = useState(true);
 
     useEffect(() => {
         if (user) {
@@ -42,6 +45,59 @@ const ChatBox = () => {
         messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
     }, [messages]);
 
+    useEffect(() => {
+        const handleVisibilityChange = () => {
+            setIsTabActive(!document.hidden);
+        };
+
+        document.addEventListener('visibilitychange', handleVisibilityChange);
+
+        return () => {
+            document.removeEventListener('visibilitychange', handleVisibilityChange);
+        };
+    }, []);
+
+    useEffect(() => {
+        socket.on('receiveMessage', (message) => {
+            if (!isTabActive && message.userId !== (user?._id || 'guest')) {
+                setUnreadCount(prev => prev + 1);
+                // Hiển thị thông báo
+                new Notification('Tin nhắn mới', {
+                    body: `${message.sender}: ${message.text}`,
+                    icon: '/path/to/icon.png'
+                });
+            }
+        });
+    }, [isTabActive, user]);
+
+    useEffect(() => {
+        socket.on('messageStatus', ({ messageId, status }) => {
+            setMessages(prevMessages => 
+                prevMessages.map(msg => 
+                    msg.id === messageId 
+                    ? { ...msg, status } 
+                    : msg
+                )
+            );
+        });
+
+        return () => socket.off('messageStatus');
+    }, []);
+
+    // Đánh dấu tin nhắn đã đọc khi người dùng mở chat
+    useEffect(() => {
+        if (isOpen && messages.length > 0) {
+            messages.forEach(msg => {
+                if (msg.status !== 'read' && msg.userId !== (user?._id || 'guest')) {
+                    socket.emit('messageRead', { 
+                        messageId: msg.id, 
+                        userId: user?._id || 'guest' 
+                    });
+                }
+            });
+        }
+    }, [isOpen, messages, user]);
+
     const handleSendMessage = (e) => {
         e.preventDefault();
         if (newMessage.trim()) {
@@ -71,9 +127,17 @@ const ChatBox = () => {
                     <div className="h-96 overflow-y-auto p-4">
                         {messages.map((msg) => (
                             <div key={msg.id} className={`mb-4 ${msg.userId === (user?._id || 'guest') ? 'text-right' : 'text-left'}`}>
-                                <div className={`inline-block p-2 rounded-lg ${msg.userId === (user?._id || 'guest') ? 'bg-red-600 text-white' : 'bg-gray-200 text-gray-800'}`}>
+                                <div className={`inline-block p-2 rounded-lg ${
+                                    msg.userId === (user?._id || 'guest') 
+                                    ? 'bg-red-600 text-white' 
+                                    : 'bg-gray-200 text-gray-800'
+                                }`}>
                                     <p className="font-bold text-xs">{msg.sender}</p>
                                     <p>{msg.text}</p>
+                                    <p className="text-xs mt-1 opacity-70">
+                                        {moment(msg.timestamp).format('HH:mm')}
+                                        {msg.status && <span className="ml-2">{msg.status}</span>}
+                                    </p>
                                 </div>
                             </div>
                         ))}
@@ -93,6 +157,11 @@ const ChatBox = () => {
                             </button>
                         </div>
                     </form>
+                </div>
+            )}
+            {!isOpen && unreadCount > 0 && (
+                <div className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs">
+                    {unreadCount}
                 </div>
             )}
         </div>

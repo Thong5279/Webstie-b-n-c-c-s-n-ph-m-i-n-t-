@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import io from 'socket.io-client';
 import moment from 'moment';
 import 'moment/locale/vi';
@@ -11,6 +11,8 @@ const ChatWithCustomer = () => {
     const [users, setUsers] = useState([]);
     const [selectedUser, setSelectedUser] = useState(null);
     const [chatRooms, setChatRooms] = useState({});
+    const messagesEndRef = useRef(null);
+    const [onlineUsers, setOnlineUsers] = useState(new Set());
 
     // Fetch users who have sent messages
     useEffect(() => {
@@ -38,12 +40,29 @@ const ChatWithCustomer = () => {
             setUsers(userList);
         });
 
+        socket.on('userStatus', ({ userId, status }) => {
+            setOnlineUsers(prev => {
+                const newSet = new Set(prev);
+                if (status === 'online') {
+                    newSet.add(userId);
+                } else {
+                    newSet.delete(userId);
+                }
+                return newSet;
+            });
+        });
+
         return () => {
             socket.off('previousMessages');
             socket.off('receiveMessage');
             socket.off('userList');
+            socket.off('userStatus');
         };
     }, []);
+
+    useEffect(() => {
+        messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+    }, [messages]);
 
     const handleUserSelect = (user) => {
         setSelectedUser(user);
@@ -86,8 +105,19 @@ const ChatWithCustomer = () => {
                                 selectedUser?.userId === user.userId ? 'bg-gray-100' : ''
                             }`}
                         >
-                            <p className="font-semibold">{user.name}</p>
-                            <p className="text-sm text-gray-500">{user.lastMessage}</p>
+                            <div className="flex items-center justify-between p-4">
+                                <div>
+                                    <p className="font-semibold">{user.name}</p>
+                                    <div className="flex items-center">
+                                        <span className={`w-2 h-2 rounded-full mr-2 ${
+                                            onlineUsers.has(user.userId) ? 'bg-green-500' : 'bg-gray-400'
+                                        }`}></span>
+                                        <span className="text-sm text-gray-500">
+                                            {onlineUsers.has(user.userId) ? 'Online' : 'Offline'}
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     ))}
                 </div>

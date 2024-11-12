@@ -46,12 +46,20 @@ io.on('connection', (socket) => {
     socket.on('sendMessage', (message) => {
         const newMessage = { 
             ...message, 
-            id: Date.now(), 
-            timestamp: new Date() 
+            id: Date.now(),
+            timestamp: new Date(),
+            status: 'sent' 
         };
         messages.push(newMessage);
-        
         io.emit('receiveMessage', newMessage);
+    });
+
+    socket.on('messageRead', ({ messageId, userId }) => {
+        const message = messages.find(m => m.id === messageId);
+        if (message) {
+            message.status = 'read';
+            io.emit('messageStatus', { messageId, status: 'read' });
+        }
     });
 
     socket.on('disconnect', () => {
