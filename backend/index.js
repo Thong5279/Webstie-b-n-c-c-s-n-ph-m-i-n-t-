@@ -95,8 +95,9 @@ const server = http.createServer(app);
 
 app.use(cors({
     origin: [process.env.FRONTEND_URL || "http://localhost:3000", "https://webstie-b-n-c-c-s-n-ph-m-i-n-t.vercel.app"],
+    credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE"],
-    credentials: true
+    allowedHeaders: ["Content-Type", "Authorization"]
 }));
 
 app.use(express.json());
