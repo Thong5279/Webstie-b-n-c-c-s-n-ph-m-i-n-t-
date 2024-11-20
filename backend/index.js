@@ -94,7 +94,7 @@ const app = express();
 const server = http.createServer(app);
 
 app.use(cors({
-    origin: process.env.FRONTEND_URL || "http://localhost:3000",
+    origin: [process.env.FRONTEND_URL || "http://localhost:3000", "https://webstie-b-n-c-c-s-n-ph-m-i-n-t.vercel.app"],
     methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true
 }));
@@ -105,7 +105,7 @@ app.use("/api", router);
 
 const io = socketIo(server, {
     cors: {
-        origin: process.env.FRONTEND_URL || "http://localhost:3000",
+        origin: [process.env.FRONTEND_URL || "http://localhost:3000", "https://webstie-b-n-c-c-s-n-ph-m-i-n-t.vercel.app"],
         methods: ["GET", "POST"],
         credentials: true
     }
