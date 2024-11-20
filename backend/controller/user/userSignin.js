@@ -28,11 +28,8 @@ async function userSignInController(req, res){
            
            const tokenOption = {
             httpOnly: true,
-            // secure: true,
-            // sameSite: "None",
-            secure: process.env.NODE_ENV === 'production',
-            sameSite: process.env.NODE_ENV === 'production' ? 'None' : 'Lax',
-            domain: process.env.COOKIE_DOMAIN || undefined
+            secure: true,
+            sameSite: "None",
            }
            res.cookie("token", token, tokenOption).status(200).json({
             message: "Đăng nhập thành công ✅",
