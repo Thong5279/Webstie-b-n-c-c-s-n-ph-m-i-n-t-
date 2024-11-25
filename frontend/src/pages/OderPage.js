@@ -21,6 +21,13 @@ const formatOrderId = (id) => {
 const OrderPage = () => {
   const [data, setData] = useState([]);
   const [ratings, setRatings] = useState({});
+  const [showModal, setShowModal] = useState(false);
+  const [currentProduct, setCurrentProduct] = useState(null);
+
+  const openReviewModal = (product) => {
+    setCurrentProduct(product);
+    setShowModal(true);
+  };
 
   // Handle star click and save the rating
   const handleRating = (productId, rating) => {
@@ -61,7 +68,9 @@ const OrderPage = () => {
           >
             <div className="flex flex-col lg:flex-row justify-between items-start mb-5">
               <p className="font-semibold text-lg text-gray-700">
-                {moment(item.createdAt).format("dddd, [ngày] DD [tháng] MM [năm] YYYY, HH:mm")}
+                {moment(item.createdAt).format(
+                  "dddd, [ngày] DD [tháng] MM [năm] YYYY, HH:mm"
+                )}
               </p>
               <p className="text-gray-600">
                 Mã đơn hàng:{" "}
@@ -97,7 +106,7 @@ const OrderPage = () => {
                       </div>
 
                       {/* Rating Section with Clickable Stars */}
-                      <div className="flex items-center mt-3 text-red-500">
+                      {/* <div className="flex items-center mt-3 text-red-500">
                         {Array.from({ length: 5 }, (_, i) => (
                           <svg
                             key={i}
@@ -121,7 +130,7 @@ const OrderPage = () => {
                         <span className="ml-2 text-gray-600">
                           {ratings[product.productId] || "Chưa đánh giá"}
                         </span>
-                      </div>
+                      </div> */}
                     </div>
                   </div>
                 ))}
@@ -145,11 +154,79 @@ const OrderPage = () => {
                 </div>
               </div>
 
-              <div className="font-semibold text-xl mt-5 text-gray-900">
+              <div className="font-semibold text-xl mt-5 text-gray-900 flex items-center justify-between">
                 <div>
                   Tổng tiền (VND): {displayVNDCurrency(item.totalAmount)}
                 </div>
+                <div className="flex items-center gap-4 mt-3">
+                  <button
+                    onClick={() => openReviewModal(item)}
+                    className="px-4 py-2 bg-red-500 text-white rounded-lg shadow-md hover:bg-red-600 transition"
+                  >
+                    Đã nhận hàng
+                  </button>
+                </div>
               </div>
+
+              {showModal && (
+                <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
+                  <div className="bg-white p-6 rounded-lg shadow-lg w-96">
+                    <h3 className="text-xl font-semibold mb-4 text-gray-800">
+                      Đánh giá sản phẩm
+                    </h3>
+                    <p className="text-gray-700 mb-4">{currentProduct?.name}</p>
+
+                    {/* Rating bằng sao */}
+                    <div className="flex items-center justify-center gap-2">
+                      {Array.from({ length: 5 }, (_, i) => (
+                        <svg
+                          key={i}
+                          onClick={() =>
+                            handleRating(currentProduct.productId, i + 1)
+                          }
+                          className={`w-8 h-8 cursor-pointer ${
+                            ratings[currentProduct.productId] &&
+                            i < ratings[currentProduct.productId]
+                              ? "fill-current text-yellow-400"
+                              : "fill-gray-300"
+                          }`}
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 20 20"
+                          fill="currentColor"
+                        >
+                          <path d="M10 15l-3.09 1.637 0.586-3.421-2.518-2.458 3.464-0.504L10 6l1.557 3.25 3.464 0.504-2.518 2.458 0.586 3.421L10 15z" />
+                        </svg>
+                      ))}
+                    </div>
+
+                    {/* Textarea để bình luận */}
+                    <textarea
+                      className="w-full mt-4 p-3 border rounded-lg focus:outline-none"
+                      rows={3}
+                      placeholder="Nhập nhận xét của bạn..."
+                    />
+
+                    {/* Nút xác nhận */}
+                    <div className="flex justify-end mt-6">
+                      <button
+                        onClick={() => setShowModal(false)}
+                        className="px-4 py-2 bg-gray-300 text-gray-700 rounded-lg mr-2 hover:bg-gray-400"
+                      >
+                        Hủy
+                      </button>
+                      <button
+                        onClick={() => {
+                          // Gửi dữ liệu đánh giá lên server
+                          setShowModal(false);
+                        }}
+                        className="px-4 py-2 bg-red-500 text-white rounded-lg shadow-md hover:bg-red-600"
+                      >
+                        Gửi đánh giá
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              )}
             </div>
           </div>
         ))
