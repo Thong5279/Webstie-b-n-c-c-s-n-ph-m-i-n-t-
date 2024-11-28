@@ -41,6 +41,9 @@ const Login = () => {
     if (dataApi.success) {
       toast.success(dataApi.message);
       navigate("/");
+      // luu role vao localStore
+      localStorage.setItem("role", dataApi.role);
+      // goi cac ham can thiet sau khi dang nhap
       fetchUserDetails();
       fetchUserAddToCart();
       localStorage.removeItem("likedItems");

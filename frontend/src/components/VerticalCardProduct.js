@@ -9,6 +9,7 @@ import Context from "../context";
 import SummaryApi from "../common";
 
 const VerticalCardProduct = ({ category, heading }) => {
+  const role = localStorage.getItem("role");
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const loadingList = new Array(13).fill(null);
@@ -21,28 +22,64 @@ const VerticalCardProduct = ({ category, heading }) => {
     const savedLiked = localStorage.getItem("likedItems");
     return savedLiked ? JSON.parse(savedLiked) : {}; // Nếu có thì parse, nếu không thì trả về {}
   });
+  // const handleHeart = async (e, productId) => {
+  //   e.preventDefault();
+
+  //   // Cập nhật trạng thái yêu thích
+  //   setLikedItems((prev) => {
+  //     const newLikedItems = {
+  //       ...prev,
+  //       [productId]: !prev[productId],
+  //     };
+
+  //     // Lưu lại vào localStorage
+  //     localStorage.setItem("likedItems", JSON.stringify(newLikedItems));
+
+  //     return newLikedItems;
+  //   });
+
+  //   // Gửi yêu cầu POST lên API để thêm sản phẩm vào danh sách yêu thích
+  //   await fetch(SummaryApi.favorites.url, {
+  //     method: SummaryApi.favorites.method,
+  //     headers: { "Content-Type": "application/json" },
+  //     body: JSON.stringify({ productId }),
+  //   });
+  // };
+
+  //Xử lý theo mỗi role(vai trò admin, user, với admin thì lưu lên localStorega, còn user thì render ra 1 trang của user)
   const handleHeart = async (e, productId) => {
     e.preventDefault();
 
-    // Cập nhật trạng thái yêu thích
-    setLikedItems((prev) => {
-      const newLikedItems = {
-        ...prev,
-        [productId]: !prev[productId],
-      };
+    if (role === "ADMIN") {
+      setLikedItems((prev) => {
+        const newLikedItems = { ...prev, [productId]: !prev[productId] };
+        localStorage.setItem("likedItems", JSON.stringify(newLikedItems));
+        return newLikedItems;
+      });
+    } else if (role === "Khách hàng") {
+      try {
+        const response = await fetch(SummaryApi.userFavorites.url, {
+          method: SummaryApi.userFavorites.method,
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ productId }),
+          credentials: "include",
+        });
+        const result = await response.json();
+        console.log(result);
 
-      // Lưu lại vào localStorage
-      localStorage.setItem("likedItems", JSON.stringify(newLikedItems));
-
-      return newLikedItems;
-    });
-
-    // Gửi yêu cầu POST lên API để thêm sản phẩm vào danh sách yêu thích
-    await fetch(SummaryApi.favorites.url, {
-      method: SummaryApi.favorites.method,
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ productId }),
-    });
+        if (response.ok) {
+          setLikedItems((prev) => {
+            const newLikedItems = { ...prev, [productId]: result.liked };
+            localStorage.setItem("likedItems", JSON.stringify(newLikedItems));
+            return newLikedItems;
+          });
+        } else {
+          console.error(result.message);
+        }
+      } catch (error) {
+        console.error("Có lỗi xảy ra khi yêu thích sản phẩm:", error);
+      }
+    }
   };
 
   const { fetchUserAddToCart } = useContext(Context);

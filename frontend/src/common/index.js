@@ -154,6 +154,15 @@ const SummaryApi = {
     url: `${backendDomin}/api/clear-favorites`,
     method: "DELETE",
   },
+  // Yeu thich cho user
+  userFavorites: {
+    url: `${backendDomin}/api/user-favorites`,
+    method: "POST",
+  },
+  getUserFavorites: {
+    url: `${backendDomin}/api/get-user-favorites`,
+    method: "GET",
+  },
   getAllOrders: {
     url: `${backendDomin}/api/all-orders`,
     method: "get",

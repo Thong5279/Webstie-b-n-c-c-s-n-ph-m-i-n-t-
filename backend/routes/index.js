@@ -44,6 +44,10 @@ const {
 } = require("../controller/admin/adminFavoritesController");
 const getAllOrders = require("../controller/order/getAllOrders");
 const { getAllUsersWithTiers } = require("../controller/admin/adminController");
+const {
+  toggleFavoriteUserProduct,
+  getUserFavoriteProducts,
+} = require("../controller/user/userFavoritesController");
 
 router.post("/signup", userSignUpController);
 router.post("/signin", userSignInController);
@@ -58,6 +62,10 @@ router.post("/update-user", authToken, updateUser);
 router.post("/add-favorites", toggleFavoriteProduct);
 router.get("/get-favorites", getFavoriteProducts);
 router.delete("/clear-favorites", clearFavoriteProducts);
+
+// router de them yeu thich san pham cua User
+router.post("/user-favorites", authToken, toggleFavoriteUserProduct);
+router.get("/get-user-favorites", authToken, getUserFavoriteProducts);
 
 //upload san pham
 router.post("/upload-product", authToken, UploadProductController);

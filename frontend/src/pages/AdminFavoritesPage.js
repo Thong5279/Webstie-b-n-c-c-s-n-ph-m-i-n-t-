@@ -3,6 +3,7 @@ import { FaHeart, FaHeartBroken } from "react-icons/fa";
 import displayVNDCurrency from "../helpers/displayCurrency"; // Giả sử bạn đã có helper này để hiển thị tiền
 import SummaryApi from "../common";
 import { Link } from "react-router-dom";
+import axios from "axios";
 
 const AdminFavoritesPage = () => {
   const [favoriteProducts, setFavoriteProducts] = useState([]);
