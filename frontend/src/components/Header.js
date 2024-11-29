@@ -12,6 +12,14 @@ import { toast } from "react-toastify";
 import Context from "../context";
 import { FaRegEnvelope } from "react-icons/fa";
 import { FaHeart } from "react-icons/fa"; 
+import { FaCog } from "react-icons/fa";
+import { FaBox, FaUsers, FaTicketAlt, FaExclamationTriangle, FaSignOutAlt } from "react-icons/fa";
+import { 
+  FaChartLine, 
+  FaFileInvoiceDollar, 
+  FaArrowUp, 
+  FaShoppingCart 
+} from "react-icons/fa";
 
 const Header = () => {
   // Sử dụng hook useSelector để truy xuất dữ liệu người dùng từ Redux store
@@ -164,13 +172,141 @@ const Header = () => {
                 <nav>
                   {/* Hiển thị trên admin */}
                   {user?.role === ROLE.ADMIN && (
-                    <Link
-                      to={"/admin-panel/all-product"}
-                      className="whitespace-nowrap hidden md:block hover:bg-slate-100 p-2"
-                      onClick={() => setMenuDisplay((preve) => !preve)}
-                    >
-                      Trang Quản lý
-                    </Link>
+                    <div className="flex flex-col min-w-[250px] bg-white rounded-lg overflow-hidden shadow-xl border border-gray-100">
+                      {/* Header của menu */}
+                      <div className="bg-gradient-to-r from-red-500 to-red-600 p-4">
+                        <div className="flex items-center gap-3">
+                          <div className="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center">
+                            <FaCog className="text-2xl text-white animate-spin-slow" />
+                          </div>
+                          <div>
+                            <h3 className="text-white font-semibold">Trang Quản Lý</h3>
+                            <p className="text-white/80 text-sm">Xin chào, Admin!</p>
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Thêm phần thống kê nhanh */}
+                      <div className="grid grid-cols-2 gap-2 p-3 bg-gray-50 border-b border-gray-100">
+                        <div className="bg-white p-3 rounded-lg shadow-sm">
+                          <div className="text-sm text-gray-500">Doanh thu tháng</div>
+                          <div className="text-lg font-semibold text-green-600">12.5M</div>
+                          <div className="text-xs text-green-500 flex items-center gap-1">
+                            <FaArrowUp /> +15.3%
+                          </div>
+                        </div>
+                        <div className="bg-white p-3 rounded-lg shadow-sm">
+                          <div className="text-sm text-gray-500">Đơn hàng mới</div>
+                          <div className="text-lg font-semibold text-blue-600">25</div>
+                          <div className="text-xs text-blue-500 flex items-center gap-1">
+                            <FaShoppingCart /> Hôm nay
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Các mục quản lý */}
+                      <div className="p-2">
+                        <Link
+                          to="/admin-panel/all-product"
+                          className="flex items-center gap-3 p-3 hover:bg-red-50 rounded-lg group transition-all duration-300"
+                          onClick={() => setMenuDisplay(false)}
+                        >
+                          <div className="w-8 h-8 bg-red-100 rounded-full flex items-center justify-center group-hover:bg-red-200">
+                            <FaBox className="text-red-500" />
+                          </div>
+                          <div className="flex flex-col">
+                            <span className="font-medium">Quản lý sản phẩm</span>
+                            <span className="text-xs text-gray-500">Xem và chỉnh sửa sản phẩm</span>
+                          </div>
+                        </Link>
+
+                        <Link
+                          to="/admin-panel/all-user"
+                          className="flex items-center gap-3 p-3 hover:bg-blue-50 rounded-lg group transition-all duration-300"
+                          onClick={() => setMenuDisplay(false)}
+                        >
+                          <div className="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center group-hover:bg-blue-200">
+                            <FaUsers className="text-blue-500" />
+                          </div>
+                          <div className="flex flex-col">
+                            <span className="font-medium">Quản lý người dùng</span>
+                            <span className="text-xs text-gray-500">Xem danh sách người dùng</span>
+                          </div>
+                        </Link>
+
+                        <Link
+                          to="/admin-panel/all-voucher"
+                          className="flex items-center gap-3 p-3 hover:bg-green-50 rounded-lg group transition-all duration-300"
+                          onClick={() => setMenuDisplay(false)}
+                        >
+                          <div className="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center group-hover:bg-green-200">
+                            <FaTicketAlt className="text-green-500" />
+                          </div>
+                          <div className="flex flex-col">
+                            <span className="font-medium">Quản lý voucher</span>
+                            <span className="text-xs text-gray-500">Tạo và quản lý mã giảm giá</span>
+                          </div>
+                        </Link>
+
+                        <Link
+                          to="/admin-panel/low-stock-products"
+                          className="flex items-center gap-3 p-3 hover:bg-yellow-50 rounded-lg group transition-all duration-300"
+                          onClick={() => setMenuDisplay(false)}
+                        >
+                          <div className="w-8 h-8 bg-yellow-100 rounded-full flex items-center justify-center group-hover:bg-yellow-200">
+                            <FaExclamationTriangle className="text-yellow-500" />
+                          </div>
+                          <div className="flex flex-col">
+                            <span className="font-medium">Sản phẩm sắp hết</span>
+                            <span className="text-xs text-gray-500">Kiểm tra tồn kho</span>
+                          </div>
+                        </Link>
+
+                        <Link
+                          to="/admin-panel/dashboard"
+                          className="flex items-center gap-3 p-3 hover:bg-purple-50 rounded-lg group transition-all duration-300"
+                          onClick={() => setMenuDisplay(false)}
+                        >
+                          <div className="w-8 h-8 bg-purple-100 rounded-full flex items-center justify-center group-hover:bg-purple-200">
+                            <FaChartLine className="text-purple-500" />
+                          </div>
+                          <div className="flex flex-col">
+                            <span className="font-medium">Thống kê doanh thu</span>
+                            <span className="text-xs text-gray-500">Báo cáo và phân tích</span>
+                          </div>
+                        </Link>
+
+                        <Link
+                          to="/admin-panel/orders"
+                          className="flex items-center gap-3 p-3 hover:bg-indigo-50 rounded-lg group transition-all duration-300"
+                          onClick={() => setMenuDisplay(false)}
+                        >
+                          <div className="w-8 h-8 bg-indigo-100 rounded-full flex items-center justify-center group-hover:bg-indigo-200">
+                            <FaFileInvoiceDollar className="text-indigo-500" />
+                          </div>
+                          <div className="flex flex-col">
+                            <span className="font-medium">Quản lý đơn hàng</span>
+                            <span className="text-xs text-gray-500">Xem và xử lý đơn hàng</span>
+                          </div>
+                        </Link>
+                      </div>
+
+                      {/* Footer của menu */}
+                      <div className="p-3 bg-gray-50 border-t border-gray-100">
+                        <div className="flex flex-col gap-2">
+                          <div className="flex items-center justify-between text-sm text-gray-600">
+                            <span>Cập nhật lần cuối</span>
+                            <span>{new Date().toLocaleDateString()}</span>
+                          </div>
+                          <button 
+                            onClick={handleLogout}
+                            className="w-full py-2 px-4 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors flex items-center justify-center gap-2"
+                          >
+                            <FaSignOutAlt /> Đăng xuất
+                          </button>
+                        </div>
+                      </div>
+                    </div>
                   )}
                   {/* Hiển thị trên user */}
                   {user?._id && user?.role !== ROLE.ADMIN && (
