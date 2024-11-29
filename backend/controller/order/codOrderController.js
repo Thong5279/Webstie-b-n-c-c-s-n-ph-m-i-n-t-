@@ -37,9 +37,18 @@ const saveCodOrder = async (req, res) => {
       throw new Error("Không tìm thấy thông tin người dùng");
     }
 
+    // Format lại productDetails
+    const productDetails = cartItems.map(item => ({
+      productId: item.productId,
+      name: item.name,
+      price: item.price,
+      quantity: item.quantity,
+      image: item.image
+    }));
+
     // Tạo đơn hàng mới
     const orderDetails = {
-      productDetails: cartItems,
+      productDetails,
       email: user.email,
       userId,
       shippingInfo,
@@ -56,7 +65,7 @@ const saveCodOrder = async (req, res) => {
     const savedOrder = await order.save();
 
     if (savedOrder._id) {
-      await updateProductQuantity(cartItems);
+      await updateProductQuantity(productDetails);
       await addToCartModel.deleteMany({userId});
 
       res.json({

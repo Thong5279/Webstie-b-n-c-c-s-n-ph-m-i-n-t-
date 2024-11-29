@@ -242,10 +242,10 @@ const Cart = () => {
         body: JSON.stringify({
           cartItems: selectedItems.map(item => ({
             productId: item.productId._id,
-            name: item.productId.name,
+            name: item.productId.productName,
             price: item.productId.sellingPrice,
             quantity: item.quantityCart,
-            image: item.productId.image || []
+            image: item.productId.productImage
           })),
           totalAmount: finalPrice + (finalPrice >= 5000000 ? 0 : shippingFee),
           paymentMethod: "COD",
