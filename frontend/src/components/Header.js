@@ -20,6 +20,9 @@ import {
   FaArrowUp, 
   FaShoppingCart 
 } from "react-icons/fa";
+import { 
+  FaComments, 
+} from "react-icons/fa";
 
 const Header = () => {
   // Sử dụng hook useSelector để truy xuất dữ liệu người dùng từ Redux store
@@ -206,6 +209,27 @@ const Header = () => {
 
                       {/* Các mục quản lý */}
                       <div className="p-2">
+                        <Link
+                          to="/admin-panel/chat"
+                          className="flex items-center gap-3 p-3 hover:bg-pink-50 rounded-lg group transition-all duration-300"
+                          onClick={() => setMenuDisplay(false)}
+                        >
+                          <div className="w-8 h-8 bg-pink-100 rounded-full flex items-center justify-center group-hover:bg-pink-200 relative">
+                            <FaComments className="text-pink-500" />
+                            <span className="absolute -top-1 -right-1 w-4 h-4 bg-red-500 rounded-full text-white text-xs flex items-center justify-center">
+                              3
+                            </span>
+                          </div>
+                          <div className="flex flex-col flex-1">
+                            <span className="font-medium">Trò chuyện</span>
+                            <span className="text-xs text-gray-500">Chat với khách hàng</span>
+                          </div>
+                          <div className="flex flex-col items-end">
+                            <span className="text-xs text-green-500">2 online</span>
+                            <span className="text-xs text-gray-400">1 tin nhắn mới</span>
+                          </div>
+                        </Link>
+
                         <Link
                           to="/admin-panel/all-product"
                           className="flex items-center gap-3 p-3 hover:bg-red-50 rounded-lg group transition-all duration-300"
