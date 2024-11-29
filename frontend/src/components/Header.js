@@ -263,7 +263,7 @@ const Header = () => {
                         </Link>
 
                         <Link
-                          to="/admin-panel/dashboard"
+                          to="/admin-panel/all-promotion"
                           className="flex items-center gap-3 p-3 hover:bg-purple-50 rounded-lg group transition-all duration-300"
                           onClick={() => setMenuDisplay(false)}
                         >
@@ -277,7 +277,7 @@ const Header = () => {
                         </Link>
 
                         <Link
-                          to="/admin-panel/orders"
+                          to="/admin-panel/all-order"
                           className="flex items-center gap-3 p-3 hover:bg-indigo-50 rounded-lg group transition-all duration-300"
                           onClick={() => setMenuDisplay(false)}
                         >
