@@ -171,5 +171,9 @@ const SummaryApi = {
     url: `${backendDomin}/api/user-tier`,
     method: "get",
   },
+  saveCodOrder: {
+    url: `${backendDomin}/api/save-cod-order`,
+    method: "post"
+  }
 };
 export default SummaryApi; // Xuất đối tượng SummaryApi để có thể sử dụng ở các tệp khác

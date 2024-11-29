@@ -13,28 +13,48 @@ const orderProductSchema = new mongoose.Schema({
         type: String,
         default: ""
     },
-    paymentDetails: {
-       paymentId : {
-        type : String,
-        default : ""
-       },
-       payment_method_type : [],
-       payment_status : {
-        type : String,
-        default : ""
-       }
+    shippingInfo: {
+        name: {
+            type: String,
+            required: true
+        },
+        phone: {
+            type: String, 
+            required: true
+        },
+        address: {
+            type: String,
+            required: true
+        }
     },
-    // TODO: add shipping chưa làm 
-    totalAmount : {
-        type : Number,
-        default : 0
+    paymentDetails: {
+        paymentId: {
+            type: String,
+            default: ""
+        },
+        payment_method_type: [],
+        payment_status: {
+            type: String,
+            default: ""
+        },
+        amountVND: {
+            type: Number,
+            default: 0
+        }
+    },
+    orderStatus: {
+        type: String,
+        enum: ['pending', 'processing', 'shipped', 'delivered', 'cancelled'],
+        default: 'pending'
+    },
+    totalAmount: {
+        type: Number,
+        default: 0
     }
-
-},{
-    timestamps : true
+}, {
+    timestamps: true
 })
 
-
-const orderModel = mongoose.model('order',orderProductSchema)
+const orderModel = mongoose.model('order', orderProductSchema)
 
 module.exports = orderModel

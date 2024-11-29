@@ -48,6 +48,7 @@ const {
   toggleFavoriteUserProduct,
   getUserFavoriteProducts,
 } = require("../controller/user/userFavoritesController");
+const saveCodOrder = require("../controller/order/codOrderController");
 
 router.post("/signup", userSignUpController);
 router.post("/signin", userSignInController);
@@ -124,5 +125,7 @@ router.get("/order-list", authToken, orderController);
 
 //all orders
 router.get("/all-orders", authToken, getAllOrders);
+
+router.post("/save-cod-order", authToken, saveCodOrder);
 
 module.exports = router;

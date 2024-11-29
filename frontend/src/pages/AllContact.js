@@ -90,9 +90,9 @@ const AllContact = () => {
                   onChange={(e) => handleStatusChange(contact._id, e.target.value)}
                   className="p-1 border rounded"
                 >
-                  <option value="Chưa xử lý">Chưa xử lý</option>
-                  <option value="Đang xử lý">Đang xử lý</option>
-                  <option value="Đã xử lý">Đã xử lý</option>
+                  <option value="Chưa xử lý" className='text-red-600'>Chưa xử lý</option>
+                  <option value="Đang xử lý" className='text-yellow-600'>Đang xử lý</option>
+                  <option value="Đã xử lý" className='text-green-600'>Đã xử lý</option>
                 </select>
               </td>
               <td>{moment(contact.createdAt).format('LLL')}</td>

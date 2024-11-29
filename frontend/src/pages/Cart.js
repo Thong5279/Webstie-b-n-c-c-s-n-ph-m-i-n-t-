@@ -224,9 +224,53 @@ const Cart = () => {
     }
   };
 
-  const handleConfirmOrder = () => {
-    setShowConfirmModal(false);
-    navigate("/success");
+  const handleConfirmOrder = async () => {
+    const selectedItems = data.filter((product) => selectedProducts[product._id]);
+    
+    try {
+      if (!userInfo.address || !userInfo.phone || !userInfo.name) {
+        toast.error("Vui lòng điền đầy đủ thông tin giao hàng!");
+        return;
+      }
+
+      const response = await fetch(SummaryApi.saveCodOrder.url, {
+        method: SummaryApi.saveCodOrder.method,
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          cartItems: selectedItems.map(item => ({
+            productId: item.productId._id,
+            name: item.productId.name,
+            price: item.productId.sellingPrice,
+            quantity: item.quantityCart,
+            image: item.productId.image || []
+          })),
+          totalAmount: finalPrice + (finalPrice >= 5000000 ? 0 : shippingFee),
+          paymentMethod: "COD",
+          shippingInfo: {
+            name: userInfo.name,
+            phone: userInfo.phone,
+            address: userInfo.address
+          }
+        }),
+      });
+
+      const responseData = await response.json();
+
+      if (responseData.success) {
+        context.fetchUserAddToCart();
+        setShowConfirmModal(false);
+        navigate("/success");
+        toast.success("Đặt hàng thành công!");
+      } else {
+        toast.error(responseData.message || "Đặt hàng thất bại. Vui lòng thử lại!");
+      }
+    } catch (error) {
+      console.error("Lỗi khi đặt hàng:", error);
+      toast.error("Đã xảy ra lỗi. Vui lòng thử lại sau!");
+    }
   };
 
   const totalQty = data.reduce(
