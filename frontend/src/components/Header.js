@@ -217,7 +217,7 @@ const Header = () => {
                           <div className="w-8 h-8 bg-pink-100 rounded-full flex items-center justify-center group-hover:bg-pink-200 relative">
                             <FaComments className="text-pink-500" />
                             <span className="absolute -top-1 -right-1 w-4 h-4 bg-red-500 rounded-full text-white text-xs flex items-center justify-center">
-                              3
+                              1
                             </span>
                           </div>
                           <div className="flex flex-col flex-1">
