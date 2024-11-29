@@ -10,6 +10,8 @@ import { setUserDetails } from "../store/userSlice";
 import ROLE from "../common/role";
 import { toast } from "react-toastify";
 import Context from "../context";
+import { FaRegEnvelope } from "react-icons/fa";
+import { FaHeart } from "react-icons/fa"; 
 
 const Header = () => {
   // Sử dụng hook useSelector để truy xuất dữ liệu người dùng từ Redux store
@@ -172,34 +174,40 @@ const Header = () => {
                   )}
                   {/* Hiển thị trên user */}
                   {user?._id && user?.role !== ROLE.ADMIN && (
-                    <div className="flex flex-col">
+                    <div className="flex flex-col min-w-[200px] border border-gray-200 rounded-lg overflow-hidden shadow-lg bg-gradient-to-b from-white to-gray-50">
                       <Link
                         to="/profile"
-                        className="whitespace-nowrap hover:bg-slate-100 p-2"
+                        className="whitespace-nowrap hover:bg-blue-50 p-3 border-b border-gray-200 flex items-center gap-2 text-gray-700 hover:text-blue-600 transition-all duration-300"
                         onClick={() => setMenuDisplay((prev) => !prev)}
                       >
+                        <FaRegCircleUser className="text-lg text-blue-500" />
                         Trang cá nhân
                       </Link>
 
                       <Link
                         to="/order"
-                        className="whitespace-nowrap hover:bg-slate-100 p-2"
+                        className="whitespace-nowrap hover:bg-green-50 p-3 border-b border-gray-200 flex items-center gap-2 text-gray-700 hover:text-green-600 transition-all duration-300"
                         onClick={() => setMenuDisplay((prev) => !prev)}
                       >
+                        <FaCartShopping className="text-lg text-green-500" />
                         Đơn hàng của bạn
                       </Link>
+
                       <Link
                         to="/contact"
-                        className="whitespace-nowrap hover:bg-slate-100 p-2"
+                        className="whitespace-nowrap hover:bg-purple-50 p-3 border-b border-gray-200 flex items-center gap-2 text-gray-700 hover:text-purple-600 transition-all duration-300"
                         onClick={() => setMenuDisplay((prev) => !prev)}
                       >
+                        <FaRegEnvelope className="text-lg text-purple-500" />
                         Liên hệ
                       </Link>
+
                       <Link
                         to="/favourite"
-                        className="whitespace-nowrap hover:bg-slate-100 p-2"
+                        className="whitespace-nowrap hover:bg-red-50 p-3 flex items-center gap-2 text-gray-700 hover:text-red-600 transition-all duration-300"
                         onClick={() => setMenuDisplay((prev) => !prev)}
                       >
+                        <FaHeart className="text-lg text-red-500" />
                         Sản phẩm yêu thích
                       </Link>
                     </div>
