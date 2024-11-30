@@ -149,9 +149,10 @@ const VerticalCardProduct = ({ category, heading }) => {
                 </div>
               );
             })
-          : data.map((product, index) => {
+          : data.filter(product => product.quantity >= 1).map((product, index) => {
               return (
                 <Link
+                  key={product._id}
                   to={"/product/" + product?._id}
                   className="w-full min-w-[280px] max-w-[320px] bg-white rounded-sm shadow "
                 >

@@ -149,7 +149,7 @@ const HorizontalCardProduct = ({ category, heading }) => {
                 </div>
               </div>
             ))
-          : data.map((product) => (
+          : data.filter(product => product.quantity >= 1).map((product) => (
               <Link
                 key={product._id}
                 to={"product/" + product._id}

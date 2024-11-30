@@ -15,9 +15,9 @@ const SearchProduct = () => {
         const response = await fetch(SummaryApi.searchProduct.url+query.search)
         const dataResponse = await response.json()
         setLoading(false)
-
-        setData(dataResponse.data)
         
+        const filteredData = dataResponse.data.filter(product => product.quantity >= 1)
+        setData(filteredData)
     }
     useEffect(() => {
         fetchProduct()
