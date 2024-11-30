@@ -67,7 +67,7 @@ const AdminPanel = () => {
               className="px-2 py-1 flex items-center mt-2 transition hover:bg-red-400 hover:text-white"
             >
               <RiAlertFill className="mr-2 text-2xl text-red-600" />
-              Sản phẩm sắp hết hàng
+              Sản phẩm tồn kho
             </Link>
             <Link
               to={"all-order"}
