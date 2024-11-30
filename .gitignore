@@ -1,0 +1,7 @@
+# Environment variables
+.env
+.env.local
+.env.*.local
+
+# Giữ lại file example
+!.env.example 
