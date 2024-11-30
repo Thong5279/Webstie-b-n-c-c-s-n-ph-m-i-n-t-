@@ -2,6 +2,7 @@ const orderModel = require('../../models/orderProductModel');
 const addToCartModel = require('../../models/cartProduct');
 const productModel = require('../../models/productModel');
 const userModel = require('../../models/userModel');
+const { sendThankYouEmail } = require('../../helpers/sendEmail');
 
 // Hàm cập nhật số lượng sản phẩm
 const updateProductQuantity = async (productDetails) => {
@@ -67,6 +68,10 @@ const saveCodOrder = async (req, res) => {
     if (savedOrder._id) {
       await updateProductQuantity(productDetails);
       await addToCartModel.deleteMany({userId});
+
+      // Gửi email cảm ơn
+      const orderTrackingUrl = `${process.env.FRONTEND_URL}/order`;
+      await sendThankYouEmail(shippingInfo.name, user.email, orderTrackingUrl);
 
       res.json({
         success: true,

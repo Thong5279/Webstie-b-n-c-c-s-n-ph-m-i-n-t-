@@ -1,6 +1,7 @@
 const stripe = require('../../config/stripe')
 const orderModel = require('../../models/orderProductModel')
 const productModel = require("../../models/productModel");
+const { sendThankYouEmail } = require('../../helpers/sendEmail');
 
 const endpointSecret = process.env.STRIPE_ENDPOINT_SECRET_KEY
 
@@ -111,6 +112,10 @@ const webhooks = async (request, response) => {
                     await updateProductQuantity(productDetails);
                     // Xóa giỏ hàng
                     await addToCartModel.deleteMany({userId: session.metadata.userId});
+                    
+                    // Gửi email cảm ơn
+                    const orderTrackingUrl = `${process.env.FRONTEND_URL}/order`;
+                    await sendThankYouEmail(session.shipping.name, session.customer_email, orderTrackingUrl);
                 }
                 break;
             default:
