@@ -23,6 +23,7 @@ import {
 import { 
   FaComments, 
 } from "react-icons/fa";
+import { FaMicrophone } from 'react-icons/fa';
 
 const Header = () => {
   // Sử dụng hook useSelector để truy xuất dữ liệu người dùng từ Redux store
@@ -43,6 +44,10 @@ const Header = () => {
   // Khi click ra ngoài thì ẩn gợi ý tìm kiếm
   const suggestionRef = useRef(null);
   const menuRef = useRef(null);
+
+  // Thêm các state mới
+  const [isListening, setIsListening] = useState(false);
+  const [recognition, setRecognition] = useState(null);
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -110,6 +115,44 @@ const Header = () => {
     navigate(`/search?q=${suggestion.productName}`); // Điều hướng đến trang tìm kiếm
   };
 
+  // Khởi tạo Web Speech API
+  useEffect(() => {
+    if ('webkitSpeechRecognition' in window) {
+      const recognition = new window.webkitSpeechRecognition();
+      recognition.continuous = false;
+      recognition.interimResults = false;
+      recognition.lang = 'vi-VN';
+
+      recognition.onresult = (event) => {
+        const transcript = event.results[0][0].transcript;
+        setSearch(transcript);
+        handleSearch({ target: { value: transcript } });
+        setIsListening(false);
+      };
+
+      recognition.onerror = (event) => {
+        console.error('Lỗi nhận diện giọng nói:', event.error);
+        setIsListening(false);
+        toast.error('Có lỗi khi nhận diện giọng nói');
+      };
+
+      setRecognition(recognition);
+    } else {
+      toast.error('Trình duyệt không hỗ trợ nhận diện giọng nói');
+    }
+  }, []);
+
+  // Thêm hàm xử lý khi click vào nút micro
+  const handleVoiceSearch = () => {
+    if (isListening) {
+      recognition.stop();
+      setIsListening(false);
+    } else {
+      recognition.start();
+      setIsListening(true);
+    }
+  };
+
   return (
     <header className="h-16 shadow-md bg-white fixed w-full z-40">
       <div className="h-full container mx-auto flex items-center px-4 justify-between">
@@ -126,6 +169,12 @@ const Header = () => {
             onChange={handleSearch}
             value={search}
           />
+          <button
+            onClick={handleVoiceSearch}
+            className={`mx-2 text-lg ${isListening ? 'text-red-600 animate-pulse' : 'text-gray-500'}`}
+          >
+            <FaMicrophone />
+          </button>
           <div className="text-lg min-w-[50px] h-8 bg-red-600 flex items-center justify-center rounded-r-full text-white">
             <ImSearch />
           </div>
