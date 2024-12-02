@@ -71,7 +71,16 @@ const saveCodOrder = async (req, res) => {
 
       // Gửi email cảm ơn
       const orderTrackingUrl = `${process.env.FRONTEND_URL}/order`;
-      await sendThankYouEmail(shippingInfo.name, user.email, orderTrackingUrl);
+      const orderDate = new Date().toLocaleDateString('vi-VN');
+      await sendThankYouEmail(
+        shippingInfo.name, 
+        user.email, 
+        orderTrackingUrl, 
+        savedOrder._id, 
+        orderDate, 
+        totalAmount,
+        productDetails
+      );
 
       res.json({
         success: true,

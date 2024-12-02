@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState, useCallback } from "react";
 import SummaryApi from "../common";
 import Context from "../context";
 import displayVNDCurrency from "../helpers/displayCurrency";
@@ -410,24 +410,20 @@ const Cart = () => {
 
   const [finalTotalAmount, setFinalTotalAmount] = useState(0);
 
-  const calculateFinalTotal = () => {
+  const calculateFinalTotal = useCallback(() => {
     let total = 0;
-
     if (totalDiscountAmount > 0) {
-      total =
-        totalDiscountAmount +
-        (totalDiscountAmount >= 5000000 ? 0 : shippingFee);
+      total = totalDiscountAmount + (totalDiscountAmount >= 5000000 ? 0 : shippingFee);
     } else {
       total = finalPrice + (finalPrice >= 5000000 ? 0 : shippingFee);
     }
-
     setFinalTotalAmount(total);
     return total;
-  };
+  }, [totalDiscountAmount, finalPrice, shippingFee]);
 
   useEffect(() => {
     calculateFinalTotal();
-  }, [totalDiscountAmount, finalPrice, shippingFee]);
+  }, [totalDiscountAmount, finalPrice, shippingFee, calculateFinalTotal]);
 
   return (
     <div className="container mx-auto">

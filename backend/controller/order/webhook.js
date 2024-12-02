@@ -115,7 +115,24 @@ const webhooks = async (request, response) => {
                     
                     // Gửi email cảm ơn
                     const orderTrackingUrl = `${process.env.FRONTEND_URL}/order`;
-                    await sendThankYouEmail(session.shipping.name, session.customer_email, orderTrackingUrl);
+                    const orderDate = new Date().toLocaleDateString('vi-VN');
+
+                    // Đảm bảo productDetails có đầy đủ thông tin
+                    const formattedProductDetails = productDetails.map(product => ({
+                        name: product.name,
+                        quantity: product.quantity,
+                        price: product.price // Giá của từng sản phẩm
+                    }));
+
+                    await sendThankYouEmail(
+                        session.shipping.name, 
+                        session.customer_email, 
+                        orderTrackingUrl, 
+                        savedOrder._id, 
+                        orderDate, 
+                        totalAmountVND, // Tổng tiền đơn hàng
+                        formattedProductDetails
+                    );
                 }
                 break;
             default:
