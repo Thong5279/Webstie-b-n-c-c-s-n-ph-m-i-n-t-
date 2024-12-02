@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+    <html>
+    <head>
+      <meta charset="utf-8">
+      <title>Đặt Lại Mật Khẩu - Mobile Store</title>
+      <style>
+        body {
+          font-family: Arial, sans-serif;
+          line-height: 1.6;
+          color: #333333;
+        }
+        .container {
+          max-width: 600px;
+          margin: 0 auto;
+          padding: 20px;
+        }
+        .header {
+          text-align: center;
+          padding: 20px 0;
+          background-color: #dc2626;
+          color: white;
+        }
+        .content {
+          padding: 20px;
+          background-color: #f9fafb;
+          border-radius: 5px;
+        }
+        .verification-code {
+          text-align: center;
+          font-size: 32px;
+          font-weight: bold;
+          color: #dc2626;
+          padding: 20px;
+          margin: 20px 0;
+          background-color: #fff;
+          border-radius: 5px;
+          border: 2px dashed #dc2626;
+        }
+        .footer {
+          text-align: center;
+          padding: 20px;
+          color: #666666;
+          font-size: 12px;
+        }
+      </style>
+    </head>
+    <body>
+      <div class="container">
+        <div class="header">
+          <h1>Mobile Store</h1>
+        </div>
+        <div class="content">
+          <h2>Xác Nhận Đặt Lại Mật Khẩu</h2>
+          <p>Xin chào,</p>
+          <p>Chúng tôi nhận được yêu cầu đặt lại mật khẩu cho tài khoản của bạn. Vui lòng sử dụng mã xác nhận dưới đây để tiếp tục quá trình đặt lại mật khẩu:</p>
+          
+          <div class="verification-code">
+            {{verificationCode}}
+          </div>
+          
+          <p>Mã xác nhận này sẽ hết hạn sau 5 phút.</p>
+          <p>Nếu bạn không yêu cầu đặt lại mật khẩu, vui lòng bỏ qua email này.</p>
+        </div>
+        <div class="footer">
+          <p>Email này được gửi tự động, vui lòng không trả lời.</p>
+          <p>© 2024 Mobile Store. All rights reserved.</p>
+        </div>
+      </div>
+    </body>
+    </html>
