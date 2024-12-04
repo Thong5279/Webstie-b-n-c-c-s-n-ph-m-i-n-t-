@@ -4,20 +4,21 @@ const addToCartController = async(req,res)=>{
         const {productId} = req?.body
         const currentUser = req.userId
         
-        const isProductAvailable = await addToCartModel.findOne({productId})
+        const isProductAvailable = await addToCartModel.findOne({
+            productId,
+            userId: currentUser
+        })
          
-        console.log("isProductAvailable", isProductAvailable);
-
         if(isProductAvailable){
             return res.json({
-                message : "Sản phẩm đã tồn tại trong giỏ hàng 🛒",
+                message : "Sản phẩm đã tồn tại trong giỏ hàng của bạn 🛒",
                 success : false,
                 error : true
             })
         }
 
         const payload = {
-            productId : productId, 
+            productId, 
             quantityCart : 1,  
             userId : currentUser 
         }
@@ -37,7 +38,6 @@ const addToCartController = async(req,res)=>{
             message : err?.message || err,
             error   : true,
             success : false
-            
         })
     }
 }
