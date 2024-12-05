@@ -1,3 +1,7 @@
+import ForgotPassword from "../pages/ForgotPassword";
+import ResetPassword from "../pages/ResetPassword";
+import VerifyCode from "../pages/VerifyCode";
+
 const backendDomin = process.env.REACT_APP_BACKEND_URL; //"http://localhost:8080"; // Định nghĩa URL của backend, thường là địa chỉ của server backend
 
 const SummaryApi = {
@@ -174,6 +178,33 @@ const SummaryApi = {
   saveCodOrder: {
     url: `${backendDomin}/api/save-cod-order`,
     method: "post"
+  },
+  ForgotPassword: {
+    url: `${backendDomin}/api/forgot-password`,
+    method: "post",
+  },
+  VerifyCode: {
+    url: `${backendDomin}/api/verify-code`,
+    method: "post",
+  },
+  ResetPassword: {
+    url: `${backendDomin}/api/reset-password`,
+    method: "post",
+  },
+  forgotPassword: {
+    url: `${backendDomin}/api/forgot-password`,
+    method: "post",
+  },
+  verifyCode: {
+    url: `${backendDomin}/api/verify-code`,
+    method: "post",
+  },
+  resetPassword: {
+    url: `${backendDomin}/api/reset-password`,
+    method: "post",
   }
 };
+
+console.log('API Endpoints:', SummaryApi);
+
 export default SummaryApi; // Xuất đối tượng SummaryApi để có thể sử dụng ở các tệp khác

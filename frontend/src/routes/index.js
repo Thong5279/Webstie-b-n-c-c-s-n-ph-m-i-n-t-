@@ -37,6 +37,7 @@ import AllReview from "../pages/AllReview";
 import AllPromotion from "../pages/AllPromotion";
 import FavoritesUser from "../pages/FavoritesUser";
 import ChatWithCustommer from "../pages/ChatWithCustommer";
+import VerifyCode from "../pages/VerifyCode";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -134,6 +135,10 @@ const router = createBrowserRouter([
       {
         path: "/order",
         element: <OderPage />,
+      },
+      {
+        path: "/verify-code",
+        element: <VerifyCode />
       },
       {
         path: "admin-panel",

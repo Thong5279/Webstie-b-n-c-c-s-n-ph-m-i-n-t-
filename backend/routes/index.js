@@ -49,6 +49,9 @@ const {
   getUserFavoriteProducts,
 } = require("../controller/user/userFavoritesController");
 const saveCodOrder = require("../controller/order/codOrderController");
+const forgotPasswordController = require("../controller/user/forgotPasswordController").forgotPasswordController;
+const verifyCodeController = require("../controller/user/verifyCodeController");
+const resetPasswordController = require("../controller/user/resetPasswordController");
 
 router.post("/signup", userSignUpController);
 router.post("/signin", userSignInController);
@@ -127,5 +130,9 @@ router.get("/order-list", authToken, orderController);
 router.get("/all-orders", authToken, getAllOrders);
 
 router.post("/save-cod-order", authToken, saveCodOrder);
+// forgot password
+router.post("/forgot-password", forgotPasswordController);
+router.post("/verify-code", verifyCodeController);
+router.post("/reset-password", resetPasswordController);
 
 module.exports = router;

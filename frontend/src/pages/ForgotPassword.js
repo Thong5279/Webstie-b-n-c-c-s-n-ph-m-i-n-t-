@@ -11,8 +11,10 @@ const ForgotPassword = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
+    console.log('Submitting phone:', phone);
 
     try {
+      console.log('Making request to:', SummaryApi.forgotPassword.url);
       const response = await fetch(SummaryApi.forgotPassword.url, {
         method: SummaryApi.forgotPassword.method,
         headers: {
@@ -21,15 +23,19 @@ const ForgotPassword = () => {
         body: JSON.stringify({ phone }),
       });
 
+      console.log('Response status:', response.status);
       const data = await response.json();
+      console.log('Response data:', data);
 
       if (data.success) {
+        localStorage.setItem('resetPasswordPhone', phone);
         toast.success("Mã xác nhận đã được gửi đến email của bạn");
         navigate("/verify-code");
       } else {
         toast.error(data.message || "Số điện thoại không tồn tại");
       }
     } catch (error) {
+      console.error('Error:', error);
       toast.error("Đã có lỗi xảy ra, vui lòng thử lại sau");
     } finally {
       setIsLoading(false);
