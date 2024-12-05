@@ -26,6 +26,7 @@ import { Link, useNavigate } from "react-router-dom";
 import CheckoutPage from "../components/CheckoutPage";
 import { loadStripe } from "@stripe/stripe-js";
 import { toast } from "react-toastify";
+import EmptyCartImage from '../img/Successful purchase-amico.png';
 
 const Cart = () => {
   const [data, setData] = useState([]);
@@ -430,8 +431,12 @@ const Cart = () => {
       <div className="text-center text-lg my-3">
         {data.length === 0 && !loading && (
           <div className="flex flex-col items-center justify-center min-h-[60vh] px-4 text-center">
-            <div className="animate-bounce mb-6">
-              <FaShoppingCart className="text-8xl text-red-500" />
+            <div className="w-full max-w-md mb-8">
+              <img
+                src={EmptyCartImage}
+                alt="Empty Cart"
+                className="w-full h-auto"
+              />
             </div>
 
             <h2 className="text-2xl font-bold mb-4 text-gray-800 animate-pulse">
