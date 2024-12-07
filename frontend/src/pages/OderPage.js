@@ -3,7 +3,10 @@ import SummaryApi from "../common";
 import moment from "moment";
 import displayVNDCurrency from "../helpers/displayCurrency";
 import { toast } from 'react-toastify';
-import { FaHeart } from 'react-icons/fa';
+import { FaHeart, FaStar, FaCheckCircle, FaBox } from 'react-icons/fa';
+import { MdRateReview } from 'react-icons/md';
+import { BiHappyHeartEyes } from 'react-icons/bi';
+import { BiComment } from 'react-icons/bi';
 
 const translatePaymentStatus = (status) => {
   const statusMap = {
@@ -45,6 +48,15 @@ const OrderPage = () => {
     setRatings((prevRatings) => ({
       ...prevRatings,
       [productId]: rating,
+    }));
+  };
+
+  const handleRatingChange = (value) => {
+    if (!currentProduct?.productId) return;
+    
+    setRatings(prev => ({
+      ...prev,
+      [currentProduct.productId]: value
     }));
   };
 
@@ -94,6 +106,14 @@ const OrderPage = () => {
     }
   }, [data]);
 
+  useEffect(() => {
+    // Khôi phục trạng thái từ localStorage
+    const savedReviewedProducts = localStorage.getItem('reviewedProducts');
+    if (savedReviewedProducts) {
+      setReviewedProducts(JSON.parse(savedReviewedProducts));
+    }
+  }, []);
+
   const handleSubmitReview = async () => {
     try {
       if (!currentProduct?.productId) {
@@ -127,10 +147,14 @@ const OrderPage = () => {
       if (response.ok) {
         const data = await response.json();
         if (data.success) {
-          setReviewedProducts(prev => ({
-            ...prev,
-            [currentProduct.productId]: true
-          }));
+          setReviewedProducts(prev => {
+            const newState = {
+              ...prev,
+              [currentProduct.productId]: true
+            };
+            localStorage.setItem('reviewedProducts', JSON.stringify(newState));
+            return newState;
+          });
           
           toast.success('Đánh giá sản phẩm thành công');
           setShowModal(false);
@@ -258,16 +282,20 @@ const OrderPage = () => {
                 </div>
                 <div className="flex items-center gap-4 mt-3">
                   {reviewedProducts[item.productDetails[0].productId] ? (
-                    <div className="flex items-center gap-2 px-4 py-2 bg-green-100 text-green-600 rounded-lg">
-                      <FaHeart className="text-red-500" />
-                      <span>Cảm ơn bạn đã đánh giá</span>
-                    </div>
+                    <button
+                      className="px-4 py-2 bg-green-500 text-white rounded-lg cursor-not-allowed flex items-center justify-center gap-2 hover:bg-green-600 transition-colors"
+                      disabled
+                    >
+                      <BiHappyHeartEyes className="text-xl" />
+                      <span>Cảm ơn đã đánh giá</span>
+                    </button>
                   ) : (
                     <button
                       onClick={() => openReviewModal(item)}
-                      className="px-4 py-2 bg-red-500 text-white rounded-lg shadow-md hover:bg-red-600 transition"
+                      className="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors flex items-center justify-center gap-2"
                     >
-                      Đã nhận hàng
+                      <FaBox className="text-xl" />
+                      <span>Đã nhận được hàng</span>
                     </button>
                   )}
                 </div>
@@ -276,55 +304,57 @@ const OrderPage = () => {
               {showModal && (
                 <div className="fixed inset-0 bg-black bg-opacity-10 flex justify-center items-center z-50">
                   <div className="bg-white p-6 rounded-lg w-96">
-                    <h3 className="text-xl font-semibold mb-4 text-gray-800">
+                    <h3 className="text-xl font-semibold mb-4 flex items-center gap-2">
+                      <MdRateReview className="text-red-500" />
                       Đánh giá sản phẩm
                     </h3>
-                    <p className="text-gray-700 mb-4">{currentProduct?.name}</p>
-
-                    {/* Rating bằng sao */}
-                    <div className="flex items-center justify-center gap-2">
-                      {Array.from({ length: 5 }, (_, i) => (
-                        <svg
-                          key={i}
-                          onClick={() =>
-                            handleRating(currentProduct.productId, i + 1)
-                          }
-                          className={`w-8 h-8 cursor-pointer ${
-                            ratings[currentProduct.productId] &&
-                            i < ratings[currentProduct.productId]
-                              ? "fill-current text-yellow-400"
-                              : "fill-gray-300"
-                          }`}
-                          xmlns="http://www.w3.org/2000/svg"
-                          viewBox="0 0 20 20"
-                          fill="currentColor"
-                        >
-                          <path d="M10 15l-3.09 1.637 0.586-3.421-2.518-2.458 3.464-0.504L10 6l1.557 3.25 3.464 0.504-2.518 2.458 0.586 3.421L10 15z" />
-                        </svg>
-                      ))}
+                    
+                    <div className="flex items-center gap-2 mb-4">
+                      <span className="text-gray-600">Đánh giá:</span>
+                      <div className="flex gap-1">
+                        {[1, 2, 3, 4, 5].map((star) => (
+                          <FaStar
+                            key={star}
+                            className={`text-2xl cursor-pointer transition-colors ${
+                              (ratings[currentProduct?.productId] || 0) >= star 
+                                ? 'text-yellow-400' 
+                                : 'text-gray-300'
+                            }`}
+                            onClick={() => setRatings(prev => ({
+                              ...prev,
+                              [currentProduct?.productId]: star
+                            }))}
+                          />
+                        ))}
+                      </div>
                     </div>
 
-                    {/* Textarea để bình lu��n */}
-                    <textarea
-                      className="w-full mt-4 p-3 border rounded-lg focus:outline-none"
-                      rows={3}
-                      placeholder="Nhập nhận xét của bạn..."
-                      value={comment}
-                      onChange={(e) => setComment(e.target.value)}
-                    />
+                    <div className="mb-4">
+                      <label className="block text-gray-600 mb-2 flex items-center gap-2">
+                        <FaCheckCircle className="text-green-500" />
+                        Nhận xét của bạn:
+                      </label>
+                      <textarea
+                        value={comment}
+                        onChange={(e) => setComment(e.target.value)}
+                        className="w-full p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500"
+                        rows="4"
+                        placeholder="Chia sẻ trải nghiệm của bạn về sản phẩm..."
+                      />
+                    </div>
 
-                    {/* Nút xác nhận */}
-                    <div className="flex justify-end mt-6">
+                    <div className="flex justify-end gap-2">
                       <button
                         onClick={() => setShowModal(false)}
-                        className="px-4 py-2 bg-gray-300 text-gray-700 rounded-lg mr-2 hover:bg-gray-400"
+                        className="px-4 py-2 bg-gray-500 text-white rounded-lg hover:bg-gray-600 transition-colors"
                       >
                         Hủy
                       </button>
                       <button
                         onClick={handleSubmitReview}
-                        className="px-4 py-2 bg-red-500 text-white rounded-lg shadow-md hover:bg-red-600"
+                        className="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors flex items-center gap-2"
                       >
+                        <FaCheckCircle />
                         Gửi đánh giá
                       </button>
                     </div>
