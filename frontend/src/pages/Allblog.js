@@ -3,11 +3,12 @@ import SummaryApi from '../common';
 import moment from 'moment';
 import 'moment/locale/vi';
 import { FaStar } from 'react-icons/fa';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const Allblog = () => {
   const [reviews, setReviews] = useState([]);
   const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
 
   const fetchAllReviews = async () => {
     try {
@@ -27,6 +28,10 @@ const Allblog = () => {
     }
   };
 
+  const handleReviewClick = (productId) => {
+    navigate(`/product/${productId}`);
+  };
+
   useEffect(() => {
     fetchAllReviews();
   }, []);
@@ -44,19 +49,23 @@ const Allblog = () => {
           <p className="text-gray-500 text-center">Chưa có đánh giá nào</p>
         ) : (
           reviews.map((review) => (
-            <div key={review._id} className="bg-white p-6 rounded-lg shadow-lg">
+            <div 
+              key={review._id}
+              onClick={() => handleReviewClick(review.productId)}
+              className="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow cursor-pointer"
+            >
               <div className="flex items-center justify-between mb-4">
                 <div>
                   <h3 className="font-semibold text-lg">
                     <Link 
-                      to={`/product/${review.productId._id}`}
+                      to={`/product/${review.productId}`}
                       className="text-blue-600 hover:underline"
                     >
-                      {review.productId.productName}
+                      {review.productName}
                     </Link>
                   </h3>
                   <p className="text-gray-600">
-                    Đánh giá bởi: {review.userId.name}
+                    Đánh giá bởi: {review.userName}
                   </p>
                 </div>
                 <span className="text-gray-500">
