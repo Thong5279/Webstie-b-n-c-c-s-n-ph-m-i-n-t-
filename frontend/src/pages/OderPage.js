@@ -3,6 +3,7 @@ import SummaryApi from "../common";
 import moment from "moment";
 import displayVNDCurrency from "../helpers/displayCurrency";
 import { toast } from 'react-toastify';
+import { FaHeart } from 'react-icons/fa';
 
 const translatePaymentStatus = (status) => {
   const statusMap = {
@@ -25,6 +26,7 @@ const OrderPage = () => {
   const [showModal, setShowModal] = useState(false);
   const [currentProduct, setCurrentProduct] = useState(null);
   const [comment, setComment] = useState('');
+  const [reviewedProducts, setReviewedProducts] = useState({});
 
   const openReviewModal = (product) => {
     console.log('Product data:', product);
@@ -63,13 +65,37 @@ const OrderPage = () => {
     fetchOrderDetails();
   }, []);
 
+  useEffect(() => {
+    const checkReviewedProducts = async () => {
+      try {
+        const reviewedStatus = {};
+        
+        // Kiểm tra từng sản phẩm trong đơn hàng
+        for (const order of data) {
+          const productId = order.productDetails[0].productId;
+          const response = await fetch(`${SummaryApi.checkReview.url}/${productId}`, {
+            credentials: 'include'
+          });
+          
+          const result = await response.json();
+          if (result.success && result.hasReviewed) {
+            reviewedStatus[productId] = true;
+          }
+        }
+        
+        setReviewedProducts(reviewedStatus);
+      } catch (error) {
+        console.error('Lỗi khi kiểm tra trạng thái đánh giá:', error);
+      }
+    };
+
+    if (data.length > 0) {
+      checkReviewedProducts();
+    }
+  }, [data]);
+
   const handleSubmitReview = async () => {
     try {
-      console.log('Current Product:', currentProduct);
-      console.log('Product ID:', currentProduct?.productId);
-      console.log('Rating:', ratings[currentProduct?.productId]);
-      console.log('Comment:', comment);
-
       if (!currentProduct?.productId) {
         toast.error('Không tìm thấy thông tin sản phẩm!');
         return;
@@ -101,6 +127,11 @@ const OrderPage = () => {
       if (response.ok) {
         const data = await response.json();
         if (data.success) {
+          setReviewedProducts(prev => ({
+            ...prev,
+            [currentProduct.productId]: true
+          }));
+          
           toast.success('Đánh giá sản phẩm thành công');
           setShowModal(false);
           setComment('');
@@ -125,7 +156,7 @@ const OrderPage = () => {
     <div className="p-6 container w-full max-w-full mx-auto">
       {!data[0] ? (
         <p className="text-center text-xl font-semibold text-gray-600">
-          Không c�� đơn hàng nào
+          Không có đơn hàng nào
         </p>
       ) : (
         data.map((item, index) => (
@@ -226,12 +257,19 @@ const OrderPage = () => {
                   Tổng tiền (VND): {displayVNDCurrency(item.totalAmount)}
                 </div>
                 <div className="flex items-center gap-4 mt-3">
-                  <button
-                    onClick={() => openReviewModal(item)}
-                    className="px-4 py-2 bg-red-500 text-white rounded-lg shadow-md hover:bg-red-600 transition"
-                  >
-                    Đã nhận hàng
-                  </button>
+                  {reviewedProducts[item.productDetails[0].productId] ? (
+                    <div className="flex items-center gap-2 px-4 py-2 bg-green-100 text-green-600 rounded-lg">
+                      <FaHeart className="text-red-500" />
+                      <span>Cảm ơn bạn đã đánh giá</span>
+                    </div>
+                  ) : (
+                    <button
+                      onClick={() => openReviewModal(item)}
+                      className="px-4 py-2 bg-red-500 text-white rounded-lg shadow-md hover:bg-red-600 transition"
+                    >
+                      Đã nhận hàng
+                    </button>
+                  )}
                 </div>
               </div>
 
@@ -266,7 +304,7 @@ const OrderPage = () => {
                       ))}
                     </div>
 
-                    {/* Textarea để bình luận */}
+                    {/* Textarea để bình lu��n */}
                     <textarea
                       className="w-full mt-4 p-3 border rounded-lg focus:outline-none"
                       rows={3}

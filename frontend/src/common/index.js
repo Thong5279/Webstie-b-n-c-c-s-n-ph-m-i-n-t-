@@ -210,6 +210,10 @@ const SummaryApi = {
   getReviews: {
     url: `${backendDomin}/api/reviews`,
     method: 'GET'
+  },
+  checkReview: {
+    url: `${backendDomin}/api/reviews/check`,
+    method: 'GET'
   }
 };
 
