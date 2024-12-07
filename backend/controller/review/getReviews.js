@@ -5,12 +5,16 @@ const getReviews = async (req, res) => {
     const { productId } = req.params;
     
     const reviews = await Review.find({ productId })
-      .populate('userId', 'name') // Lấy thêm thông tin người dùng
-      .sort({ createdAt: -1 }); // Sắp xếp theo thời gian mới nhất
-      
+      .populate('userId', ['name', 'email'])
+      .sort({ createdAt: -1 });
+
+    // Tính số sao trung bình
+    const averageRating = reviews.reduce((acc, review) => acc + review.rating, 0) / reviews.length || 0;
+    
     res.json({
       success: true,
-      data: reviews
+      data: reviews,
+      averageRating: Math.round(averageRating * 10) / 10 // Làm tròn đến 1 chữ số thập phân
     });
     
   } catch (error) {

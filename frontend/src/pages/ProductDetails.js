@@ -127,6 +127,7 @@ const ProductDetails = () => {
   };
 
   const [reviews, setReviews] = useState([]);
+  const [averageRating, setAverageRating] = useState(0);
 
   // Thêm function fetchReviews
   const fetchReviews = async () => {
@@ -141,6 +142,7 @@ const ProductDetails = () => {
       const data = await response.json();
       if (data.success) {
         setReviews(data.data);
+        setAverageRating(data.averageRating);
       }
     } catch (error) {
       console.error('Lỗi khi tải đánh giá:', error);
@@ -237,7 +239,7 @@ const ProductDetails = () => {
               </div>
             </div>
 
-            {/* Rating Section */}
+            {/* Rating Section
             <div className="flex text-red-600 items-center gap-1">
               {[1, 2, 3, 4, 5].map((star) => (
                 <FaStar
@@ -248,7 +250,7 @@ const ProductDetails = () => {
                   onClick={() => handleStarClick(star)}
                 />
               ))}
-            </div>
+            </div> */}
 
             <div className="flex items-center gap-2 text-2xl lg:text-3xl font-medium my-1">
               <p className="text-red-600">
@@ -285,7 +287,31 @@ const ProductDetails = () => {
 
             {/* Phần đánh giá sản phẩm */}
             <div className="mt-8 border-t pt-6">
-              <h3 className="text-xl font-semibold mb-4">Đánh giá từ khách hàng</h3>
+              <div className="flex items-center gap-4 mb-6">
+                <h3 className="text-xl font-semibold">Đánh giá từ khách hàng</h3>
+                <div className="flex items-center gap-2">
+                  <div className="flex text-yellow-400">
+                    {[...Array(5)].map((_, index) => (
+                      <FaStar
+                        key={index}
+                        className={`text-xl ${
+                          index < Math.floor(averageRating) 
+                            ? 'text-yellow-400' 
+                            : index < averageRating 
+                              ? 'text-yellow-300' 
+                              : 'text-gray-300'
+                        }`}
+                      />
+                    ))}
+                  </div>
+                  <span className="text-lg font-medium">
+                    {averageRating.toFixed(1)}/5 
+                    <span className="text-gray-500 text-base ml-1">
+                      ({reviews.length} đánh giá)
+                    </span>
+                  </span>
+                </div>
+              </div>
               
               {reviews.length === 0 ? (
                 <p className="text-gray-500">Chưa có đánh giá nào cho sản phẩm này</p>
