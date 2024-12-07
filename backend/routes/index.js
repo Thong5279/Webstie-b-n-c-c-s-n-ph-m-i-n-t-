@@ -54,6 +54,7 @@ const verifyCodeController = require("../controller/user/verifyCodeController");
 const resetPasswordController = require("../controller/user/resetPasswordController");
 const { saveReview } = require('../controller/review/reviewController');
 const getReviews = require('../controller/review/getReviews');
+const getAllReviews = require("../controller/review/getAllReviews");
 
 router.post("/signup", userSignUpController);
 router.post("/signin", userSignInController);
@@ -141,5 +142,7 @@ router.post("/reset-password", resetPasswordController);
 router.post('/review', authToken, saveReview);
 
 router.get('/reviews/:productId', getReviews);
+
+router.get('/all-reviews', authToken, getAllReviews);
 
 module.exports = router;
