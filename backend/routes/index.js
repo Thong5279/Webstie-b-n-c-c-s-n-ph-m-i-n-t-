@@ -145,4 +145,6 @@ router.get('/reviews/:productId', getReviews);
 
 router.get('/all-reviews', authToken, getAllReviews);
 
+router.get('/api/reviews/stats', authToken, getAllReviews);
+
 module.exports = router;

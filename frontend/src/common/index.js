@@ -218,6 +218,10 @@ const SummaryApi = {
   getAllReviews: {
     url: `${backendDomin}/api/all-reviews`,
     method: 'GET'
+  },
+  getReviewStats: {
+    url: `${backendDomin}/api/reviews/stats`,
+    method: 'GET'
   }
 };
 
