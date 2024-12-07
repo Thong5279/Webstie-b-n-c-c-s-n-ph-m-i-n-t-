@@ -202,6 +202,10 @@ const SummaryApi = {
   resetPassword: {
     url: `${backendDomin}/api/reset-password`,
     method: "post",
+  },
+  review: {
+    url: `${backendDomin}/api/review`,
+    method: 'POST'
   }
 };
 

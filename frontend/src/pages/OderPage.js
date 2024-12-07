@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import SummaryApi from "../common";
 import moment from "moment";
 import displayVNDCurrency from "../helpers/displayCurrency";
+import { toast } from 'react-toastify';
 
 const translatePaymentStatus = (status) => {
   const statusMap = {
@@ -23,9 +24,17 @@ const OrderPage = () => {
   const [ratings, setRatings] = useState({});
   const [showModal, setShowModal] = useState(false);
   const [currentProduct, setCurrentProduct] = useState(null);
+  const [comment, setComment] = useState('');
 
   const openReviewModal = (product) => {
-    setCurrentProduct(product);
+    console.log('Product data:', product);
+    // Lấy thông tin sản phẩm từ productDetails
+    const productToReview = {
+      productId: product.productDetails[0].productId, // Lấy ID sản phẩm từ productDetails
+      name: product.productDetails[0].name
+    };
+    console.log('Product to review:', productToReview);
+    setCurrentProduct(productToReview);
     setShowModal(true);
   };
 
@@ -54,11 +63,69 @@ const OrderPage = () => {
     fetchOrderDetails();
   }, []);
 
+  const handleSubmitReview = async () => {
+    try {
+      console.log('Current Product:', currentProduct);
+      console.log('Product ID:', currentProduct?.productId);
+      console.log('Rating:', ratings[currentProduct?.productId]);
+      console.log('Comment:', comment);
+
+      if (!currentProduct?.productId) {
+        toast.error('Không tìm thấy thông tin sản phẩm!');
+        return;
+      }
+
+      if (!ratings[currentProduct.productId]) {
+        toast.error('Vui lòng chọn sao đánh giá!');
+        return;
+      }
+      
+      if (!comment.trim()) {
+        toast.error('Vui lòng nhập nhận xét của bạn!');
+        return;
+      }
+
+      const response = await fetch(SummaryApi.review.url, {
+        method: SummaryApi.review.method,
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        credentials: 'include',
+        body: JSON.stringify({
+          productId: currentProduct.productId,
+          rating: ratings[currentProduct.productId],
+          comment: comment
+        })
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        if (data.success) {
+          toast.success('Đánh giá sản phẩm thành công');
+          setShowModal(false);
+          setComment('');
+          setRatings(prev => ({
+            ...prev,
+            [currentProduct.productId]: 0
+          }));
+        } else {
+          toast.error(data.message || 'Đã xảy ra lỗi khi gửi đánh giá');
+        }
+      } else {
+        toast.error('Lỗi kết nối với server');
+      }
+
+    } catch (error) {
+      console.error('Lỗi khi gửi đánh giá:', error);
+      toast.error('Đã xảy ra lỗi khi gửi đánh giá');
+    }
+  };
+
   return (
     <div className="p-6 container w-full max-w-full mx-auto">
       {!data[0] ? (
         <p className="text-center text-xl font-semibold text-gray-600">
-          Không có đơn hàng nào
+          Không c�� đơn hàng nào
         </p>
       ) : (
         data.map((item, index) => (
@@ -204,6 +271,8 @@ const OrderPage = () => {
                       className="w-full mt-4 p-3 border rounded-lg focus:outline-none"
                       rows={3}
                       placeholder="Nhập nhận xét của bạn..."
+                      value={comment}
+                      onChange={(e) => setComment(e.target.value)}
                     />
 
                     {/* Nút xác nhận */}
@@ -215,10 +284,7 @@ const OrderPage = () => {
                         Hủy
                       </button>
                       <button
-                        onClick={() => {
-                          // Gửi dữ liệu đánh giá lên server
-                          setShowModal(false);
-                        }}
+                        onClick={handleSubmitReview}
                         className="px-4 py-2 bg-red-500 text-white rounded-lg shadow-md hover:bg-red-600"
                       >
                         Gửi đánh giá

@@ -52,6 +52,7 @@ const saveCodOrder = require("../controller/order/codOrderController");
 const forgotPasswordController = require("../controller/user/forgotPasswordController").forgotPasswordController;
 const verifyCodeController = require("../controller/user/verifyCodeController");
 const resetPasswordController = require("../controller/user/resetPasswordController");
+const { saveReview } = require('../controller/review/reviewController');
 
 router.post("/signup", userSignUpController);
 router.post("/signin", userSignInController);
@@ -134,5 +135,8 @@ router.post("/save-cod-order", authToken, saveCodOrder);
 router.post("/forgot-password", forgotPasswordController);
 router.post("/verify-code", verifyCodeController);
 router.post("/reset-password", resetPasswordController);
+
+// Route đánh giá sản phẩm
+router.post('/review', authToken, saveReview);
 
 module.exports = router;
