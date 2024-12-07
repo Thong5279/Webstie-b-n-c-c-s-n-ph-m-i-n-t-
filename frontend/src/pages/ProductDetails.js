@@ -126,6 +126,32 @@ const ProductDetails = () => {
     setRating(value); // Lưu lại đánh giá của người dùng
   };
 
+  const [reviews, setReviews] = useState([]);
+
+  // Thêm function fetchReviews
+  const fetchReviews = async () => {
+    try {
+      const response = await fetch(`${SummaryApi.getReviews.url}/${params?.id}`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
+      
+      const data = await response.json();
+      if (data.success) {
+        setReviews(data.data);
+      }
+    } catch (error) {
+      console.error('Lỗi khi tải đánh giá:', error);
+    }
+  };
+
+  // Thêm useEffect để gọi fetchReviews
+  useEffect(() => {
+    fetchReviews();
+  }, [params?.id]);
+
   return (
     <div className="container mx-auto p-4">
       <div className="min-h-[200px] flex flex-col lg:flex-row gap-4">
@@ -255,6 +281,41 @@ const ProductDetails = () => {
                 Mô tả của sản phẩm:
               </p>
               <p>{data?.description}</p>
+            </div>
+
+            {/* Phần đánh giá sản phẩm */}
+            <div className="mt-8 border-t pt-6">
+              <h3 className="text-xl font-semibold mb-4">Đánh giá từ khách hàng</h3>
+              
+              {reviews.length === 0 ? (
+                <p className="text-gray-500">Chưa có đánh giá nào cho sản phẩm này</p>
+              ) : (
+                <div className="space-y-4">
+                  {reviews.map((review) => (
+                    <div key={review._id} className="bg-gray-50 p-4 rounded-lg">
+                      <div className="flex items-center gap-2 mb-2">
+                        <div className="flex text-yellow-400">
+                          {[...Array(5)].map((_, index) => (
+                            <FaStar
+                              key={index}
+                              className={index < review.rating ? 'text-yellow-400' : 'text-gray-300'}
+                            />
+                          ))}
+                        </div>
+                        <span className="text-gray-600">
+                          {new Date(review.createdAt).toLocaleDateString('vi-VN')}
+                        </span>
+                      </div>
+                      
+                      <p className="text-gray-700">{review.comment}</p>
+                      
+                      <div className="mt-2 text-sm text-gray-500">
+                        Đánh giá bởi: {review.userId.name || 'Người dùng ẩn danh'}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
             </div>
           </div>
         )}

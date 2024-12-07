@@ -206,6 +206,10 @@ const SummaryApi = {
   review: {
     url: `${backendDomin}/api/review`,
     method: 'POST'
+  },
+  getReviews: {
+    url: `${backendDomin}/api/reviews`,
+    method: 'GET'
   }
 };
 
