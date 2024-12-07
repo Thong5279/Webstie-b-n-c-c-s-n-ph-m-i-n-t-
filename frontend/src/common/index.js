@@ -226,6 +226,10 @@ const SummaryApi = {
   deleteReview: {
     url: `${backendDomin}/api/review`,
     method: 'DELETE'
+  },
+  getFavoriteStats: {
+    url: `${backendDomin}/api/favorite-stats`,
+    method: "GET"
   }
 };
 

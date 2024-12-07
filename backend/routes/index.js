@@ -41,6 +41,7 @@ const {
   toggleFavoriteProduct,
   getFavoriteProducts,
   clearFavoriteProducts,
+  getFavoriteStats,
 } = require("../controller/admin/adminFavoritesController");
 const getAllOrders = require("../controller/order/getAllOrders");
 const { getAllUsersWithTiers } = require("../controller/admin/adminController");
@@ -150,5 +151,7 @@ router.get('/api/reviews/stats', authToken, getAllReviews);
 
 // Thêm route xóa đánh giá
 router.delete('/review/:reviewId', authToken, deleteReview);
+
+router.get("/favorite-stats", getFavoriteStats);
 
 module.exports = router;

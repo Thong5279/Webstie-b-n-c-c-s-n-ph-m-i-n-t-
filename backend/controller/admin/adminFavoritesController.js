@@ -1,5 +1,7 @@
 const AdminFavorites = require("../../models/AdminFavorites");
 const Product = require("../../models/productModel");
+const UserFavorites = require("../../models/UserFavorites");
+const UserModel = require("../../models/userModel");
 
 // Thêm hoặc bỏ sản phẩm trong danh sách yêu thích
 const toggleFavoriteProduct = async (req, res) => {
@@ -75,8 +77,59 @@ const clearFavoriteProducts = async (req, res) => {
   }
 };
 
+const getFavoriteStats = async (req, res) => {
+  try {
+    // Lấy tất cả favorites từ UserFavorites
+    const allFavorites = await UserFavorites.find().populate('favoriteProducts');
+    
+    // Tạo object để đếm số lượt thích cho mỗi sản phẩm
+    const productStats = {};
+    
+    // Thống kê số lượt thích
+    allFavorites.forEach(userFavorite => {
+      userFavorite.favoriteProducts.forEach(product => {
+        if (!productStats[product._id]) {
+          productStats[product._id] = {
+            product: product,
+            likeCount: 1,
+            percentage: 0
+          };
+        } else {
+          productStats[product._id].likeCount += 1;
+        }
+      });
+    });
+
+    // Tính tổng số người dùng
+    const totalUsers = await UserModel.countDocuments();
+    
+    // Tính phần trăm yêu thích
+    Object.values(productStats).forEach(stat => {
+      stat.percentage = ((stat.likeCount / totalUsers) * 100).toFixed(1);
+    });
+
+    // Sắp xếp theo số lượt thích giảm dần
+    const sortedStats = Object.values(productStats).sort((a, b) => 
+      b.likeCount - a.likeCount
+    );
+
+    res.status(200).json({
+      success: true,
+      data: sortedStats,
+      totalUsers
+    });
+    
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      error: "Có lỗi xảy ra khi lấy thống kê yêu thích."
+    });
+  }
+};
+
 module.exports = {
   toggleFavoriteProduct,
   getFavoriteProducts,
   clearFavoriteProducts,
+  getFavoriteStats,
 };
