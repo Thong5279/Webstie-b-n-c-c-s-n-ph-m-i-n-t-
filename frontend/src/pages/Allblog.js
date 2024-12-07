@@ -12,24 +12,22 @@ const Allblog = () => {
   const navigate = useNavigate();
 
   const handleDeleteReview = async (reviewId) => {
-    if (window.confirm('Bạn có chắc chắn muốn xóa đánh giá này?')) {
-      try {
-        const response = await fetch(`${SummaryApi.review.url}/${reviewId}`, {
-          method: 'DELETE',
-          credentials: 'include'
-        });
+    try {
+      const response = await fetch(`${SummaryApi.review.url}/${reviewId}`, {
+        method: 'DELETE',
+        credentials: 'include'
+      });
 
-        const data = await response.json();
-        if (data.success) {
-          toast.success('Xóa đánh giá thành công');
-          setReviews(reviews.filter(review => review._id !== reviewId));
-        } else {
-          toast.error(data.message || 'Có lỗi xảy ra khi xóa đánh giá');
-        }
-      } catch (error) {
-        console.error('Lỗi khi xóa đánh giá:', error);
-        toast.error('Có lỗi xảy ra khi xóa đánh giá');
+      const data = await response.json();
+      if (data.success) {
+        toast.success('Xóa đánh giá thành công');
+        setReviews(reviews.filter(review => review._id !== reviewId));
+      } else {
+        toast.error(data.message || 'Có lỗi xảy ra khi xóa đánh giá');
       }
+    } catch (error) {
+      console.error('Lỗi khi xóa đánh giá:', error);
+      toast.error('Có lỗi xảy ra khi xóa đánh giá');
     }
   };
 
