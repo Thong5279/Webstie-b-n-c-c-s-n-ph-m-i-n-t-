@@ -79,15 +79,17 @@ const clearFavoriteProducts = async (req, res) => {
 
 const getFavoriteStats = async (req, res) => {
   try {
-    // Lấy tất cả favorites từ UserFavorites
     const allFavorites = await UserFavorites.find().populate('favoriteProducts');
+    const totalUsers = await UserModel.countDocuments();
     
-    // Tạo object để đếm số lượt thích cho mỗi sản phẩm
+    // Object để lưu thống kê theo doanh mục
+    const categoryStats = {};
     const productStats = {};
     
     // Thống kê số lượt thích
     allFavorites.forEach(userFavorite => {
       userFavorite.favoriteProducts.forEach(product => {
+        // Thống kê theo sản phẩm
         if (!productStats[product._id]) {
           productStats[product._id] = {
             product: product,
@@ -97,25 +99,41 @@ const getFavoriteStats = async (req, res) => {
         } else {
           productStats[product._id].likeCount += 1;
         }
+
+        // Thống kê theo doanh mục
+        if (!categoryStats[product.category]) {
+          categoryStats[product.category] = {
+            category: product.category,
+            likeCount: 1,
+            products: 1
+          };
+        } else {
+          categoryStats[product.category].likeCount += 1;
+          if (!categoryStats[product.category].productIds?.includes(product._id)) {
+            categoryStats[product.category].products += 1;
+          }
+        }
       });
     });
 
-    // Tính tổng số người dùng
-    const totalUsers = await UserModel.countDocuments();
-    
-    // Tính phần trăm yêu thích
+    // Tính phần trăm yêu thích cho sản phẩm
     Object.values(productStats).forEach(stat => {
       stat.percentage = ((stat.likeCount / totalUsers) * 100).toFixed(1);
     });
 
-    // Sắp xếp theo số lượt thích giảm dần
+    // Sắp xếp thống kê
     const sortedStats = Object.values(productStats).sort((a, b) => 
+      b.likeCount - a.likeCount
+    );
+
+    const sortedCategoryStats = Object.values(categoryStats).sort((a, b) =>
       b.likeCount - a.likeCount
     );
 
     res.status(200).json({
       success: true,
       data: sortedStats,
+      categoryStats: sortedCategoryStats,
       totalUsers
     });
     
