@@ -55,6 +55,7 @@ const resetPasswordController = require("../controller/user/resetPasswordControl
 const { saveReview } = require('../controller/review/reviewController');
 const getReviews = require('../controller/review/getReviews');
 const getAllReviews = require("../controller/review/getAllReviews");
+const deleteReview = require('../controller/review/deleteReview');
 
 router.post("/signup", userSignUpController);
 router.post("/signin", userSignInController);
@@ -146,5 +147,8 @@ router.get('/reviews/:productId', getReviews);
 router.get('/all-reviews', authToken, getAllReviews);
 
 router.get('/api/reviews/stats', authToken, getAllReviews);
+
+// Thêm route xóa đánh giá
+router.delete('/review/:reviewId', authToken, deleteReview);
 
 module.exports = router;

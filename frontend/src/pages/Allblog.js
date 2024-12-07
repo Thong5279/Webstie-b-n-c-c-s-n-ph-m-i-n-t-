@@ -2,13 +2,36 @@ import React, { useEffect, useState } from 'react';
 import SummaryApi from '../common';
 import moment from 'moment';
 import 'moment/locale/vi';
-import { FaStar } from 'react-icons/fa';
+import { FaStar, FaTrash } from 'react-icons/fa';
 import { Link, useNavigate } from 'react-router-dom';
+import { toast } from 'react-hot-toast';
 
 const Allblog = () => {
   const [reviews, setReviews] = useState([]);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
+
+  const handleDeleteReview = async (reviewId) => {
+    if (window.confirm('Bạn có chắc chắn muốn xóa đánh giá này?')) {
+      try {
+        const response = await fetch(`${SummaryApi.review.url}/${reviewId}`, {
+          method: 'DELETE',
+          credentials: 'include'
+        });
+
+        const data = await response.json();
+        if (data.success) {
+          toast.success('Xóa đánh giá thành công');
+          setReviews(reviews.filter(review => review._id !== reviewId));
+        } else {
+          toast.error(data.message || 'Có lỗi xảy ra khi xóa đánh giá');
+        }
+      } catch (error) {
+        console.error('Lỗi khi xóa đánh giá:', error);
+        toast.error('Có lỗi xảy ra khi xóa đánh giá');
+      }
+    }
+  };
 
   const fetchAllReviews = async () => {
     try {
@@ -68,9 +91,20 @@ const Allblog = () => {
                     Đánh giá bởi: {review.userName}
                   </p>
                 </div>
-                <span className="text-gray-500">
-                  {moment(review.createdAt).format('LLL')}
-                </span>
+                <div className="flex items-center gap-4">
+                  <span className="text-gray-500">
+                    {moment(review.createdAt).format('LLL')}
+                  </span>
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleDeleteReview(review._id);
+                    }}
+                    className="text-red-500 hover:text-red-700 transition-colors"
+                  >
+                    <FaTrash />
+                  </button>
+                </div>
               </div>
 
               <div className="flex items-center gap-2 mb-3">

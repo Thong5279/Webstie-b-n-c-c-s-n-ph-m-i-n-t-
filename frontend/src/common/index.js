@@ -222,6 +222,10 @@ const SummaryApi = {
   getReviewStats: {
     url: `${backendDomin}/api/reviews/stats`,
     method: 'GET'
+  },
+  deleteReview: {
+    url: `${backendDomin}/api/review`,
+    method: 'DELETE'
   }
 };
 
