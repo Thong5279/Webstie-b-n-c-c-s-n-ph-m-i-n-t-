@@ -5,6 +5,7 @@ import { IoEye, IoEyeOff } from "react-icons/io5";
 import SummaryApi from "../common";
 import { toast } from "react-toastify";
 import Context from "../context";
+import WelcomeModal from '../components/WelcomeModal';
 
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -14,6 +15,8 @@ const Login = () => {
   });
   const navigate = useNavigate();
   const { fetchUserDetails, fetchUserAddToCart } = useContext(Context);
+  const [showWelcomeModal, setShowWelcomeModal] = useState(false);
+  const [username, setUsername] = useState('');
 
   const handleOnChange = (e) => {
     const { name, value } = e.target;
@@ -39,8 +42,13 @@ const Login = () => {
     const dataApi = await dataResponse.json();
     //  Nếu đăng nhập thành công thì vào trang chủ
     if (dataApi.success) {
+      setUsername(dataApi.data.firstName);
+      setShowWelcomeModal(true);
+      setTimeout(() => {
+        setShowWelcomeModal(false);
+        navigate("/"); 
+      }, 3000);
       toast.success(dataApi.message);
-      navigate("/");
       // luu role vao localStore
       localStorage.setItem("role", dataApi.role);
       // goi cac ham can thiet sau khi dang nhap
@@ -117,6 +125,11 @@ const Login = () => {
           </p>
         </div>
       </div>
+      <WelcomeModal 
+        isOpen={showWelcomeModal}
+        onClose={() => setShowWelcomeModal(false)}
+        username={username}
+      />
     </section>
   );
 };
