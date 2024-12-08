@@ -7,7 +7,7 @@ import shoppingBanner from "../img/Ecommerce campaign.gif";
 const Success = () => {
   return (
     <div className="min-h-screen bg-gray-100 flex items-center justify-center p-4">
-      <div className="bg-white w-full justify-between mx-auto flex flex-row gap-6 p-8 rounded-xl shadow-lg border border-gray-200">
+      <div className="bg-white w-full justify-between mx-auto flex flex-row gap-6 p-8 rounded-xl shadow-lg border border-gray-200 pt-12">
         <img src={creaditCart} />
         <div>
           <div className="flex justify-center">
