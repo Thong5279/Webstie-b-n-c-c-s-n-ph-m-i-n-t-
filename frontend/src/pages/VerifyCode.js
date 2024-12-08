@@ -1,16 +1,17 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { toast } from 'react-toastify';
-import SummaryApi from '../common';
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import SummaryApi from "../common";
+import OtpCode from "../img/Enter OTP.gif";
 
 const VerifyCode = () => {
-  const [code, setCode] = useState('');
+  const [code, setCode] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
-  const phone = localStorage.getItem('resetPasswordPhone');
+  const phone = localStorage.getItem("resetPasswordPhone");
 
   if (!phone) {
-    navigate('/forgot-password');
+    navigate("/forgot-password");
     return;
   }
 
@@ -22,21 +23,21 @@ const VerifyCode = () => {
       const response = await fetch(SummaryApi.verifyCode.url, {
         method: SummaryApi.verifyCode.method,
         headers: {
-          'Content-Type': 'application/json'
+          "Content-Type": "application/json",
         },
-        body: JSON.stringify({ phone, code })
+        body: JSON.stringify({ phone, code }),
       });
 
       const data = await response.json();
 
       if (data.success) {
-        toast.success('Xác thực thành công');
-        navigate('/reset-password');
+        toast.success("Xác thực thành công");
+        navigate("/reset-password");
       } else {
         toast.error(data.message);
       }
     } catch (error) {
-      toast.error('Đã có lỗi xảy ra');
+      toast.error("Đã có lỗi xảy ra");
     } finally {
       setIsLoading(false);
     }
@@ -44,9 +45,18 @@ const VerifyCode = () => {
 
   return (
     <div className="flex justify-center items-center my-[200px] bg-gray-100">
-      <form onSubmit={handleSubmit} className="w-full max-w-md bg-white shadow-lg rounded-lg p-6">
-        <h2 className="text-2xl font-semibold text-center text-gray-800 mb-6">Nhập Mã Xác Nhận</h2>
-        
+      <form
+        onSubmit={handleSubmit}
+        className="w-full max-w-md bg-white shadow-lg rounded-lg p-6"
+      >
+        <h2 className="text-2xl font-semibold text-center text-gray-800 mb-6">
+          Nhập Mã Xác Nhận
+        </h2>
+
+        <div className="flex justify-center">
+          <img src={OtpCode} className="w-[300px] h-[300px]" />
+        </div>
+
         <div className="mb-4">
           <p className="text-gray-600 text-center">
             Vui lòng kiểm tra email của bạn và nhập mã xác nhận 6 số
@@ -75,4 +85,4 @@ const VerifyCode = () => {
   );
 };
 
-export default VerifyCode; 
+export default VerifyCode;
