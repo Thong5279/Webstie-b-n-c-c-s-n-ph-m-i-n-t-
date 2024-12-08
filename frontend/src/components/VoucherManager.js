@@ -5,6 +5,7 @@ import { IoTrashBin } from "react-icons/io5";
 import { FaPen } from "react-icons/fa";
 import { IoMdClose } from "react-icons/io";
 import displayVNDCurrency from "../helpers/displayCurrency";
+import { toast } from "react-toastify";
 
 const VoucherManager = () => {
   const [code, setCode] = useState("");
@@ -55,7 +56,7 @@ const VoucherManager = () => {
           isFreeShipping: discountType === "shipping" ? isFreeShipping : false,
         },
       });
-      alert(response.data.message);
+      toast.success(response.data.message);
       // Làm mới danh sách mã giảm giá và đặt lại các trường sau khi tạo thành công
       fetchVouchers();
       setCode("");
@@ -64,7 +65,7 @@ const VoucherManager = () => {
       setMinPurchase("");
       setExpirationDate("");
     } catch (error) {
-      console.error("Lỗi khi tạo mã giảm giá:", error);
+      toast.error("Lỗi khi tạo mã giảm giá:", error);
     }
   };
   const deleteVoucher = async (code) => {
@@ -73,10 +74,10 @@ const VoucherManager = () => {
         method: SummaryApi.deleteVoucher.method,
         url: `${SummaryApi.deleteVoucher.url}/${code}`,
       });
-      alert("Đã xóa mã giảm giá");
+      toast.success("Đã xóa mã giảm giá");
       fetchVouchers();
     } catch (error) {
-      console.error("Lỗi khi xóa mã giảm giá:", error);
+      toast.error("Lỗi khi xóa mã giảm giá:", error);
     }
   };
   // Ham update ma giam gia
@@ -103,12 +104,12 @@ const VoucherManager = () => {
             : false, // Nếu là miễn phí ship, gửi isFreeShipping
         },
       });
-      alert(response.data.message); // Thông báo sau khi cập nhật thành công
+      toast.success(response.data.message); // Thông báo sau khi cập nhật thành công
       fetchVouchers(); // Làm mới danh sách mã giảm giá
       setEditVoucher(null); // Đặt lại trạng thái sau khi cập nhật thành công
     } catch (error) {
       console.error("Lỗi khi cập nhật mã giảm giá:", error);
-      alert("Cập nhật mã giảm giá thất bại");
+      toast.error("Cập nhật mã giảm giá thất bại");
     }
   };
 
