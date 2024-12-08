@@ -1,6 +1,7 @@
 const stripe = require('../../config/stripe')
 const orderModel = require('../../models/orderProductModel')
 const productModel = require("../../models/productModel");
+const addToCartModel = require("../../models/cartProduct");
 const { sendThankYouEmail } = require('../../helpers/sendEmail');
 
 const endpointSecret = process.env.STRIPE_ENDPOINT_SECRET_KEY
@@ -102,39 +103,47 @@ const webhooks = async (request, response) => {
                     totalAmount: totalAmountVND
                 };
 
-                // Thêm log để debug
-                console.log("Đang xóa giỏ hàng cho userId:", session.metadata.userId);
-
                 // Lưu đơn hàng
                 const order = new orderModel(orderDetails);
                 const savedOrder = await order.save();
                 
                 if(savedOrder?._id) {
-                    // Cập nhật số lượng sản phẩm
-                    await updateProductQuantity(productDetails);
-                    // Xóa giỏ hàng
-                    await addToCartModel.deleteMany({userId: session.metadata.userId});
-                    
-                    // Gửi email cảm ơn
-                    const orderTrackingUrl = `${process.env.FRONTEND_URL}/order`;
-                    const orderDate = new Date().toLocaleDateString('vi-VN');
+                    try {
+                        // Cập nhật số lượng sản phẩm
+                        await updateProductQuantity(productDetails);
+                        
+                        // Xóa sản phẩm đã mua khỏi giỏ hàng
+                        const productIds = productDetails.map(item => item.productId);
+                        await addToCartModel.deleteMany({
+                            userId: session.metadata.userId,
+                            productId: { $in: productIds }
+                        });
+                        
+                        // Gửi email cảm ơn
+                        const orderTrackingUrl = `${process.env.FRONTEND_URL}/order`;
+                        const orderDate = new Date().toLocaleDateString('vi-VN');
 
-                    // Đảm bảo productDetails có đầy đủ thông tin
-                    const formattedProductDetails = productDetails.map(product => ({
-                        name: product.name,
-                        quantity: product.quantity,
-                        price: product.price // Giá của từng sản phẩm
-                    }));
+                        const formattedProductDetails = productDetails.map(product => ({
+                            name: product.name,
+                            quantity: product.quantity,
+                            price: product.price
+                        }));
 
-                    await sendThankYouEmail(
-                        session.shipping.name, 
-                        session.customer_email, 
-                        orderTrackingUrl, 
-                        savedOrder._id, 
-                        orderDate, 
-                        totalAmountVND, // Tổng tiền đơn hàng
-                        formattedProductDetails
-                    );
+                        await sendThankYouEmail(
+                            session.metadata.shippingName,
+                            session.customer_email,
+                            orderTrackingUrl,
+                            savedOrder._id,
+                            orderDate,
+                            totalAmountVND,
+                            formattedProductDetails
+                        );
+
+                        console.log("Đã xử lý đơn hàng thành công:", savedOrder._id);
+                    } catch (error) {
+                        console.error("Lỗi khi xử lý sau thanh toán:", error);
+                        // Vẫn trả về 200 vì đơn hàng đã được tạo thành công
+                    }
                 }
                 break;
             default:
@@ -143,6 +152,7 @@ const webhooks = async (request, response) => {
 
         response.status(200).send();
     } catch (error) {
+        console.error("Lỗi webhook:", error);
         response.status(500).json({
             message: error?.message || error
         });
