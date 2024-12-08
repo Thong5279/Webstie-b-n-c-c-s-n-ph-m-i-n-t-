@@ -5,7 +5,7 @@ const userModel = require("../../models/userModel");
 
 const paymentController = async (request, response) => {
   try {
-    const { cartItems, totalAmount } = request.body;
+    const { cartItems, totalAmount, shippingInfo } = request.body;
     const user = await userModel.findOne({ _id: request.userId });
 
     const totalAmountUSD = VNDtoUSD(totalAmount);
@@ -15,11 +15,17 @@ const paymentController = async (request, response) => {
       mode: "payment",
       payment_method_types: ["card"],
       billing_address_collection: "auto",
+      shipping_address_collection: {
+        allowed_countries: ['VN'],
+      },
       customer_email: user.email,
       metadata: {
         userId: request.userId,
         originalCurrency: "VND",
-        totalAmountVND: totalAmount
+        totalAmountVND: totalAmount,
+        shippingName: shippingInfo.name,
+        shippingPhone: shippingInfo.phone,
+        shippingAddress: shippingInfo.address
       },
       line_items: cartItems.map((item) => {
         return {

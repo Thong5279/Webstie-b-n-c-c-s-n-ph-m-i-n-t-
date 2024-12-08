@@ -65,11 +65,8 @@ const webhooks = async (request, response) => {
             case 'checkout.session.completed':
                 const session = event.data.object;
                 
-                //console.log('session', session)
-
                 const lineItems = await stripe.checkout.sessions.listLineItems(session.id);
                 
-                // Tính tổng tiền VND từ metadata của từng sản phẩm
                 let totalAmountVND = 0;
                 const productDetails = await Promise.all(
                     lineItems.data.map(async (item) => {
@@ -90,6 +87,11 @@ const webhooks = async (request, response) => {
                     productDetails: productDetails,
                     email: session.customer_email,
                     userId: session.metadata.userId,
+                    shippingInfo: {
+                        name: session.metadata.shippingName,
+                        phone: session.metadata.shippingPhone, 
+                        address: session.metadata.shippingAddress
+                    },
                     paymentDetails: {
                         paymentId: session.payment_intent,
                         payment_method_type: session.payment_method_types,

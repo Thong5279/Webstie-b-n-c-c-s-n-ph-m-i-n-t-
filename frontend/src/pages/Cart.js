@@ -198,30 +198,45 @@ const Cart = () => {
       return;
     }
 
-    if (selectedPayment.text === "PayPal" || selectedPayment.text === "Thẻ tín dụng/ghi nợ") {
-      const stripePromise = await loadStripe(
-        process.env.REACT_APP_STRIPE_PUBLIC_KEY
-      );
+    // Kiểm tra thông tin giao hàng
+    if (!userInfo.address || !userInfo.phone || !userInfo.name) {
+      toast.error("Vui lòng điền đầy đủ thông tin giao hàng!");
+      return;
+    }
 
-      const response = await fetch(SummaryApi.payment.url, {
-        method: SummaryApi.payment.method,
-        credentials: "include",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          cartItems: selectedItems,
-          totalAmount: finalTotalAmount,
-        }),
-      });
+    try {
+      if (selectedPayment.text === "PayPal" || selectedPayment.text === "Thẻ tín dụng/ghi nợ") {
+        // Xử lý thanh toán qua Stripe
+        const stripePromise = await loadStripe(process.env.REACT_APP_STRIPE_PUBLIC_KEY);
+        
+        const response = await fetch(SummaryApi.payment.url, {
+          method: SummaryApi.payment.method,
+          credentials: "include",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            cartItems: selectedItems,
+            totalAmount: finalPrice + (finalPrice >= 5000000 ? 0 : shippingFee),
+            shippingInfo: {
+              name: userInfo.name,
+              phone: userInfo.phone,
+              address: userInfo.address
+            }
+          }),
+        });
 
-      const responseData = await response.json();
+        const responseData = await response.json();
 
-      if (responseData?.id) {
-        stripePromise.redirectToCheckout({ sessionId: responseData.id });
+        if (responseData?.id) {
+          stripePromise.redirectToCheckout({ sessionId: responseData.id });
+        }
+      } else if (selectedPayment.text === "Thanh toán khi nhận hàng") {
+        setShowConfirmModal(true);
       }
-    } else if (selectedPayment.text === "Thanh toán khi nhận hàng") {
-      setShowConfirmModal(true);
+    } catch (error) {
+      console.error("Lỗi khi xử lý thanh toán:", error);
+      toast.error("Đã xảy ra lỗi. Vui lòng thử lại sau!");
     }
   };
 
@@ -305,7 +320,7 @@ const Cart = () => {
       });
 
       const responseData = await response.json();
-      console.log("Dữ liệu user nhận được:", responseData);
+      console.log("Dữ liệu user nh��n được:", responseData);
 
       if (responseData.success) {
         setUserInfo({
