@@ -26,7 +26,8 @@ import { Link, useNavigate } from "react-router-dom";
 import CheckoutPage from "../components/CheckoutPage";
 import { loadStripe } from "@stripe/stripe-js";
 import { toast } from "react-toastify";
-import EmptyCartImage from '../img/Successful purchase-amico.png';
+import EmptyCartImage from "../img/Successful purchase-amico.png";
+import addToCartGif from "../img/Add to Cart.gif";
 
 const Cart = () => {
   const [data, setData] = useState([]);
@@ -76,7 +77,6 @@ const Cart = () => {
     {
       icon: <FaCreditCard className="text-purple-500" />,
       text: "Thẻ tín dụng/ghi nợ",
-      
     },
     {
       icon: <ImQrcode className="text-green-500" />,
@@ -205,10 +205,15 @@ const Cart = () => {
     }
 
     try {
-      if (selectedPayment.text === "PayPal" || selectedPayment.text === "Thẻ tín dụng/ghi nợ") {
+      if (
+        selectedPayment.text === "PayPal" ||
+        selectedPayment.text === "Thẻ tín dụng/ghi nợ"
+      ) {
         // Xử lý thanh toán qua Stripe
-        const stripePromise = await loadStripe(process.env.REACT_APP_STRIPE_PUBLIC_KEY);
-        
+        const stripePromise = await loadStripe(
+          process.env.REACT_APP_STRIPE_PUBLIC_KEY
+        );
+
         const response = await fetch(SummaryApi.payment.url, {
           method: SummaryApi.payment.method,
           credentials: "include",
@@ -221,8 +226,8 @@ const Cart = () => {
             shippingInfo: {
               name: userInfo.name,
               phone: userInfo.phone,
-              address: userInfo.address
-            }
+              address: userInfo.address,
+            },
           }),
         });
 
@@ -241,8 +246,10 @@ const Cart = () => {
   };
 
   const handleConfirmOrder = async () => {
-    const selectedItems = data.filter((product) => selectedProducts[product._id]);
-    
+    const selectedItems = data.filter(
+      (product) => selectedProducts[product._id]
+    );
+
     try {
       if (!userInfo.address || !userInfo.phone || !userInfo.name) {
         toast.error("Vui lòng điền đầy đủ thông tin giao hàng!");
@@ -256,20 +263,20 @@ const Cart = () => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          cartItems: selectedItems.map(item => ({
+          cartItems: selectedItems.map((item) => ({
             productId: item.productId._id,
             name: item.productId.productName,
             price: item.productId.sellingPrice,
             quantity: item.quantityCart,
-            image: item.productId.productImage
+            image: item.productId.productImage,
           })),
           totalAmount: finalPrice + (finalPrice >= 5000000 ? 0 : shippingFee),
           paymentMethod: "COD",
           shippingInfo: {
             name: userInfo.name,
             phone: userInfo.phone,
-            address: userInfo.address
-          }
+            address: userInfo.address,
+          },
         }),
       });
 
@@ -281,7 +288,9 @@ const Cart = () => {
         navigate("/success");
         toast.success("Đặt hàng thành công!");
       } else {
-        toast.error(responseData.message || "Đặt hàng thất bại. Vui lòng thử lại!");
+        toast.error(
+          responseData.message || "Đặt hàng thất bại. Vui lòng thử lại!"
+        );
       }
     } catch (error) {
       console.error("Lỗi khi đặt hàng:", error);
@@ -429,7 +438,9 @@ const Cart = () => {
   const calculateFinalTotal = useCallback(() => {
     let total = 0;
     if (totalDiscountAmount > 0) {
-      total = totalDiscountAmount + (totalDiscountAmount >= 5000000 ? 0 : shippingFee);
+      total =
+        totalDiscountAmount +
+        (totalDiscountAmount >= 5000000 ? 0 : shippingFee);
     } else {
       total = finalPrice + (finalPrice >= 5000000 ? 0 : shippingFee);
     }
@@ -448,9 +459,9 @@ const Cart = () => {
           <div className="flex flex-col items-center justify-center min-h-[60vh] px-4 text-center">
             <div className="w-full max-w-md mb-8">
               <img
-                src={EmptyCartImage}
+                src={addToCartGif}
                 alt="Empty Cart"
-                className="w-full h-auto"
+                className="w-full h-auto bg-transparent"
               />
             </div>
 
